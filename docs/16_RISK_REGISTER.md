@@ -18,13 +18,13 @@ P = probability, I = impact (L/M/H). Ratings are judgments, not data. Owner role
 | R-12 | Reflection feels creepy or unfair | L | M | Local-only bounded ledger; authored fallback; opt-out toggle | Tester discomfort | Design lead |
 | R-13 | Accessibility retrofitted late | M | M | Baseline in M6; assist parameters in Resources from M2 | Hard-coded timings | Tech lead |
 | R-14 | Name clash for "ECHOES" | M | M | Search before branding `[VERIFY]` | Prior titles found | Producer |
-| R-15 | Web platform / browser variance | M | M | Multi-browser test matrix (Chrome/Edge/Firefox/Safari); avoid engine churn | Rendering glitches on Safari / WebKit | Tech lead |
+| R-15 | Godot version churn | — | — | Superseded by R-16/R-17 (Platform pivoted to engine-free web stack per D-031) | — | Tech lead |
 | R-16 | Ending C feels like a hidden-collectible chore | M | M | Chambers are puzzles; revisitable; clause hints | Players hunting instead of reasoning | Narrative lead |
 | R-17 | Browser tab throttling & timing spiral | M | H | Listen to `visibilitychange`; pause sim when tab hidden; cap catch-up ticks to 5 | Physics runs away after tab focus returns | Tech lead |
 | R-18 | Browser storage eviction | M | H | Request `storage.persist()`; manual JSON file export/import in Settings; backup slot | Player reports lost save data | Tech lead |
 | R-19 | Web Audio autoplay policy blocking | H | M | Initial "Press any key to begin" screen unlocks AudioContext on user gesture | Game starts completely silent | Audio lead |
 | R-20 | Garbage collection hitching | M | H | Zero-allocation sim loop; typed arrays (Int32Array); entity and particle pooling | Periodic frame drops during Trace playback | Tech lead |
-| R-21 | Cross-browser floating point drift | M | H | Integer ticks; prototype integer fixed-point sim positions; eliminate Math.sin/cos in sim | Golden test passes on Chrome but drifts on Safari | Tech lead |
+| R-21 | Cross-browser transcendental math drift | M | H | JS basic arithmetic (+, -, *, /, sqrt) is IEEE-754 deterministic across engines; avoid transcendental functions (Math.sin, cos, pow, exp) in sim; prototype integer fixed-point with power-of-two scale (1/256 px) for golden tests | Golden test passes on Chrome but drifts on Safari | Tech lead |
 
 ## Critical-risk actions
 | Risk | Owner role | Action | Due |

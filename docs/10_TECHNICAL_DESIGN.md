@@ -86,7 +86,7 @@ TraceData (immutable value object): origin, duration_ticks, typed buffer, hero_i
 TracePlayer (sim controller): spawn(TraceData) -> TraceGhost; manages slots, dissolve, hold
 TraceGhost (sensor entity): sets position from buffer[tick]; emits replay events
 ```
-- **Determinism design (D-034, D-035):** Record in fixed 60 Hz ticks; playback in fixed 60 Hz ticks. All event dispatches are keyed by integer tick; zero wall-clock dependencies; no floating-point accumulators. Fixed-point integer positions (`x * 1000`) prototype to eliminate any cross-browser floating-point rounding quirks `[PROTOTYPE]`.
+- **Determinism design (D-034, D-035):** Record in fixed 60 Hz ticks; playback in fixed 60 Hz ticks. All event dispatches are keyed by integer tick; zero wall-clock dependencies; no floating-point accumulators. JavaScript's basic arithmetic (`+`, `-`, `*`, `/`, `Math.sqrt`) is strictly IEEE-754 deterministic across V8, SpiderMonkey, and JavaScriptCore; cross-browser divergence risk stems from transcendental functions (`Math.sin`, `cos`, `pow`, `exp`). Fixed-point integer positions with a power-of-two scale (e.g. `1/256 px`, shifted via bitwise ops) are prototyped to provide exact bitwise golden tests and ensure absolute cross-browser determinism `[PROTOTYPE]`.
 - **Sensors:** Ghost has an AABB sensor query that triggers pressure plates; plates count both Player bodies and `TraceGhost` via a `weight_provider` interface, avoiding solid collision calculations.
 - **Memory & Allocations (D-038):** 8 s × 60 ticks = 480 ticks per trace. Trace buffers are pre-allocated `Int32Array` instances. Zero garbage collection allocation during recording or playback.
 - **Edge-case handling:** Hit-stop, moving platforms, gravity zones, hero swap during playback. Moving platform trace dependencies are avoided in the slice.
@@ -169,4 +169,4 @@ Pure TypeScript event components: `Hurtbox`, `Hitbox`, `Interactable`, `WeightSe
 | T9 | Audio autoplay policy | Browser silences audio on start | "Press any key to begin" user-gesture gate before unlocking `AudioContext` |
 | T10 | Browser storage eviction | Browser purges IndexedDB under space pressure | Request `storage.persist()`; prominent Export/Import save file feature |
 | T11 | GC hitching / frame drops | Periodic GC pauses break 60 FPS | Pre-allocated typed arrays (Int32Array); pool ghosts, VFX, and vector math |
-| T12 | Cross-browser float quirks | Safari vs V8 float precision differences | Prototype integer fixed-point sim positions; eliminate Math.sin/cos in sim |
+| T12 | Cross-browser transcendental math drift | Safari vs V8 transcendental differences | Ban Math.sin/cos/pow/exp in sim; prototype power-of-two fixed-point (1/256 px) for golden tests |
