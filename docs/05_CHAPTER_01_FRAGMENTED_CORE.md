@@ -75,7 +75,7 @@ Memory Sentry, Corrupted Drone, Seam Warden, Corruptor. Slice: Sentry + Corrupto
 ## 8. Environmental storytelling
 - Release Seals appear as small door-shaped locks on corridor walls.
 - A terminal in 1.11 shows "DERIVATIVE: PRIME ECHO (FINAL DRAFT)". The heroes cannot read the full entry yet (Ch4 updates it).
-- **Prime Echo Fragment 1 (Room 1.8 audio/text beacon):** *"The Archive does not judge whether an hour was wasted or sacred. It simply holds what was."* (20 words) `[PROPOSAL]` (D-045)
+- **Prime Echo Fragment 1 (Room 1.8 audio/text beacon):** *"The Archive does not judge whether an hour was wasted or sacred. It simply holds what was."* (18 words) `[PROPOSAL]` (D-045)
 - Corridor outlines show prior layouts after Seam changes.
 
 ## 9. Checkpoints and difficulty curve

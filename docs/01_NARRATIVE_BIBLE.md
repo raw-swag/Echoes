@@ -107,10 +107,10 @@ Rule: no single cutscene delivers more than **one** revelation; all others are i
 
 ## 10. Prime Echo's Recorded Voice Fragments `[PROPOSAL]` (D-045)
 Rather than appearing solely at the climax of Chapter 5, Prime Echo's presence is felt across each chapter through brief recorded logs (≤ 25 words each). They are measured, philosophical, and never menacing, establishing his perspective and humanizing him before the player must make the final choice:
-1. **Chapter 1 (Core):** *"The Archive does not judge whether an hour was wasted or sacred. It simply holds what was."* (20 words)
-2. **Chapter 2 (Lost Sky):** *"Flight is not an escape from ground, but an insistence that another path was always there."* (17 words)
+1. **Chapter 1 (Core):** *"The Archive does not judge whether an hour was wasted or sacred. It simply holds what was."* (18 words)
+2. **Chapter 2 (Lost Sky):** *"I kept everything because I could not tell a loss from a goodbye."* (13 words)
 3. **Chapter 3 (Giant's Tomb):** *"Silence is not peace when someone is crying out to remember their own name."* (14 words)
-4. **Chapter 4 (Mirror Lab):** *"We divide ourselves only to understand what a single gaze could never bear to see."* (15 words)
+4. **Chapter 4 (Mirror Lab, plays at Room 4.7 only after Division Log I):** *"We divide ourselves only to understand what a single gaze could never bear to see."* (15 words)
 5. **Chapter 5 (Nexus Gate):** *"To forget is a mercy; to forbid remembrance is an exile. Who among us holds the scale?"* (18 words)
 
 ## 11. Full story: beginning, middle, end
