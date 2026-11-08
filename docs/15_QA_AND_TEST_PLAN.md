@@ -3,7 +3,21 @@
 No tests have been run and no benchmarks exist. Performance numbers below are **targets with assumptions**, not results. Test IDs: `T-<area>-n`.
 
 ## 1. Approach
-Automated: unit + headless integration for deterministic logic. Manual: feel, readability, fairness. Playtests at Gate A, Gate B, Gate C (`13`). Every bug gets the template in §14.
+- **Automated Testing:** Vitest for headless unit tests (simulation math, finite state machines, noise decay) and the deterministic golden test suite; Playwright for multi-browser end-to-end smoke tests (canvas init, audio gesture unlock, IndexedDB save/load).
+- **Manual Testing:** Feel, readability, fairness, and controller responsiveness. Playtests scheduled at Gate A, Gate B, and Gate C (`13`). Every discovered bug is logged using the template in §14.
+
+## 2. Browser compatibility matrix `[VERIFY]`
+All tests must execute against the latest two major releases of each target browser:
+- **Google Chrome** (V8, Blink)
+- **Microsoft Edge** (V8, Blink)
+- **Mozilla Firefox** (Gecko, SpiderMonkey)
+- **Apple Safari** (WebKit, JavaScriptCore on macOS / iOS desktop-mode)
+
+Key browser verification targets:
+1. AudioContext unlock on initial user gesture (pointer/key event).
+2. Canvas 2D frame stability and crisp pixel rendering without blur on high-DPI displays.
+3. IndexedDB persistence across sessions without silent data purge.
+4. Gamepad API standard mapping across different browser implementations.
 
 ## 2. Gameplay tests
 | ID | Test | Expected |
@@ -23,16 +37,17 @@ Automated: unit + headless integration for deterministic logic. Manual: feel, re
 | T-PH-4 | Moving platform carry | Player stays on platform; no jitter |
 | T-PH-5 | Framerate independence (simulate 30/60/144 render) | Same result (physics fixed 60 Hz) |
 
-## 4. Echo Trace determinism tests
+## 5. Echo Trace determinism tests
 | ID | Test | Expected |
 |---|---|---|
-| T-TR-1 | Golden run: record scripted inputs, replay 100× | Zero tick deviation |
+| T-TR-1 | Golden run: record scripted inputs, replay 100× in Vitest | Zero tick deviation across all recorded ticks |
 | T-TR-2 | Trace length = TR-01; stops automatically | Yes |
 | T-TR-3 | Short (<0.5 s) recording | Discarded with cue |
 | T-TR-4 | Cancel (hold) | Nothing spawned; no cooldown |
 | T-TR-5 | Slot replacement (2 slots) | Oldest replaced |
 | T-TR-6 | Hold then dissolve timings | TR-03/TR-06 |
 | T-TR-7 | Record while on moving platform `[PROTOTYPE]` | Documented behavior |
+| T-TR-8 | Cross-browser determinism verification | Compare hash of state array across Chromium, WebKit, and Gecko |
 
 ## 5. Puzzle reset and fail-state tests (edge cases)
 | ID | Case | Expected |
@@ -59,23 +74,25 @@ Per ability: duration, cooldown, limits, interaction with Static Fields, replay 
 | T-BS-5 | No unavoidable damage (frame-step audit) |
 | T-BS-6 | Reflection default script deterministic with a fixed ledger |
 
-## 8. Save/load tests
-Round-trip all fields; corrupt file → backup → new game flow; version migration test; save during boss prohibited (Beacon-only); three slots independent.
+## 8. Save/load and browser storage tests
+Round-trip all fields in IndexedDB; fallback to localStorage if IndexedDB blocked; corrupt file → backup → new game flow; version migration test; save during boss prohibited (Beacon-only); three slots independent; manual JSON file Export and Import verification; "Forget" wipes all storage completely.
 
 ## 9. Checkpoint tests
 Respawn state (Integrity, room reset), Beacon between boss phases, Beacon placement ≤ 60 s of progress.
 
 ## 10. Accessibility tests
-Remapping all actions; hold/toggle; colorblind palettes (simulated); reduced glitch/flash (no >3 flashes/s); subtitles; independent audio sliders; Assist presets (Sync Window, trace length, noise sensitivity); no mic dependency.
+Remapping all actions; hold/toggle; colorblind palettes (simulated); reduced glitch/flash (no >3 flashes/s); subtitles; independent audio sliders; Assist presets (Sync Window, trace length, noise sensitivity); no mic dependency; automatic query response to `prefers-reduced-motion` and `prefers-contrast`.
 
-## 11. Performance targets (assumptions)
-- 60 FPS at 1080p on a mid-range desktop (min spec TBD `[VERIFY]`).
-- Frame spikes: investigate any > 25 ms during gameplay.
-- Load between rooms: target < 2 s `[assumption]`.
+## 11. Performance and web runtime targets (assumptions)
+- Stable 60 FPS Canvas 2D render with 60 Hz simulation tick on target desktop browsers.
+- Frame spikes: investigate any frame time > 16.67 ms (simulation budget < 4 ms, render budget < 8 ms).
+- Zero per-frame memory allocation in simulation loop (zero GC hitching during Trace playback).
+- Background tab switching: verify `visibilitychange` listener pauses simulation and does not produce a catch-up tick storm when returning.
+- Load between rooms: target < 1 s in browser.
 Record actual measurements per milestone in `docs/perf/`.
 
 ## 12. Regression testing
-Run the automated suite on every commit/merge; run the T-TR golden test and slice acceptance checklist before every milestone exit; keep a "known fixed bugs" list with a test per bug.
+Run the automated Vitest suite on every commit/merge; run the Playwright browser smoke tests; run the T-TR golden test and slice acceptance checklist before every milestone exit; keep a "known fixed bugs" list with a test per bug.
 
 ## 13. Chapter 1 vertical slice acceptance tests
 
@@ -91,12 +108,14 @@ Run the automated suite on every commit/merge; run the T-TR golden test and slic
 | S-8 | Progression | 1.1 → 1.6 with autosave |
 | S-9 | Visual/audio sample | Representative palette, parallax, 1 ambient + 1 boss cue |
 | S-10 | Length | 10–15 min median `[VERIFY]` |
-| S-11 | Accessibility baseline | Remap + hold/toggle + reduced effects |
+| S-11 | Accessibility baseline | Remap + hold/toggle + reduced effects + system media queries |
+| S-12 | Web performance | Sustained 60 FPS without GC frame drops on baseline browser |
 
 ## 14. Bug report template
 ```
 Title:
 Build/version + commit:
+Browser + OS version (e.g. Chrome 124 / macOS 14.4):
 Platform + input device:
 Steps to reproduce (numbered, exact):
 Expected:
@@ -105,6 +124,6 @@ Reproduction rate (x/10):
 Room ID / chapter / Beacon:
 Hero + cooldown state:
 Trace state (slots, hold timers):
-Attachments (video, save file, log from user://logs):
+Attachments (screen recording, exported save JSON, browser console log):
 Severity: Blocker / Major / Minor / Cosmetic
 ```
