@@ -61,6 +61,8 @@ stateDiagram-v2
 
 ## 7. Environmental storytelling
 The Division Log plays as ghost-room tableaux: five translucent figures standing in a circle, each labeled with a strategy; one figure at the center. A line: "MERGE ON COMPLETION." A missing field: "CONSENT: —". The Ch1 terminal now shows the full DERIVATIVE entry on return.
+- **Unanswered Request Beat (Room 4.5 Division Log I side alcove) `[PROPOSAL]` (D-044):** A glass memorial holds a petitioner's plea: *"I consented to seal the trial, but not my daughter's wedding. Return her face."* The retrieval ticket is stamped: *"RESTORATION HALTED BY BOUNDARY PROTOCOL — ALL SECTOR ACCESS SUSPENDED."* Shows the tragedy of the blanket seal, directly paying off Ending B's "room of unanswered requests."
+- **Prime Echo Fragment 4 (Room 4.1 mirror entry) `[PROPOSAL]` (D-045):** *"We divide ourselves only to understand what a single gaze could never bear to see."* (15 words)
 
 ## 8. Checkpoints and difficulty
 Beacons before 4.3, 4.6, 4.7, 4.9, and each anchor. Difficulty: conceptual rather than mechanical; avoid pure execution spikes.

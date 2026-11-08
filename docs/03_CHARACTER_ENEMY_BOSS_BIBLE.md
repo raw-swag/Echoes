@@ -60,7 +60,7 @@ Shared: Integrity 3, Pulse, Echo Trace, 60 Hz tick. Silhouettes must be distingu
 | E3 | Seam Warden | 1 | Trust | Stationary; punishes crossing a Seam with a pulse | Cross when pulse is down; Trace dissolves |
 | E4 | Memory Crow | 2 | Possibility | Carries loose objects/fragments to nests | Bait with Trace; pursue its route |
 | E5 | Fighter Drone | 2 | Possibility | Laser pattern; Volt can hack | Hack or hide behind debris |
-| E6 | EMP Cell | 2 | Possibility | Zone disabling Volt/Nova flight above ground? flight blocked; ground safe | Route low; Blitz bypass |
+| E6 | EMP Cell | 2 | Possibility | Floor zone that shocks or disables grounded characters; flight passes safely above | Route high with Nova flight; ground path dangerous |
 | E7 | Scarab Mech | 3 | Fear | Responds to noise; investigates source | Noise decoys; Shield muffle |
 | E8 | Echo Worm | 3 | Fear | Detects ground footsteps only | Fly, shield, or stay on stone |
 | E9 | Rolling Boulder | 3 | Fear | Hazard triggered by noise events | Timing and quiet routes |

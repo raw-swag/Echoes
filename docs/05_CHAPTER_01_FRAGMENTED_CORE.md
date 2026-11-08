@@ -75,13 +75,14 @@ Memory Sentry, Corrupted Drone, Seam Warden, Corruptor. Slice: Sentry + Corrupto
 ## 8. Environmental storytelling
 - Release Seals appear as small door-shaped locks on corridor walls.
 - A terminal in 1.11 shows "DERIVATIVE: PRIME ECHO (FINAL DRAFT)". The heroes cannot read the full entry yet (Ch4 updates it).
+- **Prime Echo Fragment 1 (Room 1.8 audio/text beacon):** *"The Archive does not judge whether an hour was wasted or sacred. It simply holds what was."* (20 words) `[PROPOSAL]` (D-045)
 - Corridor outlines show prior layouts after Seam changes.
 
 ## 9. Checkpoints and difficulty curve
 Beacons: before 1.2, 1.3, 1.5, 1.6 (before boss), between boss phases. Difficulty: 1.1 trivial → 1.3 easy → 1.4 moderate → 1.5 moderate → 1.6 hardest in slice.
 
 ## 10. Required assets and animations
-See `11` §14 for the slice asset list. Chapter-specific: circuit tileset, code-rain VFX, Seam glyph, Sentry sprite, Drone sprite, Corruptor sprite sheet, Pylons, plates, doors, Beacon, terminal.
+See `11` §16 for the slice asset list. Chapter-specific: circuit tileset, code-rain VFX, Seam glyph, Sentry sprite, Drone sprite, Corruptor sprite sheet, Pylons, plates, doors, Beacon, terminal.
 
 ## 11. Player knowledge at entry / exit
 - **Entry:** names, a vague goal. 

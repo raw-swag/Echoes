@@ -99,13 +99,21 @@ The heroes must never be treated as disposable components. Even in Ending A they
 |---|---|---|---|
 | R1 | Ch1 end | Archive security was deliberately left active; heroes are tagged "DERIVATIVE: PRIME ECHO (FINAL DRAFT)" with no explanation | Terminal in Shard chamber; Corruptor treats heroes as unverifiable |
 | R2 | Ch2 mid/end | Memories can be abandoned by choice; restoration can hurt | Stormhawk's loop is a forced replay; the pilot's Release request is found |
-| R3 | Ch3 | Released memories are stored and guarded; heroes' sigils appear on a seal in the Vault | Vault Walk environment; Echo recognizes a mark |
-| R4 | Ch4 | The Division Log: the heroes' origin and the planned merge; no consent recorded | Mirror rooms replay the Draft; Reflection |
+| R3 | Ch3 | Released memories are stored and guarded; heroes' sigils appear on a seal in the Vault; blanket sequester blocks legitimate return requests | Vault Walk environment; Echo recognizes a mark; unanswered request beat in 3.7 |
+| R4 | Ch4 | The Division Log: the heroes' origin and the planned merge; no consent recorded; blanket protocol causes collateral forgetting | Mirror rooms replay the Draft; Reflection; unanswered plea in 4.5 |
 | R5 | Ch5 | Voidcaller = Boundary Keeper; guards seals including the heroes'; Prime Echo is in the Core | Quiet Stacks traversal; Remnants; Core conversation |
 
 Rule: no single cutscene delivers more than **one** revelation; all others are in-world.
 
-## 10. Full story: beginning, middle, end
+## 10. Prime Echo's Recorded Voice Fragments `[PROPOSAL]` (D-045)
+Rather than appearing solely at the climax of Chapter 5, Prime Echo's presence is felt across each chapter through brief recorded logs (≤ 25 words each). They are measured, philosophical, and never menacing, establishing his perspective and humanizing him before the player must make the final choice:
+1. **Chapter 1 (Core):** *"The Archive does not judge whether an hour was wasted or sacred. It simply holds what was."* (20 words)
+2. **Chapter 2 (Lost Sky):** *"Flight is not an escape from ground, but an insistence that another path was always there."* (17 words)
+3. **Chapter 3 (Giant's Tomb):** *"Silence is not peace when someone is crying out to remember their own name."* (14 words)
+4. **Chapter 4 (Mirror Lab):** *"We divide ourselves only to understand what a single gaze could never bear to see."* (15 words)
+5. **Chapter 5 (Nexus Gate):** *"To forget is a mercy; to forbid remembrance is an exile. Who among us holds the scale?"* (18 words)
+
+## 11. Full story: beginning, middle, end
 
 **Beginning (Waking Room):** Five presences wake in a room with no door. A message flickers: *"This isn't the beginning. It's the return."* (reused from the source's ending tease). Blitz and Echo are solid; Nova, Grim, Volt are voices on a thin Tether. They know their names and little else. A map of five regions glows. They assume: find Shards, rescue Prime Echo.
 
@@ -118,9 +126,9 @@ Rule: no single cutscene delivers more than **one** revelation; all others are i
 
 **Ending:** see §11.
 
-## 11. The three endings
+## 12. The three endings
 
-All endings end with the closing line and a short scene for each hero.
+All endings end with the closing line and a short scene for each hero. **Vignette Requirement (D-048):** Each hero's final vignette across all three endings must explicitly reference their concrete memory gap from the Final Draft (Blitz: sprinting to catch an unknown hand; Nova: orbit view of an unnamed world; Grim: shielding a blank face; Echo: hearing a crowd without any memory of physical touch; Volt: computing machinery with no record of its initial purpose) so that the emotional reality of their origin lands powerfully.
 
 ### A — Total Recall
 - **Trigger:** Restore All at the Nexus Core.
@@ -144,7 +152,7 @@ All endings end with the closing line and a short scene for each hero.
 
 **Closing line:** *"A memory is not yours just because you can restore it."*
 
-## 12. Environmental storytelling
+## 13. Environmental storytelling
 
 | Technique | Example |
 |---|---|
@@ -154,11 +162,13 @@ All endings end with the closing line and a short scene for each hero.
 | Props | Release Seals appear as small door-shaped locks in every chapter |
 | Trace objects | Resonant Objects replay a past event when a trace touches them |
 | Palette shifts | Regions warm slightly after a Shard is returned |
+| Unanswered petitions | Sealed requests in Ch3/Ch4 reveal the human cost of the Voidcaller's blanket sequester |
+| Recorded fragments | Prime Echo's short, measured audio/text reflections (≤ 25 words) discovered across Ch1–Ch5 |
 
-## 13. Optional lore (Memory Fragments) `[PROPOSAL]`
+## 14. Optional lore (Memory Fragments) `[PROPOSAL]`
 8 per chapter, 40 total, no mechanical reward except a lore gallery. Quality over quantity: each fragment is ≤ 40 words, anchored to a place. Example categories: Archive staff logs, resident memories (unattributed), Final Draft notes, Stormhawk's pilot, the Titan's vault labels.
 
-## 14. Dialogue and writing guidelines
+## 15. Dialogue and writing guidelines
 - Short lines. Subtext over statement. No exposition dumps over ~4 lines.
 - Each hero's voice per `00B` §3.
 - Prime Echo and Voidcaller speak in a measured, not menacing, register.
@@ -167,7 +177,7 @@ All endings end with the closing line and a short scene for each hero.
 - Dialogue never solves a puzzle but may point to the relevant rule.
 - Every line either reveals, characterizes, or helps navigation. Prefer environment to cutscene.
 
-## 15. Continuity checklist
+## 16. Continuity checklist
 - [ ] Heroes never called Prime Echo's "parts" by a hero or sympathetic character before Ch4.
 - [ ] The Shard order is fixed (I → V) and matches the pillars.
 - [ ] No cutscene reveals R-numbers out of sequence.
@@ -178,3 +188,7 @@ All endings end with the closing line and a short scene for each hero.
 - [ ] Ending C never implies Prime Echo or the Voidcaller was wrong *entirely*.
 - [ ] Every hero speaks at least once in every chapter, even dormant ones.
 - [ ] "Echo" collisions follow D-003 naming.
+- [ ] Unanswered requests appear in Ch3 and Ch4 to validate Prime Echo's motive (D-044).
+- [ ] Prime Echo fragments in Ch1–Ch5 stay ≤ 25 words and non-menacing (D-045).
+- [ ] Hero vignettes across all endings address each hero's specific memory gap (D-048).
+- [ ] Behavior Ledger permission prompt is in-world and opt-in; "Forget" clears local state (D-046).

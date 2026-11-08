@@ -66,6 +66,7 @@ stateDiagram-v2
 
 ## 7. Environmental storytelling
 Floating Release Seals; a cockpit with a half-written release request; Stormhawk's loop repeating a single radio line (the same line, each time).
+- **Prime Echo Fragment 2 (Room 2.5 navigation terminal):** *"Flight is not an escape from ground, but an insistence that another path was always there."* (17 words) `[PROPOSAL]` (D-045)
 
 ## 8. Checkpoints and difficulty
 Beacons before 2.3, 2.6, 2.8, 2.9, and between Stormhawk phases. Difficulty: moderate, with the highest "swap management" load in 2.8.

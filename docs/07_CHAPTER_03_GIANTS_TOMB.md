@@ -63,6 +63,8 @@ stateDiagram-v2
 
 ## 7. Environmental storytelling
 Vault capsules labeled with released memories; Release Seals on every capsule; a seal bearing five small sigils (hero marks) that Echo recognizes. The Titan pauses before striking if the noise source is a trace (it "listens").
+- **Unanswered Request Beat (Room 3.7 Buried Gear) `[PROPOSAL]` (D-044):** A sealed alcove holds an archived petition: *"Please return the lullaby my sister sang; I gave it away in anger."* The request is locked beneath a blanket Boundary Keeper seal marked: *"RESTORE DENIED — BLANKET SEQUESTER ACTIVE."* Shows the cost of the Voidcaller's indiscriminate block, proving Prime Echo's concern is real.
+- **Prime Echo Fragment 3 (Room 3.2 desert beacon) `[PROPOSAL]` (D-045):** *"Silence is not peace when someone is crying out to remember their own name."* (14 words)
 
 ## 8. Checkpoints and difficulty
 Beacons before 3.3, 3.5, 3.6, 3.9, and mid-Vault-Walk. Difficulty: spike at 3.6; Vault Walk is a controlled test.
