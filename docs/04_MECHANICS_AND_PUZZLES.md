@@ -16,10 +16,10 @@ Numeric defaults live in `00B` §6 (IDs like TR-01). **F** = functional requirem
 
 ## 2. Echo Trace (core) `[PROTOTYPE]`
 
-### 2.1 Model (D-005, D-013)
+### 2.1 Model (D-005, D-013, D-035, D-038)
 Trace is **recorded-transform playback**, not input replay and not a physics re-simulation. The ghost follows recorded positions kinematically and fires recorded action events at recorded ticks. `[PROVEN-PATTERN]` as a technique; determinism with moving platforms is `[PROTOTYPE]`.
 
-**Per tick record (60 Hz):** world position, facing, animation state id, hero id, and optional event flags (ability_start, ability_end, interact, pulse, noise_event).
+**Per tick record (60 Hz):** stored in compact pre-allocated typed arrays (e.g. `Int32Array` holding fixed-point world positions, facing, animation state id, hero id, and bitmasked event flags for ability_start, ability_end, interact, pulse, noise_event). To prevent browser garbage collection spikes, no object allocations occur during per-tick recording or playback.
 
 ### 2.2 Rules
 | Rule | Spec |
@@ -69,8 +69,8 @@ Plate P holds a door D open only while pressed. D is at the far end; plate P is 
 - **Example (Ch1 Room 1.2):** a 6 BH gap with a pulse trap in the middle. **Solution:** jump + dash. **Failure:** dash into a wall short of the gap; **Fair:** gap is ≤ dash + jump reach by a margin; a ghost marker shows dash range on Hint tier 1.
 
 ## 6. Nova's flight
-- **F:** Energy drains while thrust is held; recharges on ground; no flight in Static Fields; EMP ground zones are bypassed by flight.
-- **Example (Ch2 Room 2.3):** EMP Cell floor with a lever at height. **Solution:** fly over, pull lever. **Failure:** energy runs out above the floor; **Fair:** energy bar visible; a landing ledge sits at the 75% energy mark.
+- **F:** Energy drains while thrust is held; recharges on ground; no flight in Static Fields; EMP floor zones disable/shock grounded characters, and flight bypasses them.
+- **Example (Ch2 Room 2.3):** EMP Cell floor zone with a lever at height. Grounded characters cannot cross the floor without taking damage / being disabled. **Solution:** fly over, pull lever. **Failure:** energy runs out above the floor; **Fair:** energy bar visible; a landing ledge sits at the 75% energy mark.
 
 ## 7. Grim's shield and noise suppression
 - **F:** Shield blocks front-arc projectiles; while active, noise events produced = 0; move speed 60%.
@@ -101,6 +101,7 @@ Plate P holds a door D open only while pressed. D is at the far end; plate P is 
 
 ## 13. Reflection behavior
 - **F:** Clones/reflection read a bounded Behavior Ledger or the last N solution classes. They never read inputs that the player has not generated in this save. Authored default exists.
+- **Privacy & Consent (D-046):** Ledger storage is strictly local (stored inside IndexedDB; never transmitted across the network). When the Behavior Ledger is first unlocked, an in-world prompt appears: *"The Archive requests permission to observe your patterns to calibrate future encounters; no records leave this device."* The player may opt out at any time. In Settings, selecting **"Forget"** permanently wipes the ledger along with local saves.
 - **Example (Ch4 Room 4.4):** clone blocks the "jump route" because the previous room was solved that way. **Solution:** use the "dash route." **Fair:** clone's block is visible *before* the player commits; the other route is always open.
 
 ## 14. Boss pattern-replay logic

@@ -3,7 +3,7 @@
 Terms and numeric defaults: `00B`. Mechanic rules in detail: `04_MECHANICS_AND_PUZZLES.md`.
 
 ## 1. Overview
-2D side-scrolling puzzle-platformer. The player controls one hero at a time through five chapters, solving environmental puzzles using movement, hero abilities, and **Echo Trace**, with occasional non-lethal encounters. Offline, single-player, desktop. Each chapter = one theme, one spotlight hero, one boss, one new rule family.
+2D side-scrolling puzzle-platformer built for modern web browsers (TypeScript + Vite, HTML5 Canvas 2D, no game engine). The player controls one hero at a time through five chapters, solving environmental puzzles using movement, hero abilities, and **Echo Trace**, with occasional non-lethal encounters. Offline, single-player, browser-based. Each chapter = one theme, one spotlight hero, one boss, one new rule family.
 
 ## 2. Design pillars
 1. **The past is interactive.** Echo Trace is in every chapter's critical path.
@@ -37,17 +37,19 @@ No lethal combat. The player has **Pulse** (short-range stun). Stunned enemies c
 ### 4.5 Narrative progression
 Revelation schedule in `01` §9. Dormant heroes' voices comment during play via short lines (≤ 3 s, non-blocking).
 
-## 5. Controls and input mapping `[PROPOSAL]`
+## 5. Controls and input mapping `[PROPOSAL]` (D-039)
 
-| Action | Keyboard | Controller |
+Input is handled by `InputService` querying browser `KeyboardEvent.code` mappings and the standard Gamepad API. Mouse input is not required for gameplay. All actions pass an `input_source` identifier to preserve future co-op readiness.
+
+| Action | Keyboard (`code`) | Controller (Gamepad API) |
 |---|---|---|
-| Move | A/D or ←/→ | Left stick / D-pad |
-| Jump | Space | A |
-| Ability (current hero) | Left Shift | B |
-| Pulse | J | X |
-| Interact | F | Y |
-| Echo Trace (record / launch / hold to cancel) | E | Right trigger |
-| Hero swap next / previous | Tab / Q | RB / LB |
+| Move | `KeyA` / `KeyD` or `ArrowLeft` / `ArrowRight` | Left stick / D-pad |
+| Jump | `Space` | Button 0 (A / Cross) |
+| Ability (current hero) | `ShiftLeft` | Button 1 (B / Circle) |
+| Pulse | `KeyJ` | Button 2 (X / Square) |
+| Interact | `KeyF` | Button 3 (Y / Triangle) |
+| Echo Trace (record / launch / hold to cancel) | `KeyE` | Right trigger (Axis/Button 7) |
+| Hero swap next / previous | `Tab` / `KeyQ` | Right shoulder / Left shoulder |
 | Direct hero select | 1–5 | Hold left trigger (radial) |
 | Hint | H | Back/View |
 | Pause | Esc | Start |
@@ -103,20 +105,21 @@ Never lose more than ~60 seconds of non-trivial progress. Beacons sit before eac
 - **Shards** (story-critical).
 - No currency, gear, or XP. Hero unlocks are story-driven.
 
-## 10. Save system `[PROPOSAL]`
-Three manual slots, autosave at Beacons, save data = chapter, Beacon id, unlocked heroes, solved puzzle ids, collected fragment ids, Witness Clauses, settings, Behavior Ledger summary. Versioned; local only. Spec in `10`.
+## 10. Save system `[PROPOSAL]` (D-041)
+Three manual slots plus autosave at Beacons, stored locally in the browser via IndexedDB (with localStorage fallback). Save data = chapter, Beacon id, unlocked heroes, solved puzzle ids, collected fragment ids, Witness Clauses, settings, Behavior Ledger summary. Versioned schema with migration functions. Temporary write-then-swap pattern with backup slots protects against browser write interruptions. Request `navigator.storage.persist()` on supported browsers to prevent eviction. Export and Import save as JSON files (`echoes_save_slot_N.json`) to allow player-controlled external backups. Spec in `10`.
 
 ## 11. UI and HUD
-Minimal HUD: Integrity pips, current hero + ability cooldown ring, Trace state indicator (idle / recording with time ring / playing / holding), Noise Meter (Ch3, and Ch3-rule rooms), hint indicator. Dialogue as small bubbles. No minimap. Details in `11`.
+Minimal HUD: Integrity pips, current hero + ability cooldown ring, Trace state indicator (idle / recording with time ring / playing / holding), Noise Meter (Ch3, and Ch3-rule rooms), hint indicator. Dialogue as small bubbles. No minimap. An initial "Press any key to begin" start overlay unlocks the browser's Web Audio API. Details in `11`.
 
-## 12. Accessibility `[PROPOSAL]`
+## 12. Accessibility and Settings `[PROPOSAL]` (D-043, D-046)
 | Area | Requirement |
 |---|---|
-| Input | Full remapping; hold/toggle for ability, trace, shield; no mic; one-handed preset |
-| Visual | Colorblind-safe palette variants; high-contrast mode; scalable UI text; reduced glitch/flash; photosensitivity-safe effects (no flashes above 3 per second) |
-| Audio | Every audio cue has a visual cue and vice versa; separate sliders |
+| Input | Full remapping; hold/toggle for ability, trace, shield; no mic; one-handed preset; gamepad support |
+| Visual | Colorblind-safe palette variants; high-contrast mode; scalable UI text; reduced glitch/flash; photosensitivity-safe effects (no flashes above 3 per second); automatically respects `prefers-reduced-motion` and `prefers-contrast` media queries (with manual override) |
+| Audio | Every audio cue has a visual cue and vice versa; separate volume sliders via Web Audio gain buses |
 | Cognitive | 3-tier hints; puzzle goals always shown; skip-trace-timer assist |
 | Motor | Adjustable Sync Window, Trace length, noise sensitivity; invulnerability option; slow-motion option for boss telegraphs |
+| Privacy & Release | **Behavior Ledger opt-in prompt:** worded in-world ("The Archive requests permission to observe your patterns to calibrate future encounters; no records leave this device"). **"Forget" setting:** a dedicated button in Settings that immediately and permanently deletes all IndexedDB/localStorage saves and Behavior Ledger records (embodying the Release theme in the client) |
 | Presets | Story / Standard / Challenge built on individual toggles |
 
 ## 13. Difficulty progression
@@ -151,4 +154,5 @@ Three endings (see `01` §11). Replay: chapter select after Ch5; New Cycle (post
 | New Cycle mode | | | ✔ |
 | Co-op | | | ✔ (architecture only) |
 | Fragment gallery | | stretch | ✔ |
-| Console ports | | | ✔ |
+| Mobile browsers / touch | | | ✔ |
+| Witness Link (Trace share link/code) | | | ✔ |
