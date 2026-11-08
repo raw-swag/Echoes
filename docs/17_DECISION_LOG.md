@@ -7,7 +7,7 @@ Status: **Decided** (in force), **Proposed** (needs confirmation), **Open**. IDs
 | ID | Topic | Decision | Reasoning | Alternatives | Consequences | Status |
 |---|---|---|---|---|---|---|
 | D-001 | Ownership designation | Saugat Rauniyar = designated project lead; not a statement of verified IP ownership | Brief instruction; provenance unresolved | Silent assumption of full ownership | `12` §6 tracks Qs; credits separate current/historical | Decided |
-| D-002 | Engine/language | Godot 4.x (pinned at M1), GDScript | Brief default; small team fit | Unity, custom | Pin version; upgrade between milestones | Decided |
+| D-002 | Engine/language | Godot 4.x (pinned at M1), GDScript | Brief default; small team fit | Unity, custom | Pin version; upgrade between milestones | Superseded by D-031 |
 | D-003 | "Echo" naming | Hero = **Echo**; ability = **Veil Sight**; mechanic = **Echo Trace**; boss = **Titan Echo**; Warden = **Prime Echo** | Reduce confusion; retain source names | Rename hero | UI uses "Veil Sight", "Trace" | Decided |
 | D-004 | Party model | One hero in world; unlock Ch1 Blitz+Echo, Ch2 Nova+Volt, Ch3 Grim; dormant heroes speak via Tether | Teach abilities gradually; single-player | All five from start; AI companions | Chapter design uses unlocked sets | Proposed |
 | D-005 | Trace model | Recorded-transform playback with tick events; traces affect sensors, not hazards | Determinism; testability | Input replay; physics resim | Moving-platform risk; hazards ignored by traces | Decided `[PROTOTYPE]` |
@@ -36,6 +36,24 @@ Status: **Decided** (in force), **Proposed** (needs confirmation), **Open**. IDs
 | D-028 | Rewards | No gold/gear/XP | Theme | Currency | Memory Fragments/Clauses | Decided |
 | D-029 | Asset policy | Original or verified-license only; evidence stored | Licensing risk | Use blanket claim | `12` | Decided |
 | D-030 | Units | Use BH until M2 fixes scale | Avoid arbitrary px | Fixed px now | Close at BL-006 | Decided |
+| D-031 | Web platform pivot | TypeScript + Vite, static build, no game engine, browser target | Reach, instant play, zero install, complete architectural control | Godot Web export, PixiJS, Phaser | Pure TS sim; static hosting; replaces D-002 | Decided `[PROPOSAL]` |
+| D-032 | Rendering backend | HTML5 Canvas 2D default; WebGL only if profiling proves necessary | Determinism, low complexity, universal compatibility | Canvas-only, WebGL-first, WebGPU | Canvas 2D adapter; WebGL gated by benchmark `[VERIFY]` | Proposed `[PROPOSAL]` |
+| D-033 | Sim/Render decoupling | Pure TypeScript simulation with zero DOM/render deps; thin adapters | Determinism, headless testing, separation of concerns | Coupled game-loop / DOM nodes | Headless Vitest runs same sim as browser | Decided `[PROPOSAL]` |
+| D-034 | Loop & timing | Fixed 60 Hz simulation tick with rAF accumulator; catch-up capped at 5; pause on visibilitychange | High-refresh screen consistency (120/144 Hz safe); prevent tab-switch spiral | Variable delta, unconstrained catch-up | Deterministic simulation independent of display rate | Decided `[PROPOSAL]` |
+| D-035 | Simulation determinism | Integer ticks, integer fixed-point positions, seeded PRNG, no non-deterministic math in sim | Echo Trace replay consistency across browsers | Float coords, Math.random, performance.now | Prototype fixed-point math; avoid cross-browser float drift `[PROTOTYPE]` | Decided `[PROPOSAL]` |
+| D-036 | Collision & sensors | Custom deterministic AABB-vs-tilemap; sensors as AABB overlap queries | Replaces Area2D / CharacterBody2D without physics engine bloat | Matter.js, Planck.js | Pure TS collision module | Decided `[PROPOSAL]` |
+| D-037 | Data & level format | Typed TS/JSON data schemas validated at load; level format JSON (Tiled candidate) | Replaces Godot `.tres` Resources | Custom binary, XML | Strict schema validation at build/runtime `[VERIFY]` | Decided `[PROPOSAL]` |
+| D-038 | Trace buffers & GC | Typed arrays (Int32Array etc.), 480 ticks / 8 s trace, zero per-tick allocations, pooling | Prevent GC pauses / frame drops during Echo Trace playback | Plain JS objects allocated per frame | Pre-allocated buffers; object pooling for ghosts/VFX | Decided `[PROPOSAL]` |
+| D-039 | Web input mapping | `KeyboardEvent.code` + Gamepad API via `InputService`; retain `input_source` | Browser cross-platform keyboard/gamepad; co-op readiness | Mouse-only, touch-first | Touch / mobile browsers deferred post-MVP | Decided `[PROPOSAL]` |
+| D-040 | Audio architecture | Web Audio API with gain-node buses; start screen user-gesture unlock; visual pairing | Browser autoplay policy compliance; engine-free audio routing | HTML5 `<audio>` tags, Howler.js | "Press any key to begin" screen; 1:1 visual cues | Decided `[PROPOSAL]` |
+| D-041 | Save storage | IndexedDB with localStorage fallback, temp-then-swap, backup slot, JSON file export/import | Browser storage eviction resilience; replaces `user://` FileAccess | LocalStorage only, cloud DB | Request persistent storage; manual backup file | Decided `[PROPOSAL]` |
+| D-042 | Automated testing | Vitest headless for sim & golden determinism test; Playwright for browser smoke | Engine-free web pipeline; replaces GUT/gdUnit4 | Jest, Cypress | Fast headless unit/sim CI; browser integration | Decided `[PROPOSAL]` |
+| D-043 | Web accessibility | Respect `prefers-reduced-motion` and `prefers-contrast`; retain all gameplay assist toggles | Native browser/OS integration | Custom toggles only | Auto-defaults from OS with manual overrides | Decided `[PROPOSAL]` |
+| D-044 | Unanswered requests beat | Add unanswered request beats in Ch3 and Ch4 sealed by Voidcaller | Shows restoration cost/value balance; makes Prime Echo's case real | Keep one-sided hurt only | Pays off Ending B "room of unanswered requests" `[PROPOSAL]` | Proposed |
+| D-045 | Prime Echo recorded fragments | Add short text fragments (≤ 25 words) from Prime Echo in each chapter (Ch1–Ch5) | Humanizes Prime Echo before Ch5 confrontation; measured, never menacing | First reveal only in Ch5 | Establishes sympathetic philosophical counterpoint `[PROPOSAL]` | Proposed |
+| D-046 | In-world ledger consent & "Forget" | In-world Archive consent prompt for Ledger; "Forget" button in Settings to purge all local data | Native web theme embodiment; respect user privacy | Silent recording, no local wipe | Embodies "Release" theme in the web client `[PROPOSAL]` | Proposed |
+| D-047 | Witness Link (post-MVP) | Share recorded Trace via URL hash / code for another player to replay | Web-native social feature matching "offered, never forced" (Ending C) | Real-time multiplayer, global leaderboard | Strictly opt-in; post-MVP column only `[PROPOSAL]` | Proposed |
+| D-048 | Hero memory gap vignettes | Each hero's final vignette in all 3 endings references their concrete Final Draft gap | Emotional payoff for origin twist; reinforces their individuality | Generic triumph/dissolution | Narrative requirement across all three endings `[PROPOSAL]` | Proposed |
 
 ## Original contradictions explicitly resolved
 | Contradiction | Resolved by |
@@ -48,7 +66,7 @@ Status: **Decided** (in force), **Proposed** (needs confirmation), **Open**. IDs
 | Blitz ability | D-007 |
 
 ## Parked non-canon ideas (from the source expansion hooks)
-Ice realm, underwater city, "digital hell", PVP arena, betrayal among the five. Not planned; revisit only after release.
+Ice realm, underwater city, "digital hell", PVP arena, betrayal among the five. Not planned; revisit only after release. Witness Link (opt-in Trace sharing via URL/code) is parked in the post-MVP column (D-047).
 
 ## Open questions
 | ID | Question | Needed by |
@@ -57,5 +75,7 @@ Ice realm, underwater city, "digital hell", PVP arena, betrayal among the five. 
 | Q-011 | Confirm Stormhawk pilot name/backstory | M7 |
 | Q-012 | Do we want voiced lines or text only? | M5 |
 | Q-013 | Final Ending-C clause order and puzzle design | M8 |
-| Q-014 | Minimum PC spec | M5 |
-| Q-015 | Release platforms/storefront | M9 |
+| Q-014 | Minimum browser / hardware spec (Canvas 2D fallback baseline) | M5 |
+| Q-015 | Static hosting target (GitHub Pages vs Cloudflare Pages vs itch.io HTML5) | M9 |
+| Q-016 | Level format tooling choice (Tiled JSON export vs custom JSON schema) | M2 |
+| Q-017 | Sim coordinate representation: integer fixed-point (e.g. 1/1000 px) vs float64 | M2 |
