@@ -100,7 +100,7 @@ The heroes must never be treated as disposable components. Even in Ending A they
 | R1 | Ch1 end | Archive security was deliberately left active; heroes are tagged "DERIVATIVE: PRIME ECHO (FINAL DRAFT)" with no explanation | Terminal in Shard chamber; Corruptor treats heroes as unverifiable |
 | R2 | Ch2 mid/end | Memories can be abandoned by choice; restoration can hurt | Stormhawk's loop is a forced replay; the pilot's Release request is found |
 | R3 | Ch3 | Released memories are stored and guarded; heroes' sigils appear on a seal in the Vault; blanket sequester blocks legitimate return requests | Vault Walk environment; Echo recognizes a mark; unanswered request beat in 3.7 |
-| R4 | Ch4 | The Division Log: the heroes' origin and the planned merge; no consent recorded; blanket protocol causes collateral forgetting | Mirror rooms replay the Draft; Reflection; unanswered plea in 4.5 |
+| R4 | Ch4 | The Division Log: the heroes' origin and the planned merge; no consent recorded; blanket protocol causes collateral forgetting | Mirror rooms replay the Draft (4.5/4.8); Reflection; unanswered plea in 4.6 (apart from Draft logs) |
 | R5 | Ch5 | Voidcaller = Boundary Keeper; guards seals including the heroes'; Prime Echo is in the Core | Quiet Stacks traversal; Remnants; Core conversation |
 
 Rule: no single cutscene delivers more than **one** revelation; all others are in-world.
@@ -188,7 +188,7 @@ All endings end with the closing line and a short scene for each hero. **Vignett
 - [ ] Ending C never implies Prime Echo or the Voidcaller was wrong *entirely*.
 - [ ] Every hero speaks at least once in every chapter, even dormant ones.
 - [ ] "Echo" collisions follow D-003 naming.
-- [ ] Unanswered requests appear in Ch3 and Ch4 to validate Prime Echo's motive (D-044).
+- [ ] Unanswered requests appear in Ch3 (3.7) and Ch4 (4.6, separate from Division Log rooms) to validate Prime Echo's motive (D-044).
 - [ ] Prime Echo fragments in Ch1–Ch5 stay ≤ 25 words and non-menacing (D-045).
 - [ ] Hero vignettes across all endings address each hero's specific memory gap (D-048).
 - [ ] Behavior Ledger permission prompt is in-world and opt-in; "Forget" clears local state (D-046).
