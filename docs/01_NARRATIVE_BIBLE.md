@@ -128,7 +128,32 @@ Rather than appearing solely at the climax of Chapter 5, Prime Echo's presence i
 
 ## 12. The three endings
 
-All endings end with the closing line and a short scene for each hero. **Vignette Requirement (D-048):** Each hero's final vignette across all three endings must explicitly reference their concrete memory gap from the Final Draft (Blitz: sprinting to catch an unknown hand; Nova: orbit view of an unnamed world; Grim: shielding a blank face; Echo: hearing a crowd without any memory of physical touch; Volt: computing machinery with no record of its initial purpose) so that the emotional reality of their origin lands powerfully.
+All endings end with the closing line and a short scene for each hero set entirely within the dream-realm. **Vignette Requirement (D-048):** Each hero's final scene across all three endings explicitly features one concrete memory gap from the Final Draft, developed into three distinct thematic variants depending on the player's choice:
+- **Ending A (Total Recall):** The gap closes as the Archive forces all records back, but the hero's separate self dissolves and is lost in the merge.
+- **Ending B (The Quiet World):** The gap stays permanently open; the hero remains an independent individual in the quieted Realm, bearing the unresolved mystery of their origin.
+- **Ending C (The Witness Protocol):** The missing memory is offered back with consent; the hero chooses whether to integrate it or let it rest, preserving their agency.
+
+#### Hero Vignette Matrix:
+1. **Blitz (Gap: Sprinting across a shattered sky-bridge, unable to recall whose hand he was running to catch):**
+   - *Ending A:* He remembers the name and grips the hand as the sky collapses into white, but his own face merges into Prime Echo.
+   - *Ending B:* He sits at the broken bridge's edge in the still dream-fog, looking out across the chasm, accepting that he may never know who waited there.
+   - *Ending C:* The memory tablet floats before him on the bridge; he reaches out, smiles faintly, and chooses to read it on his own terms.
+2. **Nova (Gap: Hovering above a luminous cloud-sea at sunrise, unable to name the dream-landscape spread beneath her):**
+   - *Ending A:* The geography rushes into her mind all at once, drowning her wonder in pure cataloged coordinates as her wings fold into Prime Echo.
+   - *Ending B:* She glides high into the quiet sky-haze, unnamed wind under her wings, content to explore a realm that owes her no answers.
+   - *Ending C:* The name of the sky-land is offered in the Archives; she takes it softly, whispering it back to the wind without losing her freedom.
+3. **Grim (Gap: The physical weight of a heavy shield locking into place, while the face of the person he threw it over remains blank):**
+   - *Ending A:* The face fills in with sharp clarity, but before he can speak, his armor dissolves into Prime Echo's central pillar.
+   - *Ending B:* He rests his tower shield against the Vault wall, standing guard over empty desert sand, comfortable with duty without needing a debt.
+   - *Ending C:* The identity of the shielded person is presented in the Witness Stacks; he verifies it with a slow nod, keeping both his shield and his heart.
+4. **Echo (Gap: Gazing through the veil at a crowd of murmuring voices, recognizing every word yet missing any memory of being touched):**
+   - *Ending A:* Every touch and connection floods back in a blinding shockwave as her veil tears away, subsuming her back into the Warden.
+   - *Ending B:* She lowers her Veil Sight in the soft lab twilight; the crowd fades, and she steps into the quiet world knowing she is real anyway.
+   - *Ending C:* The memory of warm contact is gently offered; she reaches across the veil to accept it, holding the memory without losing herself.
+5. **Volt (Gap: Tracing the interlocking logic circuits of a vast machine, with no record of why the work was ever begun):**
+   - *Ending A:* The machine's primary purpose computes instantly, but Volt's logic thread terminates and folds into the Core's master algorithm.
+   - *Ending B:* He watches the idle relays pulse slowly in the dark, choosing to let the uncomputable remain a silent, beautiful null.
+   - *Ending C:* The original purpose query returns an open prompt; Volt keys in his own reason, lending his logic while keeping his name.
 
 ### A — Total Recall
 - **Trigger:** Restore All at the Nexus Core.

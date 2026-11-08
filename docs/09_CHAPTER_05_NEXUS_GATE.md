@@ -69,12 +69,12 @@ stateDiagram-v2
 ## 7. Environmental storytelling
 Stacks walls of Release Seals; one wall of five seals carries the heroes' marks and reads, in plain text: "RELEASED FROM: PRIME ECHO." Prime Echo's recorded fragments play at the Core: "If it happened, it belongs here." The Voidcaller's faces include accidental-loss faces and chosen-leave faces; the game does not tell which is which.
 - **Prime Echo Fragment 5 (Room 5.1 Nexus Ring entrance console) `[PROPOSAL]` (D-045):** *"To forget is a mercy; to forbid remembrance is an exile. Who among us holds the scale?"* (18 words)
-- **Ending Vignettes — Hero Concrete Memory Gaps `[PROPOSAL]` (D-048):** In all three endings (A, B, C), each hero's final vignette explicitly features one concrete missing record from their Final Draft origin:
-  - **Blitz:** Recalls sprinting across a shattered bridge, but cannot remember whose hand he was running to catch.
-  - **Nova:** Remembers looking down at a sunrise from orbit, but cannot find the name of the earth below.
-  - **Grim:** Feels the weight of a shield locking into place, but the face of the person he threw it over remains blank.
-  - **Echo:** Gazes through the veil at a crowd of voices, recognizing their words but missing any memory of being touched.
-  - **Volt:** Traces the logic gates of a completed machine, but has no record of why the work was ever begun.
+- **Ending Vignettes — Hero Concrete Memory Gaps `[PROPOSAL]` (D-048):** In all three endings (A, B, C), each hero's final scene is set within the dream-realm and explores their specific memory gap across three thematic variants (Ending A: gap closes, hero's separate self dissolves into Prime Echo; Ending B: gap stays open in the quiet realm; Ending C: gap is offered back and the hero chooses):
+  - **Blitz:** Gap = sprinting across a shattered sky-bridge, unable to recall whose hand he was running to catch. (A: catches hand as sky turns white, dissolves into Prime Echo; B: sits at bridge edge in dream-fog, accepting the unknown; C: reads offered memory tablet on his own terms).
+  - **Nova:** Gap = hovering above a luminous cloud-sea at sunrise, unable to name the dream-landscape beneath. (A: coordinates flood in, wings fold into Prime Echo; B: glides through unnamed sky-haze in peace; C: accepts the offered name softly without losing freedom).
+  - **Grim:** Gap = weight of shield locking into place over a blank face. (A: face clears as armor dissolves into Prime Echo's pillar; B: rests shield in desert sand, content without a debt; C: verifies identity in Witness Stacks with a nod).
+  - **Echo:** Gap = gazing through the veil at a murmuring crowd without memory of being touched. (A: physical touch floods back as veil tears, merging into Warden; B: lowers veil in lab twilight, whole in herself; C: reaches across veil to accept offered touch).
+  - **Volt:** Gap = tracing machine circuits with no record of why the work began. (A: computes purpose as logic thread terminates into Core; B: lets the uncomputable remain a serene null; C: inputs his own reason, lending logic while keeping identity).
 
 ## 8. Checkpoints and difficulty
 Beacon at each pillar entrance, after each pillar, before 5.7, between Remnants, and between phases. Difficulty: highest in the game, but with mostly known rules.
