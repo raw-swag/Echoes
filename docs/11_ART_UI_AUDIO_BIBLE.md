@@ -52,19 +52,20 @@ Translucent cyan silhouette with a brighter outline; Origin Mark = small cyan di
 - Menus: Continue, New Game, Chapters, Settings, Credits.
 
 ## 12. Typography and iconography
-A readable sans-serif for UI; a distinct display face for titles `[VERIFY font license before choosing]`. Icons: simple geometric, one stroke weight, shape-coded (circle = ability, square = switch, triangle = hazard, diamond = trace).
+A readable sans-serif for UI; a distinct display face for titles `[VERIFY font license and web-font / WOFF2 redistribution terms before choosing]`. Icons: simple geometric, one stroke weight, shape-coded (circle = ability, square = switch, triangle = hazard, diamond = trace).
 
 ## 13. Sound design and music
 - Music: ambient, slow, layered, with sparse melodic motifs; chapter timbres — Ch1 digital pulse, Ch2 airy pads, Ch3 low drones + sparse percussion, Ch4 glass/reverse tones, Ch5 convergence of all motifs.
-- Music states: explore, tension (enemy/noise), boss, resolution; cross-fades only.
+- Music states: explore, tension (enemy/noise), boss, resolution; cross-fades only via Web Audio API GainNodes.
 - SFX: footstep sets per surface (they determine noise feel), ability whooshes, plate clicks, door sweeps, Trace record/launch/dissolve cues.
 - Audio cues for hazards: rising tone for telegraph, descending on expiry. Every cue paired with a visual cue.
+- Browser Audio Buses: Master, Music, SFX, Ambience, UI gain nodes routed into destination. AudioContext starts suspended until unlocked by initial user gesture (start overlay).
 
 ## 14. Accessibility settings (visual/audio alternatives)
-Colorblind variants for cyan/pink/warm; high-contrast outlines; reduce glitch; reduce parallax; subtitles for all voice-like cues; visual noise ripples for audio; independent volume sliders; screen-shake slider.
+Colorblind variants for cyan/pink/warm; high-contrast outlines; reduce glitch; reduce parallax; subtitles for all voice-like cues; visual noise ripples for audio; independent volume sliders for all audio buses; screen-shake slider; respects `prefers-reduced-motion` and `prefers-contrast` system media queries.
 
 ## 15. Asset naming and export conventions
-`<category>_<chapter>_<name>_<variant>_<frame>.png`, e.g. `env_ch01_platform_broken_a.png`; audio `sfx_<name>_<nn>.ogg`, `mus_<chapter>_<state>.ogg`. Lowercase, underscores. Source files (`.aseprite`/`.kra`) kept in `art_src/` outside the project export. Atlas settings and import presets documented after the M2 prototype.
+`<category>_<chapter>_<name>_<variant>_<frame>.png` (or `.webp` for web payload optimization), e.g. `env_ch01_platform_broken_a.png`; audio `sfx_<name>_<nn>.ogg` with `.mp3` fallbacks for older Safari versions, `mus_<chapter>_<state>.ogg`. Lowercase, underscores. Source files (`.aseprite`/`.kra`) kept in `art_src/` outside the web distribution bundle. Sprite atlases and JSON metadata generated during Vite build step.
 
 ## 16. First assets for the Chapter 1 vertical slice
 

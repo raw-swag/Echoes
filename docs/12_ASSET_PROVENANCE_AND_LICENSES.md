@@ -38,6 +38,11 @@ The credits also state: "All assets used are either public domain, Creative Comm
 | ART-002 | Circuit tileset | — | — | Unknown | Unknown | Unknown | Unknown | — | PROPOSED / ORIGINAL-PLANNED | Original |
 | ART-003 | Corruptor sprite sheet | — | project team | n/a | n/a | n/a | n/a | — | ORIGINAL-PLANNED | Placeholder |
 | FNT-001 | UI font | — | — | Unknown | Unknown | Unknown | Unknown | — | PROPOSED | System-safe alternative |
+| FNT-002 | Web Title font (WOFF2) | — | — | Unknown | Unknown | Unknown | Unknown | — | PROPOSED | Open-source web font with web-embedding rights (SIL OFL) `[VERIFY]` |
+| LIB-001 | TypeScript | https://github.com/microsoft/TypeScript | Microsoft | Apache-2.0 | Yes | Yes | Yes | — | PROPOSED | Standard build dependency |
+| LIB-002 | Vite | https://github.com/vitejs/vite | Yuxi (Evan) You / Vite Contributors | MIT | Yes | Yes | Yes | — | PROPOSED | Standard web bundler |
+| LIB-003 | Vitest | https://github.com/vitest-dev/vitest | Anthony Fu / Vitest Contributors | MIT | Yes | Yes | Yes | — | PROPOSED | Unit and determinism test runner |
+| LIB-004 | Playwright | https://github.com/microsoft/playwright | Microsoft | Apache-2.0 | Yes | Yes | Yes | — | PROPOSED | Browser E2E smoke test tool |
 | DOC-001 | Historical story/map/credits files | local uploads | see §6 | n/a | n/a | n/a | n/a | — | EXISTING-UNVERIFIED (provenance) | — |
 
 **Existing assets:** none identified in the source documents (no asset list exists). **Proposed assets:** rows above. **Original content:** all code, writing, designs created for this revived project are tracked as ORIGINAL-* and logged with author/date in commits.
