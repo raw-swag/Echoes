@@ -41,6 +41,9 @@ Nothing in this package has been playtested, benchmarked, or legally reviewed.
 | **Witness Chamber / Witness Clause** | Optional puzzle room per chapter / the evidence item it yields; all five assemble the Witness Protocol (Ending C) |
 | **Behavior Ledger** | Local, bounded record of player habits used by Reflection |
 | **BH** | Body-heights: the unit for all distances in design docs until art/camera is locked |
+| **Tick** | A discrete 1/60 s simulation step; the fundamental deterministic unit of game time `[CANON]` |
+| **Simulation** | The pure TypeScript game model (entities, collision, trace, puzzles) with zero DOM/render dependencies `[CANON]` |
+| **Fixed-step loop** | An accumulator-based update cycle driven by `requestAnimationFrame` running the Simulation at exactly 60 Hz `[CANON]` |
 
 ## 3. Canonical cast mapping
 

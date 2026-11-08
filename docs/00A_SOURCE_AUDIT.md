@@ -63,4 +63,4 @@
 - No asset list, no per-asset licenses, no asset folder structure content.
 - No ending beyond a teaser; no character personalities beyond a one-line ability.
 - No explanation of *why* the catastrophe happened (the "core truth" is promised but never defined).
-- No technical stack (the master brief supplies Godot 4.x / GDScript).
+- No technical stack in the sources (the initial master brief supplied Godot 4.x / GDScript; the project has since pivoted to an engine-free browser web stack with TypeScript + Vite per D-031).

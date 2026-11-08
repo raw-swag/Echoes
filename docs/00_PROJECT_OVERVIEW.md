@@ -18,7 +18,7 @@ In the Echo Realm, regret becomes desert, broken promises become bridges, and fe
 *"I can reach into the past and use it."* The player feels clever when a plan assembled from timing, geometry, and character abilities works. They feel haunted and curious when the past they interact with turns out to belong to someone.
 
 ## 5. Platform and engine
-Godot 4.x (pin a stable minor version at M1), GDScript, desktop PC first, offline single-player, keyboard and controller. See `10_TECHNICAL_DESIGN.md`.
+Web (browser), TypeScript + Vite, HTML5 Canvas 2D (WebGL profile-gated if necessary), no third-party game engine. Offline single-player, static build, keyboard and controller via Gamepad API. See `10_TECHNICAL_DESIGN.md` and D-031.
 
 ## 6. Goals and non-goals
 
@@ -27,7 +27,7 @@ Godot 4.x (pin a stable minor version at M1), GDScript, desktop PC first, offlin
 | A polished 10–15 min Chapter 1 vertical slice that proves Echo Trace is fun | Online multiplayer or required co-op |
 | A coherent five-chapter mystery with three honest endings | Open world; procedural generation |
 | Puzzles solved by reasoning, with recoverable failure | Large combat system, loot, currency, character leveling |
-| Accessible: no microphone, remappable, assist options | Mobile/console ports (post-release evaluation) |
+| Accessible: no microphone, remappable, assist options, prefers-reduced-motion/contrast | Mobile browsers / touch controls (post-release evaluation) |
 | Clear provenance and licensing for every asset | Shipping before assets and ownership are verified |
 
 ## 7. Unique selling points
@@ -63,7 +63,7 @@ Full list: `16_RISK_REGISTER.md`.
 
 | # | Decision | Where |
 |---|---|---|
-| 1 | Pin Godot version; create repo | D-002, BL-001 |
+| 1 | Configure web stack (TS + Vite); create repo | D-031, BL-001 |
 | 2 | Confirm Echo Trace as recorded-transform playback (not input replay) | D-005 |
 | 3 | Confirm art scale/camera via a movement prototype (BH → real units) | D-030 |
 | 4 | Confirm slice scope (Blitz + Trace + Corruptor prototype) | D-022 |
