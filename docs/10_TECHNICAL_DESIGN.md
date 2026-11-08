@@ -56,7 +56,7 @@ echoes/
 - Rooms are defined by validated JSON data files (compatible with Tiled JSON export `[VERIFY]`). Rooms never reference adjacent rooms by hardcoded dependencies; they emit `exit_requested(exit_id)`.
 - `SceneRouter` (singleton service): Coordinates room loading, screen wipes/fades, and positions the player entity at the designated entrance marker.
 
-## 4. Singleton services (Concept mapping from Autoloads)
+## 4. Singleton services (Concept mapping from service singletons)
 | Service | Purpose |
 |---|---|
 | `EventBus` | Typed event emitter hub (`room_entered`, `trace_launched`, `noise_emitted`, `boss_phase_changed` …) |
