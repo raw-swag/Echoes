@@ -124,7 +124,7 @@ Rather than appearing solely at the climax of Chapter 5, Prime Echo's presence i
 - **Ch4 (Identity):** Mirror Lab. Division Log. Reflection. The heroes learn what they are and what Prime Echo planned.
 - **Ch5 (Choice):** Nexus Gate. Five pillar trials; Quiet Stacks; Voidcaller's Remnants; the Nexus Core; Prime Echo; the choice.
 
-**Ending:** see §11.
+**Ending:** see §12.
 
 ## 12. The three endings
 

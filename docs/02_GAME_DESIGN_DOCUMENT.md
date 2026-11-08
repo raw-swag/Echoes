@@ -135,7 +135,7 @@ Minimal HUD: Integrity pips, current hero + ability cooldown ring, Trace state i
 Room complete = exit gate open; chapter complete = boss resolved + Shard collected. Details per chapter in `05`–`09`.
 
 ## 15. Endings and replayability
-Three endings (see `01` §11). Replay: chapter select after Ch5; New Cycle (post-MVP): Trace-trial remix and a harder-timing variant. No NG+ required for the best ending.
+Three endings (see `01` §12). Replay: chapter select after Ch5; New Cycle (post-MVP): Trace-trial remix and a harder-timing variant. No NG+ required for the best ending.
 
 ## 16. MVP vs post-MVP
 
