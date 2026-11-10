@@ -28,7 +28,7 @@ export function renderMobilePrologue(
 </div>
 <div class="flex items-center gap-space-xs shrink-0 pl-space-xs">
 <span class="font-label-sm text-label-sm text-secondary bg-surface-container-highest px-space-xs py-0.5 rounded font-mono">+3 Remnants</span>
-<button class="w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface" onclick="document.getElementById('whisper-banner').classList.add('opacity-0', '-translate-y-2'); setTimeout(() =&gt; document.getElementById('whisper-banner').remove(), 500);">
+<button class="w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface cursor-pointer" id="btn-close-whisper">
 <span class="material-symbols-outlined text-[16px]">close</span>
 </button>
 </div>
@@ -65,8 +65,8 @@ export function renderMobilePrologue(
             The Things We Chose To Forget
           </p>
 </div>
-<div class="mt-space-md pt-space-sm flex items-center justify-between gap-space-sm bg-surface-container-high/40 backdrop-blur-md px-space-sm py-space-xs rounded-lg">
-<p class="font-body-sm text-body-sm text-on-surface-variant italic cursor-pointer transition-opacity duration-700" id="fading-narrative" onclick="cycleNarrative()">
+<div class="mt-space-md pt-space-sm flex items-center justify-between gap-space-sm bg-surface-container-high/40 backdrop-blur-md px-space-sm py-space-xs rounded-lg cursor-pointer" id="narrative-cycle-box">
+<p class="font-body-sm text-body-sm text-on-surface-variant italic transition-opacity duration-500" id="fading-narrative">
             "Some things are lost. Others are left behind."
           </p>
 <span class="material-symbols-outlined text-[14px] text-secondary shrink-0">cached</span>
@@ -74,7 +74,7 @@ export function renderMobilePrologue(
 </div>
 </div>
 <!-- Active Memory Lens Preview (Diegetic Artifact) -->
-<div class="bg-surface-container-low rounded-xl p-space-md mb-space-md shadow-md flex items-center gap-space-md relative overflow-hidden">
+<div class="bg-surface-container-low rounded-xl p-space-md mb-space-md shadow-md flex items-center gap-space-md relative overflow-hidden cursor-pointer" id="lens-preview-box">
 <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0 text-secondary relative">
 <span class="material-symbols-outlined text-[24px]">lens_blur</span>
 <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
@@ -82,114 +82,40 @@ export function renderMobilePrologue(
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
 <span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Active Resonance Focal</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">STABLE (94%)</span>
+<span class="font-label-sm text-[10px] text-tertiary font-mono">CH. 01 RESTORED</span>
 </div>
-<p class="font-title-md text-title-md text-on-surface truncate">Chapter I: The Sound of Leaving</p>
-<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Last synchronized ledger entry: 04:12 AM</span>
-</div>
-</div>
-<!-- Asymmetrical Cinematic Navigation Menu -->
-<div class="flex flex-col gap-space-xs w-full">
-<span class="font-label-sm text-label-sm text-on-surface-variant/80 uppercase tracking-widest px-space-xs mb-space-xs">
-        Recollection Folio
-      </span>
-<!-- 1. BEGIN REMEMBERING -->
-<button class="group w-full min-h-[52px] px-space-md py-space-sm rounded-lg bg-surface-container text-left flex items-center justify-between hover:bg-surface-container-high transition-all active:scale-[0.99] shadow-sm">
-<div class="flex items-center gap-space-sm min-w-0">
-<span class="w-1.5 h-5 bg-secondary rounded-full group-hover:h-6 transition-all duration-300"></span>
-<div class="flex flex-col min-w-0">
-<span class="font-title-md text-title-md text-on-surface group-hover:text-secondary-fixed transition-colors">Begin Remembering</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Initiate first unspooling sequence</span>
+<p class="font-body-sm text-body-sm text-on-surface truncate">The Threshold of Ash &amp; Salt</p>
+<div class="flex items-center gap-space-xs text-[10px] text-on-surface-variant font-mono mt-0.5">
+<span>TETHER: 99.8%</span>
+<span>•</span>
+<span>420 REMNANTS</span>
 </div>
 </div>
-<div class="flex items-center gap-space-xs text-secondary shrink-0">
-<span class="font-label-sm text-label-sm font-mono uppercase tracking-wider">Act I</span>
-<span class="material-symbols-outlined text-[18px]">play_arrow</span>
 </div>
+<!-- Quick Navigation Folio Jump Cards -->
+<div class="grid grid-cols-2 gap-space-sm mb-space-md">
+<button class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container flex flex-col justify-between text-left transition-colors shadow-sm cursor-pointer" data-route="chapters">
+<div class="flex items-center justify-between w-full mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Folios</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">arrow_forward</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Chapters</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">5 Strata Catalogued</span>
 </button>
-<!-- 2. RESUME RECOLLECTION -->
-<button class="group w-full min-h-[52px] px-space-md py-space-sm rounded-lg bg-surface-container text-left flex items-center justify-between hover:bg-surface-container-high transition-all active:scale-[0.99]">
-<div class="flex items-center gap-space-sm min-w-0">
-<span class="w-1.5 h-1.5 bg-on-surface-variant/60 rounded-full group-hover:bg-secondary"></span>
-<div class="flex flex-col min-w-0">
-<div class="flex items-center gap-space-xs">
-<span class="font-title-md text-title-md text-on-surface">Resume Recollection</span>
-<span class="font-label-sm text-[9px] px-1 bg-surface-container-highest rounded text-on-surface-variant font-mono">AUTOSAVE</span>
+<button class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container flex flex-col justify-between text-left transition-colors shadow-sm cursor-pointer" data-route="archive">
+<div class="flex items-center justify-between w-full mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Vault</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">arrow_forward</span>
 </div>
-<span class="font-body-sm text-body-sm text-on-surface-variant truncate">04:12 AM • 24 Remnants in vault</span>
-</div>
-</div>
-<div class="flex items-center gap-space-xs text-on-surface-variant group-hover:text-secondary shrink-0">
-<span class="material-symbols-outlined text-[18px]">history</span>
-</div>
-</button>
-<!-- 3. CHAPTER CATALOGUE -->
-<button class="group w-full min-h-[48px] px-space-md py-space-sm rounded-lg bg-surface-container text-left flex items-center justify-between hover:bg-surface-container-high transition-all active:scale-[0.99]">
-<div class="flex items-center gap-space-sm min-w-0">
-<span class="w-1.5 h-1.5 bg-on-surface-variant/60 rounded-full group-hover:bg-secondary"></span>
-<div class="flex flex-col min-w-0">
-<span class="font-title-md text-title-md text-on-surface">Chapter Catalogue</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">4 memories indexed • 1 uncharted</span>
-</div>
-</div>
-<div class="flex items-center gap-space-xs text-on-surface-variant group-hover:text-on-surface shrink-0">
-<span class="font-label-sm text-label-sm font-mono text-on-surface-variant">04 / 05</span>
-<span class="material-symbols-outlined text-[18px]">menu_book</span>
-</div>
-</button>
-<!-- 4. ARCHIVAL VAULT -->
-<button class="group w-full min-h-[48px] px-space-md py-space-sm rounded-lg bg-surface-container text-left flex items-center justify-between hover:bg-surface-container-high transition-all active:scale-[0.99]">
-<div class="flex items-center gap-space-sm min-w-0">
-<span class="w-1.5 h-1.5 bg-on-surface-variant/60 rounded-full group-hover:bg-secondary"></span>
-<div class="flex flex-col min-w-0">
-<span class="font-title-md text-title-md text-on-surface">Archival Vault</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">18 fragments filed &amp; preserved</span>
-</div>
-</div>
-<div class="flex items-center gap-space-xs text-on-surface-variant group-hover:text-on-surface shrink-0">
-<span class="material-symbols-outlined text-[18px]">inventory_2</span>
-</div>
-</button>
-<!-- 5. SYSTEM & MEMORY PRIVACY -->
-<button class="group w-full min-h-[48px] px-space-md py-space-sm rounded-lg bg-surface-container text-left flex items-center justify-between hover:bg-surface-container-high transition-all active:scale-[0.99]">
-<div class="flex items-center gap-space-sm min-w-0">
-<span class="w-1.5 h-1.5 bg-on-surface-variant/60 rounded-full group-hover:bg-secondary"></span>
-<div class="flex flex-col min-w-0">
-<span class="font-title-md text-title-md text-on-surface">System &amp; Memory Privacy</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">Reduced motion, sync, intentional forgetting</span>
-</div>
-</div>
-<div class="flex items-center gap-space-xs text-on-surface-variant group-hover:text-on-surface shrink-0">
-<span class="material-symbols-outlined text-[18px]">tune</span>
-</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Archive</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">18 Folio Plates</span>
 </button>
 </div>
-<!-- Hidden Delight: Cracked Archival Seal -->
-<div class="mt-space-lg pt-space-xs flex flex-col items-center">
-<div class="cursor-pointer group flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-surface-container-low hover:bg-surface-container transition-all active:scale-95 shadow-sm" id="secret-seal" onclick="unsealMemory()">
-<span class="material-symbols-outlined text-secondary text-[16px] group-hover:rotate-12 transition-transform">lock_clock</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-secondary transition-colors uppercase tracking-widest" id="seal-text">
-          Tap wax seal to unspool secret record #09
-        </span>
-</div>
-<!-- Revealed Memory Box (Initially Hidden) -->
-<div class="hidden w-full mt-space-sm p-space-md bg-secondary-container/30 text-on-surface rounded-xl shadow-md transition-all duration-500" id="secret-card">
-<div class="flex items-start justify-between gap-space-sm">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
-<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Recovered Echo #09</span>
-</div>
-<span class="font-label-sm text-label-sm text-secondary font-mono">+10 REMNANTS</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface mt-space-xs italic font-headline-sm">
-          "We wrapped the silver spoons in linen and buried them beneath the greenhouse flagstones, swearing never to speak of that winter again."
-        </p>
-<div class="flex items-center justify-between mt-space-sm pt-space-xs">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Filed under: Suppressed domesticity</span>
-<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Ledger Updated</span>
-</div>
-</div>
-</div>
+<!-- Enter Primary Journey Button -->
+<button class="w-full py-space-md px-space-lg rounded-xl bg-secondary text-on-secondary font-label-md uppercase tracking-wider font-semibold flex items-center justify-center gap-space-sm shadow-xl active:scale-95 transition-all cursor-pointer" id="btn-enter-recollection">
+<span>Enter Resonance HUD</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
 </div>
 </div>
 </main>
@@ -197,17 +123,55 @@ export function renderMobilePrologue(
 }
 
 export function bindMobilePrologueEvents(onNavigate: (route: string) => void): void {
-  const actionBtn = document.querySelector('main button, #btn-begin, [data-path="hud"]');
-  if (actionBtn) {
-    actionBtn.addEventListener('click', () => {
-      onNavigate('hud');
+  // Enter button
+  const enterBtn = document.getElementById('btn-enter-recollection');
+  if (enterBtn) {
+    enterBtn.addEventListener('click', () => onNavigate('hud'));
+  }
+
+  // Lens preview box
+  const lensBox = document.getElementById('lens-preview-box');
+  if (lensBox) {
+    lensBox.addEventListener('click', () => onNavigate('hud'));
+  }
+
+  // Close whisper banner
+  const closeBtn = document.getElementById('btn-close-whisper');
+  const banner = document.getElementById('whisper-banner');
+  if (closeBtn && banner) {
+    closeBtn.addEventListener('click', () => {
+      banner.classList.add('opacity-0', '-translate-y-2');
+      setTimeout(() => banner.remove(), 400);
     });
   }
 
-  const focal = document.querySelector('.bg-surface-container-low.rounded-xl.p-space-md');
-  if (focal) {
-    focal.addEventListener('click', () => {
-      onNavigate('hud');
+  // Narrative poetic cycle
+  const narratives = [
+    '"Some things are lost. Others are left behind."',
+    '"We did not forget. We simply buried the key."',
+    '"An echo is a sound that refuses to become silence."',
+    '"The dust remembers where the light fell."'
+  ];
+  let quoteIndex = 0;
+  const cycleBox = document.getElementById('narrative-cycle-box');
+  const narrativeText = document.getElementById('fading-narrative');
+  if (cycleBox && narrativeText) {
+    cycleBox.addEventListener('click', () => {
+      narrativeText.style.opacity = '0';
+      setTimeout(() => {
+        quoteIndex = (quoteIndex + 1) % narratives.length;
+        narrativeText.textContent = narratives[quoteIndex];
+        narrativeText.style.opacity = '1';
+      }, 300);
     });
   }
+
+  // Navigation tiles
+  const navTiles = document.querySelectorAll('main [data-route]');
+  navTiles.forEach(tile => {
+    tile.addEventListener('click', (e) => {
+      const route = (e.currentTarget as HTMLElement).getAttribute('data-route');
+      if (route) onNavigate(route);
+    });
+  });
 }

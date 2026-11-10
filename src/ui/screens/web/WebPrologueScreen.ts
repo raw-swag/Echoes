@@ -4,7 +4,6 @@ export function renderWebPrologue(
   state: Readonly<GameStateModel>,
   _onNavigate: (route: string) => void
 ): string {
-  // Return verbatim official main markup with live dynamic data
   return `
 <main class="relative pt-20 bg-background min-h-screen"><div class="flex flex-col w-full">
 <div class="w-full px-margin py-space-lg flex flex-col gap-space-xl">
@@ -56,7 +55,7 @@ export function renderWebPrologue(
               The Things We Chose to Forget
             </p>
 <div class="max-w-md bg-surface-container-high/40 backdrop-blur-md p-space-md rounded-lg shadow-sm">
-<blockquote class="font-headline-sm text-headline-sm text-on-surface italic font-normal mb-space-xs leading-relaxed">
+<blockquote class="font-headline-sm text-headline-sm text-on-surface italic font-normal mb-space-xs leading-relaxed" id="prologue-quote">
                 “Some things are lost. Others are left behind.”
               </blockquote>
 <cite class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block not-italic">
@@ -76,16 +75,15 @@ export function renderWebPrologue(
               </span>
 </button>
 <!-- Subtle Audio / Resonance Waveform Widget -->
-<div class="flex items-center gap-space-sm bg-surface-container-lowest/80 px-space-md py-space-xs rounded backdrop-blur-sm">
-<span class="material-symbols-outlined text-[16px] text-on-surface-variant">graphic_eq</span>
-<div class="flex items-end gap-1 h-4 w-16">
+<div class="flex items-center gap-space-sm bg-surface-container-lowest/80 px-space-md py-space-xs rounded backdrop-blur-sm cursor-pointer" id="waveform-toggle-btn" title="Click to modulate acoustic drift">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" id="waveform-icon">graphic_eq</span>
+<div class="flex items-end gap-1 h-4 w-16" id="audio-bars">
 <span class="w-1 bg-secondary rounded-full h-2 animate-[pulse_1.5s_ease-in-out_infinite]"></span>
 <span class="w-1 bg-secondary/80 rounded-full h-4 animate-[pulse_1.2s_ease-in-out_infinite_200ms]"></span>
 <span class="w-1 bg-secondary/60 rounded-full h-1 animate-[pulse_1.8s_ease-in-out_infinite_400ms]"></span>
 <span class="w-1 bg-secondary rounded-full h-3 animate-[pulse_1.4s_ease-in-out_infinite_100ms]"></span>
-<span class="w-1 bg-secondary/70 rounded-full h-2 animate-[pulse_1.6s_ease-in-out_infinite_300ms]"></span>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest">TETHERED</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest" id="tether-status">TETHERED</span>
 </div>
 </div>
 </div>
@@ -96,258 +94,105 @@ export function renderWebPrologue(
 <p class="font-body-sm text-body-sm text-on-surface-variant">Non-destructive memory excavation through sensory remnants.</p>
 </div>
 <div class="p-space-md bg-surface-container-low rounded-lg flex flex-col gap-space-xs">
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Temporal Marker</span>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Circa the Final Autumn, before the lighthouse darkened.</p>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Veil Thickness</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">0.42 mm attenuation across the current temporal perimeter.</p>
 </div>
 <div class="p-space-md bg-surface-container-low rounded-lg flex flex-col gap-space-xs">
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Divergence Index</span>
-<p class="font-body-sm text-body-sm text-on-surface-variant">3 distinct confessions recorded across 5 notebooks.</p>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Ledger Integrity</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">All five chapters catalogued. Fragment 42 remains unverified.</p>
 </div>
 </div>
 </div>
-<!-- Right Archival Registry Column / Folio Menu (Columns 8-12 / 12) -->
+<!-- Right Side Archival Dossier (Columns 8-12 / 12) -->
 <div class="xl:col-span-5 flex flex-col gap-space-lg">
-<!-- Header Badge -->
-<div class="w-full flex items-center justify-between p-space-md bg-surface-container-low rounded-lg shadow-sm">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-[18px] text-secondary">inventory_2</span>
-<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-widest">
-              [ ARCHIVE REGISTRY: 00-OMISSION ]
-            </span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant/70 tracking-widest uppercase">
-            VER. 1.09.4
-          </span>
-</div>
-<!-- Active Resonance Focal Card -->
-<div class="relative overflow-hidden p-space-lg bg-surface-container rounded-xl shadow-md flex flex-col gap-space-md">
-<!-- Subtle corner index marking -->
+<!-- Archivist Field Note Card -->
+<div class="bg-surface-container-low p-space-xl rounded-xl flex flex-col gap-space-md shadow-md border-l-2 border-secondary">
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-space-sm">
-<span class="w-2 h-2 rounded-full bg-tertiary"></span>
-<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-widest">Resonance Active</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">menu_book</span>
+<span class="font-label-md text-label-md text-secondary uppercase tracking-widest">Archival Fragment // 00</span>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase">SYNC: 04:12 AM</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/60 font-mono">HASH: 4b29-e09</span>
 </div>
-<div class="flex flex-col gap-space-xs">
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Current Memory Anchor</span>
-<h2 class="font-headline-sm text-headline-sm text-on-surface">
-              Chapter I: The Sound of Leaving
-            </h2>
-<p class="font-body-sm text-body-sm text-on-surface-variant">
-              The platform at cold sunrise. An unopened envelope resting against the cast iron bench.
+<h2 class="font-headline-md text-headline-md text-on-surface">The Threshold of Ash &amp; Salt</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              We did not lose the world all at once. We gave it away in small surrenders: first the names of the smaller birds, then the second verse of songs we sung at the dockside, then the sound of water against stone when everyone has left the harbour.
             </p>
-</div>
-<!-- Stability Gauge Bar -->
-<div class="flex flex-col gap-space-xs mt-space-xs">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Stability Quota</span>
-<span class="font-title-md text-title-md text-secondary">94%</span>
-</div>
-<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
-<div class="h-full bg-secondary rounded-full w-[94%] transition-all duration-700"></div>
-</div>
-</div>
-</div>
-<!-- Folio Actions List (Editorial Choices) -->
-<div class="flex flex-col gap-space-sm" role="menu">
-<!-- Action 1: Begin Remembering [ACT I] -->
-<button class="group w-full text-left p-space-md bg-surface-container-low hover:bg-surface-container transition-all duration-200 rounded-lg flex items-center justify-between shadow-sm cursor-pointer" role="menuitem">
-<div class="flex items-start gap-space-md">
-<span class="font-label-sm text-label-sm text-secondary pt-0.5 tracking-wider">01</span>
-<div class="flex flex-col">
-<div class="flex items-center gap-space-sm">
-<span class="font-title-md text-title-md text-on-surface group-hover:text-secondary transition-colors">
-                    Begin Remembering
-                  </span>
-<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-[10px] font-label-sm uppercase tracking-widest text-secondary">ACT I</span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant">
-                  Initiate first unspooling sequence from the threshold.
-                </span>
-</div>
-</div>
-<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-secondary group-hover:translate-x-1 transition-all">
-              north_east
-            </span>
-</button>
-<!-- Action 2: Resume Recollection [AUTOSAVE] -->
-<button class="group w-full text-left p-space-md bg-surface-container-low hover:bg-surface-container transition-all duration-200 rounded-lg flex items-center justify-between shadow-sm cursor-pointer" role="menuitem">
-<div class="flex items-start gap-space-md">
-<span class="font-label-sm text-label-sm text-secondary pt-0.5 tracking-wider">02</span>
-<div class="flex flex-col">
-<div class="flex items-center gap-space-sm">
-<span class="font-title-md text-title-md text-on-surface group-hover:text-secondary transition-colors">
-                    Resume Recollection
-                  </span>
-<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-[10px] font-label-sm uppercase tracking-widest text-tertiary">AUTOSAVE</span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant">
-                  04:12 AM • 24 Remnants indexed in personal vault.
-                </span>
-</div>
-</div>
-<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-secondary group-hover:translate-x-1 transition-all">
-              play_circle
-            </span>
-</button>
-<!-- Action 3: Chapter Catalogue -->
-<button class="group w-full text-left p-space-md bg-surface-container-low hover:bg-surface-container transition-all duration-200 rounded-lg flex items-center justify-between shadow-sm cursor-pointer" role="menuitem">
-<div class="flex items-start gap-space-md">
-<span class="font-label-sm text-label-sm text-secondary pt-0.5 tracking-wider">03</span>
-<div class="flex flex-col">
-<div class="flex items-center gap-space-sm">
-<span class="font-title-md text-title-md text-on-surface group-hover:text-secondary transition-colors">
-                    Chapter Catalogue
-                  </span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant">
-                  4 memories indexed • 1 uncharted branch.
-                </span>
-</div>
-</div>
-<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-secondary group-hover:translate-x-1 transition-all">
-              library_books
-            </span>
-</button>
-<!-- Action 4: Archival Vault -->
-<button class="group w-full text-left p-space-md bg-surface-container-low hover:bg-surface-container transition-all duration-200 rounded-lg flex items-center justify-between shadow-sm cursor-pointer" role="menuitem">
-<div class="flex items-start gap-space-md">
-<span class="font-label-sm text-label-sm text-secondary pt-0.5 tracking-wider">04</span>
-<div class="flex flex-col">
-<div class="flex items-center gap-space-sm">
-<span class="font-title-md text-title-md text-on-surface group-hover:text-secondary transition-colors">
-                    Archival Vault
-                  </span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant">
-                  18 fragments filed &amp; physical relics preserved.
-                </span>
-</div>
-</div>
-<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-secondary group-hover:translate-x-1 transition-all">
-              lock_clock
-            </span>
-</button>
-<!-- Action 5: System & Memory Privacy -->
-<button class="group w-full text-left p-space-md bg-surface-container-low hover:bg-surface-container transition-all duration-200 rounded-lg flex items-center justify-between shadow-sm cursor-pointer" role="menuitem">
-<div class="flex items-start gap-space-md">
-<span class="font-label-sm text-label-sm text-secondary pt-0.5 tracking-wider">05</span>
-<div class="flex flex-col">
-<div class="flex items-center gap-space-sm">
-<span class="font-title-md text-title-md text-on-surface group-hover:text-secondary transition-colors">
-                    System &amp; Memory Privacy
-                  </span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant">
-                  Reduced motion, sync rhythm, intentional forgetting protocol.
-                </span>
-</div>
-</div>
-<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-secondary group-hover:translate-x-1 transition-all">
-              settings
-            </span>
-</button>
-</div>
-<!-- Interactive Wax Seal Sealed Drawer / Secret Record #09 -->
-<div class="relative p-space-lg bg-surface-container-high rounded-xl overflow-hidden cursor-pointer group shadow-lg transition-transform hover:-translate-y-0.5 duration-300" id="wax-seal-card">
-<!-- Decorative parchment texture faint glow -->
-<div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-secondary/10 blur-2xl pointer-events-none"></div>
-<div class="flex items-start gap-space-md">
-<!-- Simulated Wax Seal Stamp Component -->
-<div class="relative w-12 h-12 flex-shrink-0 rounded-full bg-secondary-container flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300">
-<span class="material-symbols-outlined text-secondary text-[24px]">verified</span>
-<span class="absolute inset-0 rounded-full border border-secondary/30 scale-90"></span>
-</div>
-<div class="flex flex-col gap-space-xs flex-1">
-<div class="flex items-center gap-space-sm">
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">
-                  RESTRICTED FOLIO
-                </span>
-<span class="material-symbols-outlined text-[14px] text-secondary">lock</span>
-</div>
-<h3 class="font-title-md text-title-md text-on-surface group-hover:text-secondary transition-colors">
-                Unspool Secret Record #09
-              </h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                Click wax seal to dissolve the black ribbon binding the testimony of the Stationmaster.
-              </p>
-</div>
-</div>
-<!-- Secret Drawer Reveal (Toggled via JS) -->
-<div class="hidden mt-space-md pt-space-md bg-surface-container-lowest/90 p-space-md rounded text-on-surface flex flex-col gap-space-xs animate-fadeIn" id="secret-drawer">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">CONFESSION EXCERPT</span>
-<span class="font-label-sm text-label-sm text-tertiary">SEAL BROKEN</span>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface italic">
-              “I saw him throw the brass key into the frozen well at 03:40. He did not look back even once.”
+<div class="h-[1px] w-full bg-surface-container-high my-space-xs"></div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/80 italic leading-relaxed">
+              “If you find this folio before the ink turns fully to ash, look for the second bell. It rings whether anyone strikes it or not.”
             </p>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Recovered by: Archivist 09</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/50 uppercase">Stratum IV • Depths</span>
+</div>
+</div>
+<!-- Narrative Navigation Bento Group -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- Chapter Jump Tile -->
+<div class="p-space-lg bg-surface-container-low hover:bg-surface-container rounded-xl flex flex-col justify-between gap-space-md transition-all duration-300 shadow-sm group cursor-pointer" data-route="chapters">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Folio Index</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-secondary group-hover:translate-x-0.5 transition-all">arrow_forward</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface mb-space-xs">Chapters Index</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">5 distinct recollection strata available for navigation.</p>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant/60 font-label-sm text-label-sm uppercase">
+<span>Ch. 01 – 05</span>
+<span>•</span>
+<span>Complete</span>
+</div>
+</div>
+<!-- Archival Records Tile -->
+<div class="p-space-lg bg-surface-container-low hover:bg-surface-container rounded-xl flex flex-col justify-between gap-space-md transition-all duration-300 shadow-sm group cursor-pointer" data-route="archive">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Memory Vault</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-secondary group-hover:translate-x-0.5 transition-all">arrow_forward</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface mb-space-xs">Memory Archive</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Examine 18 recovered fragments and catalogued relics.</p>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant/60 font-label-sm text-label-sm uppercase">
+<span>18 / 24 Collected</span>
+</div>
+</div>
+</div>
+<!-- Diegetic Attunement Indicator Panel -->
+<div class="p-space-lg bg-surface-container-lowest rounded-xl flex flex-col gap-space-md shadow-inner border border-surface-container-high/30">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-tertiary">tune</span>
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-widest">Echo Tether Resonance</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">99.8% Coherent</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-secondary to-tertiary h-full rounded-full w-[99.8%]"></div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Synchronous Replay Buffer</span>
+<span class="text-secondary font-mono">0.00s drift</span>
 </div>
 </div>
 </div>
 </div>
-<!-- Bottom Curatorial Footer Status -->
-<div class="w-full pt-space-xl pb-space-lg flex flex-wrap items-center justify-between gap-space-md">
-<div class="flex items-center gap-space-md">
-<span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase tracking-widest">
-          PROJECT: ECHOES // ARCHIVAL MEMORY FRAMEWORK
-        </span>
-<span class="h-1 w-1 rounded-full bg-on-surface-variant/40"></span>
-<span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase tracking-widest">
-          RENDERED IN DEEP INK &amp; FADED GOLD
-        </span>
-</div>
-<div class="flex items-center gap-space-md">
-<span class="font-body-sm text-body-sm text-on-surface-variant/60">Audio Engine: Ambient Tape Loop Active</span>
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest px-space-sm py-0.5 bg-surface-container rounded">
-          KEYBOARD NAV READY
-        </span>
 </div>
 </div>
-</div>
-<script>
-    (function initPrologueInteractions() {
-      // Spacebar or Click listener for primary action
-      const beginBtn = document.getElementById('begin-remembering-btn');
-      function triggerBeginSequence() {
-        if (!beginBtn) return;
-        beginBtn.classList.add('bg-secondary', 'text-on-secondary');
-        setTimeout(() => {
-          beginBtn.classList.remove('bg-secondary', 'text-on-secondary');
-        }, 300);
-      }
-
-      if (beginBtn) {
-        beginBtn.addEventListener('click', triggerBeginSequence);
-      }
-
-      window.addEventListener('keydown', (e) => {
-        if (e.code === 'Space' && e.target === document.body) {
-          e.preventDefault();
-          triggerBeginSequence();
-        }
-      });
-
-      // Wax Seal Secret Drawer toggle
-      const waxCard = document.getElementById('wax-seal-card');
-      const secretDrawer = document.getElementById('secret-drawer');
-      if (waxCard && secretDrawer) {
-        waxCard.addEventListener('click', () => {
-          secretDrawer.classList.toggle('hidden');
-        });
-      }
-    })();
-  </script>
-</div></main>
+</main>
 `;
 }
 
 export function bindWebPrologueEvents(onNavigate: (route: string) => void): void {
-  const btn = document.getElementById('begin-remembering-btn');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      onNavigate('hud');
+  const beginBtn = document.getElementById('begin-remembering-btn');
+  if (beginBtn) {
+    beginBtn.addEventListener('click', () => {
+      beginBtn.classList.add('bg-secondary', 'text-on-secondary');
+      setTimeout(() => {
+        onNavigate('hud');
+      }, 200);
     });
   }
 
@@ -358,4 +203,25 @@ export function bindWebPrologueEvents(onNavigate: (route: string) => void): void
     }
   };
   window.addEventListener('keydown', spaceHandler);
+
+  // Waveform click modulation
+  const waveBtn = document.getElementById('waveform-toggle-btn');
+  if (waveBtn) {
+    waveBtn.addEventListener('click', () => {
+      const tether = document.getElementById('tether-status');
+      if (tether) {
+        tether.textContent = tether.textContent === 'TETHERED' ? 'RESONATING' : 'TETHERED';
+        tether.classList.toggle('text-secondary');
+      }
+    });
+  }
+
+  // Right bento card navigations
+  const navTiles = document.querySelectorAll('main [data-route]');
+  navTiles.forEach(tile => {
+    tile.addEventListener('click', (e) => {
+      const route = (e.currentTarget as HTMLElement).getAttribute('data-route');
+      if (route) onNavigate(route);
+    });
+  });
 }

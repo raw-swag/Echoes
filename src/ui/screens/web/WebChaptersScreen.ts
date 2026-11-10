@@ -23,271 +23,279 @@ export function renderWebChapters(
 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-space-xl">
 <!-- Recovery Ratio Counter -->
 <div class="flex flex-col gap-space-xs">
-<div class="flex items-center justify-between gap-space-md">
-<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Restoration</span>
-<span class="font-title-md text-title-md text-secondary">03 / 06 Recovered</span>
-</div>
-<div class="w-48 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-secondary transition-all duration-700" style="width: 50%;"></div>
-</div>
-</div>
-<!-- Remnants Progress Gauge -->
-<div class="flex items-center gap-space-md bg-surface-container px-space-lg py-space-md rounded-lg shadow-sm">
-<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-secondary text-[22px]">hourglass_empty</span>
-</div>
-<div class="flex flex-col">
 <div class="flex items-baseline gap-space-xs">
-<span class="font-title-md text-title-md text-secondary leading-none">180</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">/ 320</span>
+<span class="font-headline-lg text-headline-lg text-secondary font-normal" id="chapter-remnants-display">1,408</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">/ 2,400</span>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-0.5">Remnants Preserved</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Remnants Archived</span>
+<div class="w-48 h-1.5 bg-surface-container-high rounded-full overflow-hidden mt-space-xs">
+<div class="bg-secondary h-full rounded-full transition-all duration-500" id="chapter-progress-bar" style="width: 58.6%;"></div>
 </div>
 </div>
+<!-- Quick Navigation Action -->
+<button class="flex items-center gap-space-xs font-label-md text-label-md uppercase px-space-md py-space-xs rounded bg-surface-container-high text-secondary hover:bg-surface-variant transition-colors shadow-sm cursor-pointer" id="claim-all-remnants-btn">
+<span class="material-symbols-outlined text-[16px]">hourglass_empty</span>
+<span>Ledger Attested</span>
+</button>
 </div>
 </section>
-<!-- Filter & Resonance Status Line -->
-<div class="flex items-center justify-between px-space-sm">
-<div class="flex items-center gap-space-md">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Chronology Tier:</span>
-<button class="font-label-sm text-label-sm uppercase px-space-md py-space-xs bg-surface-container text-secondary rounded">All Stratum</button>
-<button class="font-label-sm text-label-sm uppercase px-space-md py-space-xs text-on-surface-variant hover:text-on-surface transition-colors">Surface Ink</button>
-<button class="font-label-sm text-label-sm uppercase px-space-md py-space-xs text-on-surface-variant hover:text-on-surface transition-colors">Abyssal Murmur</button>
-</div>
-<div class="hidden md:flex items-center gap-space-sm text-on-surface-variant">
-<span class="material-symbols-outlined text-[16px] text-tertiary">tune</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">Resonance HUD: Optimal Sensitivity (0.84 Hz)</span>
-</div>
-</div>
-<!-- Editorial Asymmetric Grid of Archival Shards -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
-<!-- Card 1: Restored Shard (Width 7 cols desktop) -->
-<article class="lg:col-span-7 bg-surface-container-low rounded-xl p-space-xl flex flex-col gap-space-lg shadow-md group hover:bg-surface-container transition-all duration-300">
-<div class="flex items-center justify-between gap-space-md">
+<!-- Stratum Filter Tags -->
+<div class="flex items-center justify-between border-b border-surface-container-high pb-space-md">
 <div class="flex items-center gap-space-sm">
-<span class="font-label-sm text-label-sm px-space-sm py-space-xs rounded bg-surface-container-highest text-tertiary uppercase tracking-widest">
-              [RESTORED]
-            </span>
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">+45 Remnants Claimed</span>
+<button class="chapter-filter-btn font-label-sm text-label-sm uppercase px-space-md py-space-xs bg-surface-container text-secondary rounded cursor-pointer" data-filter="all">All Chapters (05)</button>
+<button class="chapter-filter-btn font-label-sm text-label-sm uppercase px-space-md py-space-xs text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" data-filter="unlocked">Restored (03)</button>
+<button class="chapter-filter-btn font-label-sm text-label-sm uppercase px-space-md py-space-xs text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" data-filter="locked">Dormant (02)</button>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant/70 tracking-widest uppercase">Index // R-01</span>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-12 gap-space-lg items-center">
-<!-- Polaroid / Specimen Archival Mount Frame -->
-<div class="sm:col-span-5 bg-surface-container-highest p-space-sm rounded-lg shadow-lg flex flex-col gap-space-xs">
-<div class="overflow-hidden rounded relative aspect-[4/5] bg-surface-container-lowest">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90" data-alt="Monochrome atmospheric cinematic photograph of a lone hooded wanderer walking through thick rolling morning fog into a barren desolate pine clearing, soft muted silver ink wash style, warm ivory grain overlay, archival documentation aesthetic." src="/assets/ui/clockwork_clearing.jpg"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-transparent"></div>
-<div class="absolute bottom-2 left-2 flex items-center gap-1 text-on-surface/80">
-<span class="material-symbols-outlined text-[14px] text-tertiary">lock_open</span>
-<span class="font-label-sm text-label-sm tracking-widest">SYNCHRONIZED</span>
+<div class="hidden sm:flex items-center gap-space-sm text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span>Chronological Sequence</span>
+<span class="material-symbols-outlined text-[14px]">unfold_more</span>
 </div>
 </div>
-<div class="text-center py-1">
-<span class="font-label-sm text-label-sm text-on-surface-variant/70 italic tracking-wider">Plate #01 — Departure Gate</span>
+<!-- Chapters Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg" id="chapters-card-grid">
+<!-- Chapter 01: Active Playable -->
+<article class="chapter-card group flex flex-col justify-between bg-surface-container-low rounded-xl overflow-hidden shadow-lg border border-secondary/20 hover:border-secondary/40 transition-all duration-300 cursor-pointer" data-chapter="01" data-status="unlocked">
+<div>
+<!-- Atmospheric Chapter Illustration -->
+<div class="relative w-full h-48 bg-surface-container-lowest overflow-hidden">
+<img alt="Chapter 01 Artwork" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90" src="/assets/ui/clockwork_clearing.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-space-md left-space-md px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-mono">CH // 01</span>
+</div>
+<div class="absolute top-space-md right-space-md flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md text-tertiary">
+<span class="material-symbols-outlined text-[14px]">lock_open</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Playable</span>
 </div>
 </div>
-<!-- Editorial Details -->
-<div class="sm:col-span-7 flex flex-col justify-between h-full gap-space-md">
-<div class="flex flex-col gap-space-sm">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Folio Fragment 01</span>
-<h2 class="font-headline-md text-headline-md text-on-surface leading-tight">
-                RECOLLECTION 01 — <span class="italic font-normal">The Sound of Leaving</span>
-</h2>
-<blockquote class="font-body-md text-body-md text-secondary italic pl-space-md bg-surface-container-lowest/40 py-space-xs rounded-sm">
-                “We packed nothing of weight. Only the copper tea tin and the promise that neither would look back when the clockwork tower fell silent.”
-              </blockquote>
+<!-- Narrative Summary -->
+<div class="p-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span>Stratum: Deep Woods</span>
+<span>•</span>
+<span>420 Remnants</span>
 </div>
-<div class="flex flex-col gap-space-sm pt-space-sm">
-<div class="flex items-center justify-between text-on-surface-variant">
-<span class="font-label-sm text-label-sm uppercase tracking-wider">Integrity</span>
-<span class="font-label-sm text-label-sm text-tertiary font-medium">6 / 6 Shards Restored</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-secondary transition-colors">
+                  The Sound of Leaving
+                </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
+                  Footsteps across cold river mud. The sound of cedar trees in the autumn gale, dropping seeds that will never see the light of the upper terrace.
+                </p>
 </div>
-<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-tertiary rounded-full" style="width: 100%;"></div>
 </div>
-<div class="flex items-center justify-between pt-space-xs">
-<span class="font-body-sm text-body-sm text-on-surface-variant/70">Recorded: First Frost</span>
-<button class="flex items-center gap-space-xs font-label-md text-label-md uppercase px-space-md py-space-xs rounded bg-surface-container-high text-secondary hover:bg-surface-variant transition-colors shadow-sm">
-<span>Revisit</span>
-<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+<!-- Card Action Footer -->
+<div class="p-space-lg pt-0 flex items-center gap-space-sm">
+<button class="flex-1 flex items-center justify-center gap-space-sm px-space-lg py-space-md rounded bg-secondary text-on-secondary hover:bg-secondary/90 transition-colors shadow-md group cursor-pointer" id="enter-chapter-01">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold">Enter Memory</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-12 h-11 flex items-center justify-center rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors shadow-sm cursor-pointer audio-preview-btn" title="Inspect Audio Archive">
+<span class="material-symbols-outlined text-[18px]">volume_up</span>
 </button>
 </div>
-</div>
-</div>
-</div>
 </article>
-<!-- Card 2: Active Recollection (Width 5 cols desktop, higher prominence) -->
-<article class="lg:col-span-5 bg-surface-container rounded-xl p-space-xl flex flex-col justify-between gap-space-lg shadow-xl relative overflow-hidden">
-<div class="absolute top-0 left-0 right-0 h-1 bg-secondary"></div>
-<div class="flex flex-col gap-space-md">
-<div class="flex items-center justify-between gap-space-sm">
-<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-secondary-container text-secondary">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-<span class="font-label-sm text-label-sm uppercase tracking-widest font-semibold">[BEACON 02 ACTIVE]</span>
+
+<!-- Chapter 02: Restored -->
+<article class="chapter-card group flex flex-col justify-between bg-surface-container-low rounded-xl overflow-hidden shadow-lg border border-surface-container-high hover:border-secondary/30 transition-all duration-300 cursor-pointer" data-chapter="02" data-status="unlocked">
+<div>
+<div class="relative w-full h-48 bg-surface-container-lowest overflow-hidden">
+<img alt="Chapter 02 Artwork" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90" src="/assets/ui/departure_gate.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-space-md left-space-md px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-mono">CH // 02</span>
 </div>
-<div class="flex items-center gap-space-xs text-on-surface-variant">
-<span class="material-symbols-outlined text-[16px] text-secondary">graphic_eq</span>
-<span class="font-label-sm text-label-sm tracking-widest uppercase">Audio Feed // 44.1kHz</span>
-</div>
-</div>
-<div class="flex flex-col gap-space-xs">
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">In Progress — Chapter II</span>
-<h2 class="font-headline-md text-headline-md text-on-surface">
-              RECOLLECTION 02 — <span class="italic font-normal">The Archive of Withering</span>
-</h2>
-</div>
-<div class="relative bg-surface-container-lowest p-space-md rounded-lg shadow-inner">
-<p class="font-body-md text-body-md text-on-surface-variant italic">
-              “The ink had already dissolved before we spoke. What remained was only the indentations left upon the ledger paper.”
-            </p>
-<div class="mt-space-sm flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-[16px] text-on-surface-variant/50">history_edu</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase tracking-widest">Marginalia: Scribe C-14</span>
+<div class="absolute top-space-md right-space-md flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md text-tertiary">
+<span class="material-symbols-outlined text-[14px]">lock_open</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Restored</span>
 </div>
 </div>
-<!-- Sparkline Waveform / Resonance Telemetry -->
-<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-xs">
-<div class="flex justify-between items-center text-on-surface-variant">
-<span class="font-label-sm text-label-sm uppercase tracking-wider">Resonance Drift</span>
-<span class="font-label-sm text-label-sm text-secondary">Delta: -1.24%</span>
+<div class="p-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span>Stratum: Clockwork Clearing</span>
+<span>•</span>
+<span>380 Remnants</span>
 </div>
-<svg class="w-full h-8 text-secondary/60" fill="none" viewbox="0 0 240 32">
-<path d="M0 16 Q20 4, 40 16 T80 24 T120 8 T160 22 T200 12 T240 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
-<circle class="text-secondary" cx="160" cy="22" fill="currentColor" r="3"></circle>
-</svg>
-</div>
-</div>
-<div class="flex flex-col gap-space-md pt-space-md">
-<div class="flex flex-col gap-space-xs">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Shard Extraction</span>
-<span class="font-title-md text-title-md text-secondary">3 / 8 Found</span>
-</div>
-<div class="w-full h-2 bg-surface-container-lowest rounded-full overflow-hidden">
-<div class="h-full bg-secondary rounded-full" style="width: 37.5%;"></div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-secondary transition-colors">
+                  The Clockwork Clearing
+                </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
+                  Cogs grounded down to silent brass teeth. A pendulum stopped mid-arc at the thirty-fourth second of an hour no one remains to name.
+                </p>
 </div>
 </div>
-<div class="flex items-center gap-space-sm">
-<button class="flex-1 flex items-center justify-center gap-space-sm px-space-lg py-space-md rounded bg-surface-container-high text-on-surface hover:bg-surface-bright transition-colors shadow-md group">
-<span class="material-symbols-outlined text-secondary text-[20px] group-hover:scale-110 transition-transform">play_arrow</span>
-<span class="font-label-md text-label-md uppercase tracking-wider text-secondary font-semibold">Resume Memory</span>
+<div class="p-space-lg pt-0 flex items-center gap-space-sm">
+<button class="flex-1 flex items-center justify-center gap-space-sm px-space-lg py-space-md rounded bg-surface-container-high text-on-surface hover:bg-surface-bright transition-colors shadow-md group cursor-pointer" data-chapter="02">
+<span class="font-label-md text-label-md uppercase tracking-wider">Enter Recollection</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
 </button>
-<button class="w-12 h-11 flex items-center justify-center rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors shadow-sm" title="Inspect Audio Archive">
-<span class="material-symbols-outlined text-[20px]">volume_up</span>
+<button class="w-12 h-11 flex items-center justify-center rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors shadow-sm cursor-pointer audio-preview-btn" title="Inspect Audio Archive">
+<span class="material-symbols-outlined text-[18px]">volume_up</span>
 </button>
 </div>
+</article>
+
+<!-- Chapter 03: Sunken Bell -->
+<article class="chapter-card group flex flex-col justify-between bg-surface-container-low rounded-xl overflow-hidden shadow-lg border border-surface-container-high hover:border-secondary/30 transition-all duration-300 cursor-pointer" data-chapter="03" data-status="unlocked">
+<div>
+<div class="relative w-full h-48 bg-surface-container-lowest overflow-hidden">
+<img alt="Chapter 03 Artwork" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90" src="/assets/ui/sunken_bell.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-space-md left-space-md px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-mono">CH // 03</span>
+</div>
+<div class="absolute top-space-md right-space-md flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md text-tertiary">
+<span class="material-symbols-outlined text-[14px]">lock_open</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Restored</span>
+</div>
+</div>
+<div class="p-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span>Stratum: Submerged Colonnade</span>
+<span>•</span>
+<span>608 Remnants</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-secondary transition-colors">
+                  The Sunken Bell
+                </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
+                  Water preserves only cold truths. The bell rings twice each solstice beneath the black peat, echoing through drowned cathedrals.
+                </p>
+</div>
+</div>
+<div class="p-space-lg pt-0 flex items-center gap-space-sm">
+<button class="flex-1 flex items-center justify-center gap-space-sm px-space-lg py-space-md rounded bg-surface-container-high text-on-surface hover:bg-surface-bright transition-colors shadow-md group cursor-pointer" data-chapter="03">
+<span class="font-label-md text-label-md uppercase tracking-wider">Enter Recollection</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-12 h-11 flex items-center justify-center rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors shadow-sm cursor-pointer audio-preview-btn" title="Inspect Audio Archive">
+<span class="material-symbols-outlined text-[18px]">volume_up</span>
+</button>
 </div>
 </article>
-<!-- Card 3: Unvisited Shard (Width 6 cols desktop) -->
-<article class="lg:col-span-6 bg-surface-container-lowest rounded-xl p-space-xl flex flex-col justify-between gap-space-lg shadow-sm group">
-<div class="flex items-center justify-between gap-space-sm">
-<span class="font-label-sm text-label-sm px-space-sm py-space-xs rounded bg-surface-container-high text-on-surface-variant uppercase tracking-widest flex items-center gap-1">
-<span class="material-symbols-outlined text-[13px]">lock</span>
-            [UNVISITED SHARD]
-          </span>
-<span class="font-label-sm text-label-sm text-on-surface-variant/40 tracking-widest uppercase">Folio 03 // Tier IV</span>
+
+<!-- Chapter 04: Dormant -->
+<article class="chapter-card group flex flex-col justify-between bg-surface-container-low/60 rounded-xl overflow-hidden shadow-sm border border-surface-container-high opacity-70 hover:opacity-100 transition-all duration-300" data-chapter="04" data-status="locked">
+<div>
+<div class="relative w-full h-48 bg-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-[48px] text-on-surface-variant/30">lock</span>
+<div class="absolute top-space-md left-space-md px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest font-mono">CH // 04</span>
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-12 gap-space-md items-center">
-<div class="sm:col-span-5 h-44 rounded-lg bg-surface-container-low overflow-hidden relative shadow-inner">
-<div class="w-full h-full bg-cover bg-center opacity-40 mix-blend-luminosity filter blur-[0.5px]" data-alt="Dim cinematic illustration of an ancient obsidian hollow gothic spire jutting through thick nocturnal fog, muted Prussian blues and charcoal ink textures, mysterious, desolate atmosphere, minimal light hitting weathered masonry." style="background-image: url('/assets/ui/departure_gate.jpg')"></div>
-<div class="absolute inset-0 bg-surface-container-lowest/60 flex items-center justify-center">
-<span class="material-symbols-outlined text-on-surface-variant/40 text-[36px]">visibility_off</span>
+<div class="absolute top-space-md right-space-md flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Dormant</span>
 </div>
 </div>
-<div class="sm:col-span-7 flex flex-col gap-space-sm">
-<span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase tracking-widest">Stratum Altitude: 420m</span>
-<h2 class="font-headline-sm text-headline-sm text-on-surface-variant">
-              RECOLLECTION 03 — <span class="italic font-normal">The Hollow Spire</span>
-</h2>
-<p class="font-body-sm text-body-sm text-on-surface-variant/80">
-              A tall tower standing above the waterline, where bells were rung backward to summon forgotten messengers.
-            </p>
+<div class="p-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span>Stratum: Mirror Laboratory</span>
+<span>•</span>
+<span>500 Remnants Required</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface/80">
+                  The Mirror Laboratory
+                </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
+                  Reflections that arrive three seconds after the observer turns away. Silver halide dissolved in mercury vats.
+                </p>
 </div>
 </div>
-<div class="bg-surface-container-low/60 p-space-md rounded-lg flex items-center justify-between gap-space-md">
-<div class="flex items-center gap-space-sm text-on-surface-variant">
-<span class="material-symbols-outlined text-secondary-container text-[18px]">key</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">
-              Condition: Requires <span class="text-secondary font-medium">120 Remnants</span> or Chapter II completion.
-            </span>
-</div>
-<span class="font-label-sm text-label-sm px-space-sm py-space-xs rounded bg-surface-container-highest text-on-surface-variant uppercase tracking-widest">Locked</span>
+<div class="p-space-lg pt-0">
+<button class="w-full py-space-md rounded bg-surface-container-high/50 text-on-surface-variant font-label-md uppercase tracking-wider cursor-not-allowed">
+                Attune Remaining Remnants
+              </button>
 </div>
 </article>
-<!-- Card 4: Forgotten / Redacted (Width 6 cols desktop) -->
-<article class="lg:col-span-6 bg-surface-container-lowest rounded-xl p-space-xl flex flex-col justify-between gap-space-lg shadow-sm relative overflow-hidden">
-<!-- Subtle noise background feeling -->
-<div class="flex items-center justify-between gap-space-sm">
-<span class="font-label-sm text-label-sm px-space-sm py-space-xs rounded bg-error-container text-on-error-container uppercase tracking-widest flex items-center gap-1">
-<span class="material-symbols-outlined text-[13px]">block</span>
-            [FORGOTTEN]
-          </span>
-<span class="font-label-sm text-label-sm text-on-surface-variant/40 tracking-widest uppercase">Classified Expunged</span>
+
+<!-- Chapter 05: Nexus Gate -->
+<article class="chapter-card group flex flex-col justify-between bg-surface-container-low/60 rounded-xl overflow-hidden shadow-sm border border-surface-container-high opacity-70 hover:opacity-100 transition-all duration-300" data-chapter="05" data-status="locked">
+<div>
+<div class="relative w-full h-48 bg-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-[48px] text-on-surface-variant/30">key_off</span>
+<div class="absolute top-space-md left-space-md px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest font-mono">CH // 05</span>
 </div>
-<div class="flex flex-col gap-space-md">
-<div class="flex flex-col gap-space-xs">
-<span class="font-label-sm text-label-sm text-error/80 uppercase tracking-widest">Severe Cognitive Dissolution</span>
-<h2 class="font-headline-sm text-headline-sm text-on-surface-variant/70">
-              RECOLLECTION 04 — <span class="italic font-normal">What We Buried</span>
-</h2>
-</div>
-<!-- Redaction Visual Bars -->
-<div class="space-y-2 bg-surface-container-low p-space-md rounded-lg">
-<div class="flex items-center gap-space-sm">
-<div class="h-4 bg-surface-container-highest rounded w-24"></div>
-<div class="h-4 bg-on-surface-variant/20 rounded flex-1"></div>
-<div class="h-4 bg-surface-container-highest rounded w-16"></div>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant/90 italic">
-              “Some names were not meant to endure. <span class="bg-on-surface-variant/20 px-4 py-0.5 rounded text-transparent select-none inline-block">The council swore</span> before the last pyre dissolved into the marsh.”
-            </p>
-<div class="flex items-center gap-space-sm">
-<div class="h-4 bg-on-surface-variant/20 rounded w-1/2"></div>
-<div class="h-4 bg-surface-container-highest rounded w-1/4"></div>
+<div class="absolute top-space-md right-space-md flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Locked</span>
 </div>
 </div>
+<div class="p-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span>Stratum: The Final Nexus</span>
+<span>•</span>
+<span>1,000 Remnants Required</span>
 </div>
-<div class="flex items-center justify-between pt-space-xs">
-<div class="flex items-center gap-space-xs text-on-surface-variant/60">
-<span class="material-symbols-outlined text-[16px]">cloud_off</span>
-<span class="font-body-sm text-body-sm">Concealed in deep fog • 0 / 12 Traces</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface/80">
+                  The Nexus Gate
+                </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
+                  The threshold where forgetting stops and deliberate erasure begins. The final unwritten ledger awaiting attunement.
+                </p>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant/50 uppercase tracking-widest">Censored by Synod</span>
+</div>
+<div class="p-space-lg pt-0">
+<button class="w-full py-space-md rounded bg-surface-container-high/50 text-on-surface-variant font-label-md uppercase tracking-wider cursor-not-allowed">
+                Requires Full Ledger Seal
+              </button>
 </div>
 </article>
 </div>
-<!-- Archival Folio Footer Quote -->
-<footer class="mt-space-xl mb-space-lg pt-space-xl flex flex-col items-center justify-center text-center gap-space-sm bg-surface-container-low p-space-xl rounded-xl shadow-inner">
-<div class="w-12 h-1 bg-surface-container-highest rounded-full mb-space-xs"></div>
-<blockquote class="font-headline-sm text-headline-sm text-on-surface italic max-w-2xl">
-        “Memory is not stone; it is water held inside cupped hands.”
-      </blockquote>
-<div class="flex items-center gap-space-sm mt-space-xs">
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">THE HIGH ARCHIVIST</span>
-<span class="w-1 h-1 rounded-full bg-outline"></span>
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">REGISTRY YEAR 180</span>
-<span class="w-1 h-1 rounded-full bg-outline"></span>
-<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-widest">ANNAL OF THE FORMER WORLD</span>
 </div>
-</footer>
 </div>
-</div></main>
+</main>
 `;
 }
 
 export function bindWebChaptersEvents(onNavigate: (route: string) => void): void {
-  const enterBtns = document.querySelectorAll('#enter-chapter-01, #continue-journey-btn, [data-chapter="01"]');
+  // Navigation into chapter 1 or any unlocked chapter
+  const enterBtns = document.querySelectorAll('#enter-chapter-01, [data-chapter="01"], [data-chapter="02"], [data-chapter="03"]');
   enterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       onNavigate('hud');
     });
   });
 
-  const cards = document.querySelectorAll('.chapter-card, [data-chapter]');
-  cards.forEach((card) => {
-    card.addEventListener('click', () => {
-      onNavigate('hud');
+  // Filter tag buttons (All, Restored, Dormant)
+  const filterBtns = document.querySelectorAll('.chapter-filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      filterBtns.forEach(b => {
+        b.className = 'chapter-filter-btn font-label-sm text-label-sm uppercase px-space-md py-space-xs text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer';
+      });
+      const target = e.currentTarget as HTMLElement;
+      target.className = 'chapter-filter-btn font-label-sm text-label-sm uppercase px-space-md py-space-xs bg-surface-container text-secondary rounded cursor-pointer';
+      
+      const filter = target.getAttribute('data-filter');
+      const cards = document.querySelectorAll<HTMLElement>('.chapter-card');
+      cards.forEach(card => {
+        const status = card.getAttribute('data-status');
+        if (filter === 'all' || (filter === 'unlocked' && status === 'unlocked') || (filter === 'locked' && status === 'locked')) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
   });
+
+  // Audio preview buttons
+  const audioBtns = document.querySelectorAll('.audio-preview-btn');
+  audioBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      btn.classList.add('text-secondary', 'scale-110');
+      setTimeout(() => btn.classList.remove('text-secondary', 'scale-110'), 600);
+    });
+  });
+
+  // Claim all remnants ledger button
+  const claimBtn = document.getElementById('claim-all-remnants-btn');
+  if (claimBtn) {
+    claimBtn.addEventListener('click', () => {
+      claimBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-tertiary">check</span><span class="text-tertiary">Synced</span>';
+      setTimeout(() => {
+        claimBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">hourglass_empty</span><span>Ledger Attested</span>';
+      }, 2000);
+    });
+  }
 }

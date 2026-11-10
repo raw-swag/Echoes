@@ -9,7 +9,7 @@ export function renderWebArchive(
 <!-- Archival Context Atmospheric Underglow -->
 <div class="relative w-full px-margin py-space-xl flex flex-col gap-space-xl">
 <!-- Top Dossier Meta Bar & Vault Sub-header -->
-<header class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg pb-space-lg">
+<header class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg pb-space-lg border-b border-surface-container-high/60">
 <div class="flex flex-col max-w-2xl gap-space-xs">
 <div class="flex items-center gap-space-sm">
 <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary bg-surface-container-high px-space-sm py-space-xs rounded">Folio Section VIII</span>
@@ -17,337 +17,276 @@ export function renderWebArchive(
 </div>
 <h1 class="font-headline-lg text-headline-lg text-secondary-fixed tracking-tight">Archive 08 — Vault of Surrender</h1>
 <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-          Recovered remnants from the flooded terrace. Handle with care; paper brittle and ink prone to fading under uncalibrated light.
+          Recovered remnants from the flooded terrace. Handle with care; paper brittle and ink prone to atmospheric evaporation. 
+          Total recovered weight: <span class="text-secondary font-semibold">1,408 Remnants</span>.
         </p>
 </div>
-<!-- Archival Tabs Filter -->
-<nav aria-label="Archive Classification" class="flex flex-wrap items-center gap-space-xs p-space-xs rounded bg-surface-container-low shadow-sm">
-<button class="filter-tab active font-label-md text-label-md uppercase px-space-md py-space-sm rounded bg-surface-container-high text-secondary transition-all flex items-center gap-space-xs">
-<span>All Shards</span>
-<span class="text-[9px] px-1.5 py-0.5 rounded bg-surface-container-lowest text-secondary-fixed">18</span>
-</button>
-<button class="filter-tab font-label-md text-label-md uppercase px-space-md py-space-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-space-xs">
-<span>Photographs</span>
-<span class="text-[9px] px-1.5 py-0.5 rounded bg-surface-container-lowest text-on-surface-variant">7</span>
-</button>
-<button class="filter-tab font-label-md text-label-md uppercase px-space-md py-space-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-space-xs">
-<span>Recorded Whispers</span>
-<span class="text-[9px] px-1.5 py-0.5 rounded bg-surface-container-lowest text-on-surface-variant">5</span>
-</button>
-<button class="filter-tab font-label-md text-label-md uppercase px-space-md py-space-sm rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-space-xs">
-<span>Letters</span>
-<span class="text-[9px] px-1.5 py-0.5 rounded bg-surface-container-lowest text-on-surface-variant">6</span>
-</button>
-</nav>
-</header>
-<!-- 2-Column Archival Inspection Workbench -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
-<!-- LEFT COLUMN: Main Focused Fragment #042 (8 Cols) -->
-<section class="lg:col-span-8 flex flex-col gap-space-lg bg-surface-container-low p-space-xl rounded-xl shadow-xl relative overflow-hidden">
-<!-- Subtle Archive Paper Texture & Watermark -->
-<div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-secondary/5 blur-3xl pointer-events-none"></div>
-<div class="absolute right-8 top-8 opacity-10 select-none pointer-events-none">
-<span class="material-symbols-outlined text-[140px] text-secondary">token</span>
-</div>
-<!-- Specimen Index Header -->
-<div class="flex flex-wrap items-center justify-between gap-space-md">
-<div class="flex items-center gap-space-md">
-<span class="font-headline-sm text-headline-sm text-secondary-fixed">FRAGMENT #042</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase bg-surface-container-highest px-space-sm py-space-xs rounded">Plate 042-A</span>
-</div>
-<div class="flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase">
-<span class="material-symbols-outlined text-[16px] text-error">visibility_off</span>
-<span>DATED: [ ERASED ]</span>
-<span class="text-on-surface-variant/40">// SPECIMEN IMMERSED</span>
-</div>
-</div>
-<!-- Archival Photographic Plate Container with Vintage Polaroid Mount -->
-<div class="relative bg-surface-container-highest p-space-md rounded shadow-inner flex flex-col gap-space-md group">
-<!-- Archival Tape / Mounting Tabs at Corners -->
-<div class="absolute -top-2 left-6 w-12 h-4 bg-secondary-fixed-dim/20 backdrop-blur-sm -rotate-2 rounded-xs shadow-xs z-10 pointer-events-none"></div>
-<div class="absolute -top-2 right-8 w-14 h-4 bg-secondary-fixed-dim/20 backdrop-blur-sm rotate-3 rounded-xs shadow-xs z-10 pointer-events-none"></div>
-<!-- The Artifact Image Frame -->
-<div class="relative w-full h-[420px] rounded overflow-hidden bg-surface-container-lowest">
-<img class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]" data-alt="A moody atmospheric archival photograph from an expedition in the mist. A lone cloaked wanderer stands amongst ancient moss-choked pines beside a sunken marble colonnade. Low dynamic range, faint silver halide grain, weathered emulsion scratches, pinhole light leak at the top-left edge, monochromatic twilight tones with deep sepia shadow accents and damp fog." src="/assets/ui/sunken_bell.jpg"/>
-<!-- Vignette & Pinhole Specimen Overlay -->
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-80 pointer-events-none"></div>
-<div class="absolute inset-0 bg-radial from-transparent via-transparent to-surface-container-lowest/70 pointer-events-none"></div>
-<!-- Archival Coordinate Stamp & Exposure Meta -->
-<div class="absolute top-4 left-4 bg-surface-container-lowest/80 backdrop-blur-md px-space-sm py-space-xs rounded flex items-center gap-space-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-<span class="font-label-sm text-label-sm text-secondary tracking-widest uppercase text-[9px]">Terrace North-By-West // Exp. 0.04s</span>
-</div>
-<!-- Pinhole Stamp Motif Bottom Left -->
-<div class="absolute bottom-4 left-4 flex items-center gap-space-sm text-on-surface-variant/80 bg-surface-container-lowest/80 backdrop-blur-md px-space-sm py-space-xs rounded">
-<span class="material-symbols-outlined text-[14px] text-secondary">filter_vintage</span>
-<span class="font-label-sm text-label-sm uppercase tracking-wider text-[9px]">Silver Emulsion Retained</span>
-</div>
-</div>
-<!-- Handwritten / Inscribed Folio Caption -->
-<div class="px-space-md py-space-xs flex items-center justify-between">
-<p class="font-headline-sm text-headline-sm italic text-secondary-fixed tracking-wide font-normal">
-              “We left it where sunlight couldn't find it.”
-            </p>
-<span class="font-label-sm text-label-sm text-on-surface-variant/60 tracking-widest uppercase">Note #14</span>
-</div>
-</div>
-<!-- Restoration Fidelity Diagnostic Bar -->
-<div class="flex flex-col gap-space-xs bg-surface-container p-space-md rounded">
-<div class="flex items-center justify-between font-label-sm text-label-sm">
-<span class="text-secondary tracking-widest uppercase flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-[14px]">timelapse</span>
-              Restoration Fidelity
-            </span>
-<span class="text-secondary font-semibold" id="fidelity-percent">85% RESTORED</span>
-</div>
-<div class="w-full h-1.5 bg-surface-container-lowest rounded overflow-hidden">
-<div class="h-full bg-secondary transition-all duration-1000 ease-out" id="fidelity-bar" style="width: 85%;"></div>
-</div>
-<div class="flex justify-between items-center text-[10px] text-on-surface-variant/70 font-label-sm uppercase pt-1">
-<span>Sub-lattice: Stabilized</span>
-<span>Unresolved Phrasing: 2 Nodes</span>
-</div>
-</div>
-<!-- Interactive Restored Transcript Dossier -->
-<div class="flex flex-col gap-space-sm bg-surface-container-high/60 p-space-lg rounded">
+<!-- Progress / Filter Dossier Actions -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
+<div class="flex flex-col gap-1 min-w-[200px]">
 <div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
-<span class="flex items-center gap-space-xs text-secondary">
-<span class="material-symbols-outlined text-[15px]">description</span>
-              Linguistic Decryption
-            </span>
-<span class="text-on-surface-variant/50">Audio/Parchment Hybrid Specimen</span>
+<span>Attunement Fidelity</span>
+<span class="text-secondary font-mono" id="fidelity-percent">84% RESTORED</span>
 </div>
-<blockquote class="font-body-lg text-body-lg text-on-surface leading-loose relative pl-space-md">
-            The silver latch gave way under salt-crust. Inside the chamber, the brass key lay resting upon the cold sill, untouched since 
-            
-            <!-- Redacted Block 1 -->
-<button class="group inline-flex items-center mx-1 px-2 py-0.5 rounded bg-surface-container-lowest hover:bg-secondary-container transition-colors cursor-pointer select-none" id="redacted-1" onclick="clarifyRedaction(1)">
-<span class="font-label-sm text-label-sm text-secondary/40 group-hover:text-secondary tracking-widest font-mono">[REDACTED: THE SURGE]</span>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-secondary-fixed-dim via-secondary to-tertiary h-full rounded-full transition-all duration-700" id="fidelity-bar" style="width: 84%;"></div>
+</div>
+</div>
+<button class="px-space-lg py-space-sm rounded bg-surface-container-high hover:bg-surface-bright text-secondary text-label-md font-label-md uppercase tracking-widest border border-outline-variant/30 transition-all shadow-sm flex items-center gap-space-sm cursor-pointer" id="clarify-all-btn">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Clarify All</span>
 </button>
-            
-            claimed the eastern causeway. A scent of dried 
-            
-            <!-- Redacted Block 2 -->
-<button class="group inline-flex items-center mx-1 px-2 py-0.5 rounded bg-surface-container-lowest hover:bg-secondary-container transition-colors cursor-pointer select-none" id="redacted-2" onclick="clarifyRedaction(2)">
-<span class="font-label-sm text-label-sm text-secondary/40 group-hover:text-secondary tracking-widest font-mono">[REDACTED: HYACINTH]</span>
-</button>
-            
-            still clung to the velvet lining.
-          </blockquote>
 </div>
-<!-- Archival Action Footer Bar -->
-<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-xs">
-<div class="flex items-center gap-space-md">
-<div class="flex items-center gap-space-xs px-space-md py-space-sm rounded bg-surface-container">
-<span class="material-symbols-outlined text-[16px] text-secondary">hourglass_top</span>
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase text-[9px] leading-tight">Decryption Price</span>
-<span class="font-title-md text-title-md text-secondary leading-none">25 Remnants</span>
+</header>
+<!-- Categorization & Sub-filter Ribbon -->
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-xs bg-surface-container-low p-1 rounded-lg">
+<button class="filter-tab px-space-md py-space-xs rounded font-label-md text-label-md uppercase tracking-wider bg-surface-container-high text-secondary transition-colors cursor-pointer" data-filter="all">All Folios (18)</button>
+<button class="filter-tab px-space-md py-space-xs rounded font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" data-filter="script">Manuscripts (08)</button>
+<button class="filter-tab px-space-md py-space-xs rounded font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" data-filter="artifacts">Relics (06)</button>
+<button class="filter-tab px-space-md py-space-xs rounded font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" data-filter="audio">Acoustics (04)</button>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span class="material-symbols-outlined text-[16px]">sort</span>
+<span>Catalog: Index Stratum III</span>
 </div>
 </div>
-<div class="hidden sm:flex flex-col text-on-surface-variant text-[11px] font-body-sm">
-<span>Remaining Vault Reserves: 1,408</span>
-<span class="text-tertiary">Safe to decrypt without neural drift</span>
+<!-- Dual-Column Archival Layout: Selected Primary Master Plate & Catalog Cards -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-xl items-start">
+<!-- Left Column: Primary Relic Deep-Dive Dossier (Col 1-7) -->
+<section class="xl:col-span-7 flex flex-col gap-space-lg bg-surface-container-low p-space-xl rounded-xl shadow-xl border border-surface-container-high/40">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-mono">PLATE #042 // RECOVERED RECORD</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">ARCHIVED: 1842.10.14</span>
+</div>
+<!-- Large High-Fidelity Historical Plate Image -->
+<div class="relative w-full aspect-[16/10] bg-surface-container-lowest rounded-lg overflow-hidden group shadow-inner">
+<img alt="Archival Relic" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]" src="/assets/ui/sunken_bell.jpg"/>
+<!-- Vignette, Grain & Scratches Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-transparent to-transparent pointer-events-none"></div>
+<div class="absolute bottom-space-md left-space-md right-space-md flex items-end justify-between pointer-events-none">
+<div class="bg-surface-container-lowest/80 backdrop-blur-md px-space-md py-space-xs rounded flex flex-col">
+<span class="font-label-sm text-[10px] uppercase tracking-widest text-secondary font-mono">Stratum: Submerged Colonnade</span>
+<span class="font-body-sm text-body-sm text-on-surface font-serif italic">“The bell strikes only in deep frost.”</span>
+</div>
+<span class="bg-surface-container-high/80 backdrop-blur-md px-space-sm py-0.5 rounded font-mono text-[10px] text-on-surface-variant">DEPTH: -142m</span>
 </div>
 </div>
-<div class="flex items-center gap-space-sm w-full sm:w-auto">
-<button class="w-full sm:w-auto flex items-center justify-center gap-space-sm px-space-xl py-space-md rounded bg-surface-container-high hover:bg-surface-variant text-secondary-fixed transition-all shadow-md group" onclick="clarifyAll()">
-<span class="material-symbols-outlined text-[18px] text-secondary group-hover:rotate-45 transition-transform">light_mode</span>
-<span class="font-label-md text-label-md uppercase tracking-widest font-semibold">☼ Clarify Remnant</span>
-</button>
+<!-- Archival Inscription & Redacted Translation Manuscript -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between border-b border-surface-container-high pb-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Folio Marginalia Transcription</h2>
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Status: 2 Redactions Clarified</span>
+</div>
+<!-- Narrative Prose with Interactive Clarification Highlights -->
+<div class="bg-surface-container-lowest p-space-lg rounded-lg font-body-md text-body-md text-on-surface leading-relaxed flex flex-col gap-space-sm shadow-inner">
+<p>
+                ...we carried what could be gathered before <span class="bg-surface-container-high px-1 py-0.5 rounded text-secondary font-mono cursor-pointer hover:bg-surface-bright transition-colors select-none" id="redacted-1" title="Click to decipher glyphs">[REDACTED // INK BLOT]</span> swallowed the lower courtyard. The cedar chests were abandoned first; they were too heavy for the horses on the gravel incline. What remained were the account books, three copper plumb-lines, and a bundle of dried <span class="bg-surface-container-high px-1 py-0.5 rounded text-secondary font-mono cursor-pointer hover:bg-surface-bright transition-colors select-none" id="redacted-2" title="Click to decipher glyphs">[REDACTED // MOISTURE VOID]</span> wrapped in linen parchment...
+              </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant/80 italic">
+                “If you seek the ledger key, remember: the tide does not erase the footprints, it only fills them with salt.”
+              </p>
+</div>
+<!-- Forensic Field Metadata Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm pt-space-xs">
+<div class="p-space-sm bg-surface-container rounded flex flex-col">
+<span class="font-label-sm text-[9px] uppercase tracking-wider text-on-surface-variant">Material</span>
+<span class="font-label-md text-label-md text-secondary mt-0.5">Vellum Parchment</span>
+</div>
+<div class="p-space-sm bg-surface-container rounded flex flex-col">
+<span class="font-label-sm text-[9px] uppercase tracking-wider text-on-surface-variant">Ink Base</span>
+<span class="font-label-md text-label-md text-secondary mt-0.5">Iron Gall / Ash</span>
+</div>
+<div class="p-space-sm bg-surface-container rounded flex flex-col">
+<span class="font-label-sm text-[9px] uppercase tracking-wider text-on-surface-variant">Resonance</span>
+<span class="font-label-md text-label-md text-tertiary mt-0.5">Harmonic (48Hz)</span>
+</div>
+<div class="p-space-sm bg-surface-container rounded flex flex-col">
+<span class="font-label-sm text-[9px] uppercase tracking-wider text-on-surface-variant">Folio Lock</span>
+<span class="font-label-md text-label-md text-on-surface mt-0.5">Seal Broken</span>
+</div>
 </div>
 </div>
 </section>
-<!-- RIGHT COLUMN: Uncataloged Shards & Folio Index (4 Cols) -->
-<aside class="lg:col-span-4 flex flex-col gap-space-lg">
-<!-- Section Header -->
-<div class="flex flex-col gap-space-xs">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest flex items-center gap-space-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-              Folio Vicinity Matrix
-            </span>
-<span class="font-label-sm text-label-sm text-error bg-surface-container-high px-space-xs py-0.5 rounded uppercase">2 Encrypted</span>
+<!-- Right Column: Secondary Folio Collection Catalog (Col 8-12) -->
+<section class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- Search & Filter Small Utility -->
+<div class="flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-sm rounded-lg border border-surface-container-high/40">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">search</span>
+<input class="bg-transparent border-none text-body-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none w-full" id="archive-search-input" placeholder="Search transcripts by keyword..." type="text"/>
 </div>
-<h2 class="font-headline-sm text-headline-sm text-on-surface">Uncataloged Shards in Vicinity</h2>
+<!-- Scrollable Fragment Cards Stack -->
+<div class="flex flex-col gap-space-md max-h-[750px] overflow-y-auto pr-1" id="archive-items-stack">
+<!-- Item Card 1: Fragment 42 -->
+<article class="archive-item-card p-space-md bg-surface-container-low hover:bg-surface-container rounded-xl flex gap-space-md transition-all duration-300 shadow-md border-l-2 border-secondary group cursor-pointer" data-category="script" data-id="42">
+<div class="w-24 h-24 rounded-lg bg-surface-container-lowest overflow-hidden shrink-0 relative">
+<img alt="Fragment 42" class="w-full h-full object-cover rounded opacity-75 group-hover:scale-105 transition-transform" src="/assets/ui/archive_fragment_42.jpg"/>
 </div>
-<!-- Shard Card 1: SHARD #043 [AUDIO PLATE] -->
-<article class="bg-surface-container-low p-space-lg rounded-xl shadow-lg relative flex flex-col gap-space-md hover:bg-surface-container transition-colors">
-<!-- Physical Tape Mark Aesthetic -->
-<div class="absolute -top-2 right-8 w-12 h-3.5 bg-secondary-fixed-dim/20 backdrop-blur-xs -rotate-1 rounded-xs pointer-events-none"></div>
-<div class="flex items-start justify-between">
-<div class="flex flex-col">
-<div class="flex items-center gap-space-xs">
-<span class="font-title-md text-title-md text-secondary-fixed">SHARD #043</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-highest px-space-xs py-0.5 rounded">[AUDIO PLATE]</span>
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div>
+<div class="flex items-center justify-between mb-0.5">
+<span class="font-label-sm text-[10px] uppercase tracking-widest text-secondary font-mono">REMNANT #42</span>
+<span class="font-label-sm text-[10px] text-tertiary">RESTORED</span>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase tracking-widest mt-0.5">Origin: Sub-Aqueduct II</span>
+<h3 class="font-title-md text-title-md text-on-surface truncate group-hover:text-secondary transition-colors">Water-Damaged Vellum Script</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 italic">“...the names of smaller birds were lost first...”</p>
 </div>
-<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-secondary">
-<span class="material-symbols-outlined text-[18px]">graphic_eq</span>
+<div class="flex items-center justify-between pt-space-xs text-on-surface-variant/70 font-label-sm text-[10px]">
+<span>Ch. 01 • Deep Woods</span>
+<span class="text-secondary font-mono">+25 Remnants</span>
 </div>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant italic">
-            “Heard near the second water basin... low vibration resembling rhythmic chime strikes before the silt rose.”
-          </p>
-<!-- Audio Waveform Visualization (Inline Vector) -->
-<div class="w-full bg-surface-container-lowest p-space-sm rounded flex items-center gap-1 h-10 overflow-hidden">
-<div class="w-1 h-2 bg-secondary/40 rounded-full"></div>
-<div class="w-1 h-4 bg-secondary/50 rounded-full"></div>
-<div class="w-1 h-6 bg-secondary rounded-full"></div>
-<div class="w-1 h-8 bg-secondary rounded-full animate-pulse"></div>
-<div class="w-1 h-3 bg-secondary/60 rounded-full"></div>
-<div class="w-1 h-5 bg-secondary rounded-full"></div>
-<div class="w-1 h-7 bg-secondary rounded-full"></div>
-<div class="w-1 h-2 bg-secondary/30 rounded-full"></div>
-<div class="w-1 h-4 bg-secondary/60 rounded-full"></div>
-<div class="w-1 h-6 bg-secondary/80 rounded-full"></div>
-<div class="w-1 h-3 bg-secondary/40 rounded-full"></div>
-<div class="w-1 h-7 bg-secondary rounded-full"></div>
-<div class="w-1 h-5 bg-secondary/70 rounded-full"></div>
-<div class="w-1 h-2 bg-secondary/30 rounded-full"></div>
-<div class="w-1 h-4 bg-secondary/50 rounded-full"></div>
-<div class="w-1 h-3 bg-secondary/30 rounded-full"></div>
-<div class="w-1 h-1 bg-secondary/20 rounded-full"></div>
-<div class="w-1 h-4 bg-secondary/50 rounded-full"></div>
-</div>
-<div class="flex items-center justify-between pt-space-xs">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Sync: 12 Remnants</span>
-<button class="px-space-md py-space-xs rounded bg-surface-container-high hover:bg-secondary-container hover:text-secondary-fixed text-secondary font-label-md text-label-md uppercase tracking-wider transition-colors flex items-center gap-space-xs" onclick="simulateDecode(this, 'SHARD #043')">
-<span class="material-symbols-outlined text-[14px]">lock_open</span>
-<span>Decode</span>
-</button>
 </div>
 </article>
-<!-- Shard Card 2: SHARD #044 [PARCHMENT] -->
-<article class="bg-surface-container-low p-space-lg rounded-xl shadow-lg relative flex flex-col gap-space-md hover:bg-surface-container transition-colors">
-<!-- Physical Archival Stamp Motif -->
-<div class="absolute -top-2 left-10 w-10 h-3 bg-secondary-fixed-dim/20 backdrop-blur-xs rotate-2 rounded-xs pointer-events-none"></div>
-<div class="flex items-start justify-between">
-<div class="flex flex-col">
-<div class="flex items-center gap-space-xs">
-<span class="font-title-md text-title-md text-secondary-fixed">SHARD #044</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-highest px-space-xs py-0.5 rounded">[PARCHMENT]</span>
+
+<!-- Item Card 2: Fragment 14 -->
+<article class="archive-item-card p-space-md bg-surface-container-low hover:bg-surface-container rounded-xl flex gap-space-md transition-all duration-300 shadow-md border-l-2 border-surface-container-high group cursor-pointer" data-category="artifacts" data-id="14">
+<div class="w-24 h-24 rounded-lg bg-surface-container-lowest overflow-hidden shrink-0 relative flex items-center justify-center">
+<span class="material-symbols-outlined text-[36px] text-secondary">explore</span>
 </div>
-<span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase tracking-widest mt-0.5">Found: Slate Causeway</span>
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div>
+<div class="flex items-center justify-between mb-0.5">
+<span class="font-label-sm text-[10px] uppercase tracking-widest text-on-surface-variant font-mono">RELIC #14</span>
+<span class="font-label-sm text-[10px] text-secondary">DECIPHERING</span>
 </div>
-<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-secondary">
-<span class="material-symbols-outlined text-[18px]">history_edu</span>
-</div>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant italic">
-            “Submerged between two slate steps. Salt-bleached cursive reads: 'Tell him we did not turn back until the lantern died...'”
-          </p>
-<!-- Micro Parchment Thumbnail Plate -->
-<div class="w-full h-24 rounded bg-surface-container-lowest relative overflow-hidden flex items-center justify-center p-space-sm">
-<img class="w-full h-full object-cover rounded opacity-75" data-alt="Macro archival document view of water-damaged vellum script parchment. Fine calligraphy ink washed into pale charcoal tendrils, antique torn fiber margins, delicate crackle textures, deep ink tones under cool archival laboratory illumination." src="/assets/ui/archive_fragment_42.jpg"/>
-<div class="absolute inset-0 bg-surface-container-lowest/40 backdrop-blur-[0.5px]"></div>
-<div class="absolute text-center flex flex-col items-center">
-<span class="material-symbols-outlined text-secondary text-[20px]">water_drop</span>
-<span class="font-label-sm text-label-sm text-secondary-fixed uppercase tracking-widest text-[9px]">Moisture Damage: 44%</span>
-</div>
+<h3 class="font-title-md text-title-md text-on-surface truncate group-hover:text-secondary transition-colors">Brass Chrono-Astrolabe</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 italic">Mechanical compass calibrated to acoustic frequencies.</p>
 </div>
 <div class="flex items-center justify-between pt-space-xs">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Sync: 18 Remnants</span>
-<button class="px-space-md py-space-xs rounded bg-surface-container-high hover:bg-secondary-container hover:text-secondary-fixed text-secondary font-label-md text-label-md uppercase tracking-wider transition-colors flex items-center gap-space-xs" onclick="simulateDecode(this, 'SHARD #044')">
-<span class="material-symbols-outlined text-[14px]">lock_open</span>
-<span>Decode</span>
+<span class="text-on-surface-variant/70 font-label-sm text-[10px]">Ch. 02 • Clockwork</span>
+<button class="decode-btn px-space-sm py-0.5 rounded bg-surface-container-high text-secondary hover:bg-secondary hover:text-on-secondary transition-all font-label-sm text-[10px] uppercase tracking-wider flex items-center gap-1 cursor-pointer">
+<span class="material-symbols-outlined text-[12px]">key</span>
+<span>Attune Relic</span>
 </button>
 </div>
+</div>
 </article>
-<!-- Preserved Historical Notes & Physical Folio Seal -->
-<div class="p-space-lg rounded-xl bg-surface-container-lowest flex flex-col gap-space-sm shadow-inner relative">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
-<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Archival Field Seal</span>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-            All shards indexed in this drawer share resonant frequency with Ledger Registry 40. Mind tether degradation risk remains negligible under current salt-tide conditions.
-          </p>
-<div class="flex items-center justify-between text-[10px] text-on-surface-variant/50 font-label-sm uppercase pt-space-xs">
-<span>Sealed By: Archivist 09</span>
-<span>Vault 08 / Level -4</span>
-</div>
-</div>
-</aside>
-</div>
-</div>
-<!-- Client-side Interactive Behaviors -->
-<script>
-    function clarifyRedaction(id) {
-      const el = document.getElementById('redacted-' + id);
-      if (!el) return;
-      if (id === 1) {
-        el.innerHTML = '<span class="font-body-md text-body-md text-secondary-fixed font-semibold underline decoration-secondary decoration-wavy">the great flood tide</span>';
-      } else if (id === 2) {
-        el.innerHTML = '<span class="font-body-md text-body-md text-secondary-fixed font-semibold underline decoration-secondary decoration-wavy">mountain sage</span>';
-      }
-      checkFidelity();
-    }
 
-    function clarifyAll() {
-      clarifyRedaction(1);
-      clarifyRedaction(2);
-      const bar = document.getElementById('fidelity-bar');
-      const label = document.getElementById('fidelity-percent');
-      if (bar && label) {
-        bar.style.width = '100%';
-        label.innerText = '100% RESTORED (CRYSTALLINE)';
-        label.classList.add('text-tertiary');
-      }
-    }
-
-    function checkFidelity() {
-      const r1 = document.getElementById('redacted-1');
-      const r2 = document.getElementById('redacted-2');
-      const bar = document.getElementById('fidelity-bar');
-      const label = document.getElementById('fidelity-percent');
-      
-      const done1 = !r1.innerText.includes('REDACTED');
-      const done2 = !r2.innerText.includes('REDACTED');
-
-      if (done1 && done2) {
-        clarifyAll();
-      } else if (done1 || done2) {
-        if (bar && label) {
-          bar.style.width = '92%';
-          label.innerText = '92% RESTORED';
-        }
-      }
-    }
-
-    function simulateDecode(btn, shardName) {
-      btn.disabled = true;
-      btn.innerHTML = '<span class="material-symbols-outlined text-[14px] animate-spin">refresh</span><span>Deciphering...</span>';
-      setTimeout(() => {
-        btn.innerHTML = '<span class="material-symbols-outlined text-[14px] text-tertiary">check</span><span class="text-tertiary">Unlocked</span>';
-        btn.classList.add('bg-tertiary-container');
-      }, 800);
-    }
-
-    // Filter tab toggle behavior
-    document.querySelectorAll('.filter-tab').forEach(tab => {
-      tab.addEventListener('click', function() {
-        document.querySelectorAll('.filter-tab').forEach(t => {
-          t.classList.remove('bg-surface-container-high', 'text-secondary');
-          t.classList.add('text-on-surface-variant');
-        });
-        this.classList.add('bg-surface-container-high', 'text-secondary');
-        this.classList.remove('text-on-surface-variant');
-      });
-    });
-  </script>
-</div></main>
+<!-- Item Card 3: Fragment 09 -->
+<article class="archive-item-card p-space-md bg-surface-container-low hover:bg-surface-container rounded-xl flex gap-space-md transition-all duration-300 shadow-md border-l-2 border-surface-container-high group cursor-pointer" data-category="audio" data-id="09">
+<div class="w-24 h-24 rounded-lg bg-surface-container-lowest overflow-hidden shrink-0 relative flex items-center justify-center">
+<span class="material-symbols-outlined text-[36px] text-tertiary">graphic_eq</span>
+</div>
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div>
+<div class="flex items-center justify-between mb-0.5">
+<span class="font-label-sm text-[10px] uppercase tracking-widest text-on-surface-variant font-mono">ACOUSTIC #09</span>
+<span class="font-label-sm text-[10px] text-tertiary">CATALOGUED</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface truncate group-hover:text-secondary transition-colors">Peat Bog Bell Resonance</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 italic">Recorded frequency of solitary submerged bronze bell.</p>
+</div>
+<div class="flex items-center justify-between pt-space-xs text-on-surface-variant/70 font-label-sm text-[10px]">
+<span>Ch. 03 • Sunken Bell</span>
+<span class="text-secondary font-mono">14.8 Hz Drift</span>
+</div>
+</div>
+</article>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
 `;
 }
 
 export function bindWebArchiveEvents(_onNavigate: (route: string) => void): void {
-  // Interactivity for filter tags or fragment selection if present
-  const tags = document.querySelectorAll('.archival-tag');
-  tags.forEach((tag) => {
-    tag.addEventListener('click', () => {
-      tags.forEach(t => t.classList.remove('bg-surface-container-highest', 'text-secondary'));
-      tag.classList.add('bg-surface-container-highest', 'text-secondary');
+  // Redactions clarification interactive features
+  const r1 = document.getElementById('redacted-1');
+  const r2 = document.getElementById('redacted-2');
+  const bar = document.getElementById('fidelity-bar');
+  const label = document.getElementById('fidelity-percent');
+
+  const clarifyOne = () => {
+    if (r1) {
+      r1.innerHTML = '<span class="font-body-md text-body-md text-secondary-fixed font-semibold underline decoration-secondary decoration-wavy">the great flood tide</span>';
+    }
+    checkFidelity();
+  };
+
+  const clarifyTwo = () => {
+    if (r2) {
+      r2.innerHTML = '<span class="font-body-md text-body-md text-secondary-fixed font-semibold underline decoration-secondary decoration-wavy">mountain sage</span>';
+    }
+    checkFidelity();
+  };
+
+  const checkFidelity = () => {
+    const done1 = r1 && !r1.innerText.includes('REDACTED');
+    const done2 = r2 && !r2.innerText.includes('REDACTED');
+    if (done1 && done2) {
+      if (bar) bar.style.width = '100%';
+      if (label) {
+        label.innerText = '100% RESTORED (CRYSTALLINE)';
+        label.classList.add('text-tertiary');
+      }
+    } else if (done1 || done2) {
+      if (bar) bar.style.width = '92%';
+      if (label) label.innerText = '92% RESTORED';
+    }
+  };
+
+  if (r1) r1.addEventListener('click', clarifyOne);
+  if (r2) r2.addEventListener('click', clarifyTwo);
+
+  const clarifyAllBtn = document.getElementById('clarify-all-btn');
+  if (clarifyAllBtn) {
+    clarifyAllBtn.addEventListener('click', () => {
+      clarifyOne();
+      clarifyTwo();
+    });
+  }
+
+  // Filter tabs
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      filterTabs.forEach(t => {
+        t.className = 'filter-tab px-space-md py-space-xs rounded font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer';
+      });
+      const target = e.currentTarget as HTMLElement;
+      target.className = 'filter-tab px-space-md py-space-xs rounded font-label-md text-label-md uppercase tracking-wider bg-surface-container-high text-secondary transition-colors cursor-pointer';
+      
+      const filter = target.getAttribute('data-filter');
+      const cards = document.querySelectorAll<HTMLElement>('.archive-item-card');
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
   });
+
+  // Decode relic buttons
+  const decodeBtns = document.querySelectorAll('.decode-btn');
+  decodeBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      btn.innerHTML = '<span class="material-symbols-outlined text-[12px] animate-spin">refresh</span><span>Attuning...</span>';
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[12px] text-tertiary">check</span><span class="text-tertiary">Attuned</span>';
+        btn.classList.add('bg-tertiary-container');
+      }, 700);
+    });
+  });
+
+  // Search filter
+  const searchInput = document.getElementById('archive-search-input') as HTMLInputElement | null;
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase().trim();
+      const cards = document.querySelectorAll<HTMLElement>('.archive-item-card');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(query) ? 'flex' : 'none';
+      });
+    });
+  }
 }
