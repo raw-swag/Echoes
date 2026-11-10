@@ -138,6 +138,9 @@ export function bindMobileHUDEvents(_onNavigate: (route: string) => void): void 
   const rightBtn = document.getElementById('touch-right-btn');
   const downBtn = document.getElementById('touch-down-btn');
   const jumpBtn = document.getElementById('touch-jump-btn');
+  const traceBtn = document.getElementById('touch-trace-btn');
+  const veilBtn = document.getElementById('touch-veil-btn');
+  const pulseBtn = document.getElementById('touch-pulse-btn');
 
   if (pauseBtn) {
     pauseBtn.addEventListener('click', () => {
@@ -213,6 +216,36 @@ export function bindMobileHUDEvents(_onNavigate: (route: string) => void): void 
     },
     () => {
       inputService.setTouchJump(false);
+    }
+  );
+
+  setupTouch(
+    traceBtn,
+    () => {
+      inputService.setTouchTrace(true);
+    },
+    () => {
+      inputService.setTouchTrace(false);
+    }
+  );
+
+  setupTouch(
+    veilBtn,
+    () => {
+      inputService.setTouchAbility(true);
+    },
+    () => {
+      inputService.setTouchAbility(false);
+    }
+  );
+
+  setupTouch(
+    pulseBtn,
+    () => {
+      inputService.setTouchPulse(true);
+    },
+    () => {
+      inputService.setTouchPulse(false);
     }
   );
 }

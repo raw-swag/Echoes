@@ -1,5 +1,5 @@
 import { InputSnapshot } from '../InputSnapshot';
-import { AABB, createAABB } from '../physics/AABB';
+import { AABB } from '../physics/AABB';
 import { Tilemap } from '../physics/Tilemap';
 import { resolveMovement, DynamicObstacle } from '../physics/CollisionSolver';
 import { MovementConfig, DEFAULT_MOVEMENT_CONFIG } from './MovementConfig';
@@ -40,16 +40,21 @@ export class Player {
 
   public readonly config: MovementConfig;
 
+  private readonly cachedBounds: { x: number; y: number; width: number; height: number };
+
   constructor(x: number, y: number, config: MovementConfig = DEFAULT_MOVEMENT_CONFIG) {
     this.x = x;
     this.y = y;
     this.prevX = x;
     this.prevY = y;
     this.config = config;
+    this.cachedBounds = { x, y, width: config.width, height: config.height };
   }
 
   public getBounds(): AABB {
-    return createAABB(this.x, this.y, this.config.width, this.config.height);
+    this.cachedBounds.x = this.x;
+    this.cachedBounds.y = this.y;
+    return this.cachedBounds;
   }
 
   public getSnapshot(): PlayerSnapshot {

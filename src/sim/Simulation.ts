@@ -120,9 +120,12 @@ export class Simulation {
     // Update Door state based on sensor
     this.echoDoor.update(isPlateActive);
 
-    // 6. Hazard reset logic
+    // 6. Hazard reset / player death logic (F-T12)
     if (this.player.y > (this.tilemap.rows - 1) * this.tilemap.tileSize) {
       this.player.teleport(120, 550);
+      // F-T12: Player death clears active trace
+      this.traceRecorder.cancel();
+      this.tracePlayer.reset();
     }
 
     // 7. Update current snapshot

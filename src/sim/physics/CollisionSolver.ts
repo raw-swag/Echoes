@@ -18,6 +18,14 @@ export interface DynamicObstacle {
   getBounds(): AABB;
 }
 
+// Reusable temporary AABB for dynamic collision resolution to eliminate per-tick allocations
+const tempDynamicBox: { x: number; y: number; width: number; height: number } = {
+  x: 0,
+  y: 0,
+  width: 0,
+  height: 0
+};
+
 /**
  * Deterministic AABB vs Tilemap + dynamic obstacles collision solver.
  */
@@ -82,14 +90,12 @@ export function resolveMovement(
     if (obs.isPassable) continue;
 
     const obsBounds = obs.getBounds();
-    const currentBox: AABB = {
-      x,
-      y,
-      width: w,
-      height: h
-    };
+    tempDynamicBox.x = x;
+    tempDynamicBox.y = y;
+    tempDynamicBox.width = w;
+    tempDynamicBox.height = h;
 
-    if (overlapsAABB(currentBox, obsBounds)) {
+    if (overlapsAABB(tempDynamicBox, obsBounds)) {
       if (vx > 0) {
         x = obsBounds.x - w;
         vx = 0;

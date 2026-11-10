@@ -1,4 +1,4 @@
-import { AABB, createAABB } from '../physics/AABB';
+import { AABB } from '../physics/AABB';
 import { TraceBuffer } from './TraceBuffer';
 import { MovementState, FacingDirection } from '../entities/Player';
 
@@ -59,9 +59,17 @@ export class TraceGhost {
 
   public readonly width: number = 24;
   public readonly height: number = 48;
+  private readonly cachedBounds: { x: number; y: number; width: number; height: number } = {
+    x: 0,
+    y: 0,
+    width: 24,
+    height: 48
+  };
 
   public getBounds(): AABB {
-    return createAABB(this.x, this.y, this.width, this.height);
+    this.cachedBounds.x = this.x;
+    this.cachedBounds.y = this.y;
+    return this.cachedBounds;
   }
 
   public setFrame(

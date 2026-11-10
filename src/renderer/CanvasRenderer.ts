@@ -294,19 +294,19 @@ export class CanvasRenderer {
   }
 
   private renderPuzzleEntities(ctx: CanvasRenderingContext2D, state: SimulationState): void {
-    // 1. Pressure Plates
+    // 1. Pressure Plates (TR-08, F-T11)
     for (const sensor of state.sensors) {
       ctx.save();
       const isActive = sensor.isActive;
-      // Plate base pad
-      ctx.fillStyle = isActive ? '#38bdf8' : '#334155';
-      ctx.strokeStyle = isActive ? '#7dd3fc' : '#64748b';
-      ctx.lineWidth = 2;
 
-      // Glow when active
+      // Diegetic palette: surface-container-high / secondary-fixed-dim (#dcc39b)
+      ctx.fillStyle = isActive ? 'rgba(220, 195, 155, 0.45)' : '#1b1e32';
+      ctx.strokeStyle = isActive ? '#dcc39b' : '#46464c';
+      ctx.lineWidth = 1.5;
+
       if (isActive) {
-        ctx.shadowColor = 'rgba(56, 189, 248, 0.8)';
-        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(220, 195, 155, 0.35)';
+        ctx.shadowBlur = 6;
       }
 
       ctx.beginPath();
@@ -314,11 +314,16 @@ export class CanvasRenderer {
       ctx.fill();
       ctx.stroke();
 
-      // Label indicator
+      // Mechanical contact pins
+      ctx.fillStyle = isActive ? '#f9dfb6' : '#303349';
+      ctx.fillRect(sensor.x + 8, sensor.y + 2, 6, sensor.height - 4);
+      ctx.fillRect(sensor.x + sensor.width - 14, sensor.y + 2, 6, sensor.height - 4);
+
+      // Diegetic label indicator in archival font
       ctx.shadowBlur = 0;
-      ctx.fillStyle = isActive ? '#e0f2fe' : '#94a3b8';
-      ctx.font = '9px "Courier New", monospace';
-      ctx.fillText(isActive ? 'WEIGHT: ON' : 'TRIGGER', sensor.x + 4, sensor.y - 6);
+      ctx.fillStyle = isActive ? '#f9dfb6' : '#919097';
+      ctx.font = '10px "Courier New", monospace';
+      ctx.fillText(isActive ? 'RESONATING' : 'PRESSURE SENSOR', sensor.x, sensor.y - 8);
       ctx.restore();
     }
 
@@ -329,38 +334,38 @@ export class CanvasRenderer {
       const closedH = door.height * (1.0 - openPct);
 
       if (closedH > 2) {
-        // Door slab retracts upward
-        ctx.fillStyle = '#0f172a';
-        ctx.strokeStyle = '#38bdf8';
+        // Door slab retracts upward - Dark Obsidian Slab with Muted Secondary Hue
+        ctx.fillStyle = '#111322';
+        ctx.strokeStyle = '#5c5d6f';
         ctx.lineWidth = 2;
 
-        ctx.shadowColor = 'rgba(56, 189, 248, 0.4)';
-        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(196, 197, 218, 0.2)';
+        ctx.shadowBlur = 6;
 
         ctx.beginPath();
-        ctx.roundRect(door.x, door.y, door.width, closedH, 4);
+        ctx.roundRect(door.x, door.y, door.width, closedH, 3);
         ctx.fill();
         ctx.stroke();
 
-        // Energy barrier hash marks
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+        // Architectural lattice hashes
+        ctx.strokeStyle = 'rgba(196, 197, 218, 0.15)';
         ctx.lineWidth = 1;
         for (let y = door.y + 8; y < door.y + closedH - 4; y += 12) {
           ctx.beginPath();
-          ctx.moveTo(door.x + 3, y);
-          ctx.lineTo(door.x + door.width - 3, y);
+          ctx.moveTo(door.x + 4, y);
+          ctx.lineTo(door.x + door.width - 4, y);
           ctx.stroke();
         }
       }
 
       // Arch frame top
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#171a2e';
       ctx.fillRect(door.x - 4, door.y - 8, door.width + 8, 8);
-      ctx.strokeStyle = '#64748b';
+      ctx.strokeStyle = '#46464c';
       ctx.strokeRect(door.x - 4, door.y - 8, door.width + 8, 8);
 
-      // Status indicator light
-      ctx.fillStyle = door.isPassable ? '#4ade80' : '#f87171';
+      // Status indicator light: Muted amber when closed, soft green when passable
+      ctx.fillStyle = door.isPassable ? '#81C784' : '#dcc39b';
       ctx.beginPath();
       ctx.arc(door.x + door.width / 2, door.y - 4, 3, 0, Math.PI * 2);
       ctx.fill();
@@ -380,14 +385,14 @@ export class CanvasRenderer {
     const h = ghost.height;
     ctx.globalAlpha = ghost.opacity;
 
-    // Ethereal cyan glow
-    ctx.shadowColor = 'rgba(34, 211, 238, 0.9)';
-    ctx.shadowBlur = 16;
+    // Atmospheric warm memory haze (secondary token #dcc39b / tertiary #bdcabb)
+    ctx.shadowColor = 'rgba(220, 195, 155, 0.4)';
+    ctx.shadowBlur = 8;
 
-    // Translucent ghostly capsule
-    ctx.fillStyle = 'rgba(14, 116, 144, 0.35)';
-    ctx.strokeStyle = '#22d3ee';
-    ctx.lineWidth = 2;
+    // Ghost body: Ethereal parchment outline with dark translucent fill
+    ctx.fillStyle = 'rgba(23, 26, 46, 0.45)';
+    ctx.strokeStyle = ghost.isHolding ? '#f9dfb6' : '#dcc39b';
+    ctx.lineWidth = 1.5;
 
     ctx.beginPath();
     ctx.roundRect(x, y, w, h, 6);
@@ -396,23 +401,23 @@ export class CanvasRenderer {
 
     ctx.shadowBlur = 0;
 
-    // Ghost Core (Holding pulses cyan, regular pulses amber/cyan)
-    ctx.fillStyle = ghost.isHolding ? '#67e8f9' : '#a5f3fc';
+    // Ghost Core (Holding pulses warm gold, regular pulses archival silver)
+    ctx.fillStyle = ghost.isHolding ? '#f9dfb6' : '#bdcabb';
     ctx.beginPath();
-    ctx.arc(x + w / 2, y + h * 0.4, 4, 0, Math.PI * 2);
+    ctx.arc(x + w / 2, y + h * 0.4, 3.5, 0, Math.PI * 2);
     ctx.fill();
 
     // Direction Visor
-    ctx.fillStyle = '#ecfeff';
+    ctx.fillStyle = '#dfe1fc';
     const eyeX = ghost.facing === 'right' ? x + w - 7 : x + 3;
     ctx.fillRect(eyeX, y + 10, 4, 4);
 
-    // If holding pose, render a subtle holding rune above head
+    // If holding pose, render subtle archival glyph ring above head
     if (ghost.isHolding) {
-      ctx.strokeStyle = '#67e8f9';
+      ctx.strokeStyle = '#dcc39b';
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.arc(x + w / 2, y - 8, 5, 0, Math.PI * 2);
+      ctx.arc(x + w / 2, y - 8, 4, 0, Math.PI * 2);
       ctx.stroke();
     }
 
