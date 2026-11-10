@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #0f1225;
+    color: #dfe1fc;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+}
+
+/* Hide scrollbars for cinematic fullscreen feel */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Material symbol variations */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+@keyframes remnant-pulse {
+  0%, 100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(220, 195, 155, 0.4));
+  }
+}
+
+.animate-remnant {
+  animation: remnant-pulse 4s ease-in-out infinite;
+}
+
+/* Transition classes for screen fades */
+.screen-fade-enter {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.screen-fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}

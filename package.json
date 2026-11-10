@@ -14,11 +14,15 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\""
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^22.10.1",
     "@typescript-eslint/eslint-plugin": "^8.16.0",
     "@typescript-eslint/parser": "^8.16.0",
+    "autoprefixer": "^10.6.2",
     "eslint": "^8.57.1",
+    "postcss": "^8.5.32",
     "prettier": "^3.3.3",
+    "tailwindcss": "^4.3.5",
     "typescript": "^5.7.2",
     "vite": "^6.0.1",
     "vitest": "^2.1.6"

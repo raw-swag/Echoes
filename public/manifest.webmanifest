@@ -1,0 +1,24 @@
+{
+  "name": "ECHOES: The Things We Chose to Forget",
+  "short_name": "ECHOES",
+  "description": "Browser-native 2D puzzle-platformer exploring memory, loss, and the ethics of restoration.",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#0f1225",
+  "theme_color": "#0f1225",
+  "icons": [
+    {
+      "src": "/assets/ui/echoes_emblem.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/ui/echoes_emblem.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
