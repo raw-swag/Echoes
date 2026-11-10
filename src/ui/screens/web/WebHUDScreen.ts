@@ -13,7 +13,7 @@ export function renderWebHUD(
 <div class="relative w-full h-[720px] bg-surface-container-lowest overflow-hidden select-none screen-fade-enter-active">
   <!-- Interactive Canvas 2D Mount Target -->
   <div id="gameplay-viewport" class="absolute inset-0 z-0 flex items-center justify-center bg-black">
-    <!-- Active Game Canvas is dynamically reparented or mounted here -->
+    <!-- Active Game Canvas is dynamically mounted here -->
   </div>
 
   <!-- Diegetic Overlays & Ambient Gradient Vignette -->
@@ -88,23 +88,22 @@ export function renderWebHUD(
     </div>
   </div>
 
-  <!-- Bottom Interactive Quick Bar -->
+  <!-- Bottom Interactive Quick Controls Telemetry Bar -->
   <div class="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-auto">
-    <div class="flex items-center gap-space-sm bg-surface-container-lowest/80 backdrop-blur-md px-space-md py-space-xs rounded text-on-surface-variant font-body-sm text-[11px]">
-      <span>[A][D] Move</span>
-      <span>•</span>
-      <span>[SPACE] Jump</span>
-      <span>•</span>
-      <span>[E] Echo Trace</span>
-      <span>•</span>
-      <span>[SHIFT] Dash</span>
-      <span>•</span>
-      <span>[F] Interact</span>
+    <div class="flex items-center gap-space-sm bg-surface-container-lowest/85 backdrop-blur-md px-space-md py-space-xs rounded-lg text-on-surface border border-surface-container-high/40 font-body-sm text-[12px] shadow-lg">
+      <span class="text-secondary font-semibold">[A] [D] / Arrows</span>
+      <span>Run</span>
+      <span class="text-on-surface-variant/40">•</span>
+      <span class="text-secondary font-semibold">[SPACE]</span>
+      <span>Jump (Hold for higher apex)</span>
+      <span class="text-on-surface-variant/40">•</span>
+      <span class="text-secondary font-semibold">[S] + [SPACE]</span>
+      <span>Drop-through one-way platform</span>
     </div>
 
-    <button id="trigger-trace-btn" class="px-space-md py-space-xs bg-secondary text-on-secondary rounded font-label-sm uppercase tracking-wider hover:brightness-110 transition-all font-semibold cursor-pointer">
-      ${state.echoTraceState === 'recording' ? 'Stop & Launch Trace [E]' : 'Record Echo Trace [E]'}
-    </button>
+    <div class="flex items-center gap-space-sm bg-surface-container-lowest/85 backdrop-blur-md px-space-md py-space-xs rounded-lg border border-surface-container-high/40 font-label-sm text-[11px] text-on-surface-variant">
+      <span>M2 Deterministic Physics: Active (60 Hz)</span>
+    </div>
   </div>
 </div>
 `;
@@ -112,20 +111,11 @@ export function renderWebHUD(
 
 export function bindWebHUDEvents(_onNavigate: (route: string) => void): void {
   const pauseBtn = document.getElementById('web-pause-btn');
-  const traceBtn = document.getElementById('trigger-trace-btn');
 
   if (pauseBtn) {
     pauseBtn.addEventListener('click', () => {
       const currentState = globalGameState.getState();
       globalGameState.setPaused(!currentState.isPaused);
-    });
-  }
-
-  if (traceBtn) {
-    traceBtn.addEventListener('click', () => {
-      const s = globalGameState.getState();
-      const nextState = s.echoTraceState === 'recording' ? 'replaying' : 'recording';
-      globalGameState.setEchoTraceState(nextState, 0);
     });
   }
 }

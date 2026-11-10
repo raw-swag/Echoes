@@ -2,15 +2,28 @@
 
 ## Milestone 1: Core Foundation & Deterministic Simulation Loop
 
-### Status: Completed (Phase 1 Foundation + Official Web & PWA UI Integration)
-- **Branches:** `feat/phase-1-foundation`, `feat/ui-integration-web-pwa`
+### Status: Completed (Phase 1 Foundation + Official Web/PWA UI + M2 Player Movement & Physics)
+- **Branches:** `feat/phase-1-foundation`, `feat/ui-integration-web-pwa`, `feat/m2-player-movement`
 
 ### Summary of Completed Features
-1. **Development Environment Configuration**:
-   - Configured Vite with strict TypeScript (`ES2022`, `strict: true`, clean path aliases).
-   - Configured Vitest for fast, headless unit and deterministic simulation tests.
-   - Configured ESLint (`@typescript-eslint` v8), Prettier, and TailwindCSS (`@tailwindcss/postcss`).
-   - Configured npm scripts: `dev`, `build`, `preview`, `test`, `test:watch`, `typecheck`, `lint`, `format`.
+1. **Milestone 2: Player Movement & Deterministic Physics**:
+   - Implemented pure deterministic `Player` entity (`src/sim/entities/Player.ts`) with typed `MovementConfig`.
+   - Tuned canonical physics parameters per [`00B_CANONICAL_SPEC.md`](file:///C:/Users/admin/OneDrive/Desktop/echoes/docs/00B_CANONICAL_SPEC.md#L98-L108) and [`02_GAME_DESIGN_DOCUMENT.md §6`](file:///C:/Users/admin/OneDrive/Desktop/echoes/docs/02_GAME_DESIGN_DOCUMENT.md#L59-L72):
+     - Max run speed: ~6 BH/s (4.8 px/tick).
+     - Ground/air acceleration and deceleration.
+     - Jump apex: ~2.1 BH (~100 px).
+     - Variable jump cancel factor ($0.5\times$ on early release).
+     - Coyote time: exactly 100 ms (6 ticks at 60 Hz).
+     - Jump buffering: exactly 100 ms (6 ticks at 60 Hz).
+   - Built custom deterministic AABB vs Tilemap collision solver (`src/sim/physics/CollisionSolver.ts`):
+     - Solid walls, floors, and ceilings.
+     - One-way platforms with jump-through upward pass and `Down + Jump` drop-through.
+     - Zero physics engine bloat (zero Box2D/Matter.js).
+   - Built smooth 2D tracking `Camera` (`src/renderer/Camera.ts`) with lookahead and world boundary clamping.
+   - Built dedicated Graybox test environment (`src/sim/world/GrayboxRoom.ts`): 60x25 tiles containing platforms, staggered ledges, gaps, one-way shelves, hazards, and an end gateway.
+   - Removed artificial periodic trace cycling in `UIEchoController.ts` so the HUD faithfully reflects active gameplay state.
+   - Connected touch controls for Mobile PWA (D-Pad left/right/down + Jump) integrated cleanly into the diegetic HUD.
+   - Written 8 comprehensive physics tests in `tests/sim/PlayerMovement.test.ts` (testing run acceleration, apex height, coyote time, jump buffer, drop-through, wall collision, and bit-level deterministic reproducibility across identical inputs). Total test suite: 26 passing tests.
 
 2. **Official Web & PWA UI System Integration**:
    - Inspected official UI archives `docs/echoes_web_ui.zip` and `docs/echoes_mobile_ui.zip`.

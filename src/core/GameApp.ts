@@ -1,5 +1,5 @@
 import { Simulation } from '@sim/Simulation';
-import { InputService } from '@input/InputService';
+import { inputService, InputService } from '@input/InputService';
 import { CanvasRenderer } from '@renderer/CanvasRenderer';
 import { FixedStepLoop } from './FixedStepLoop';
 import { globalGameState } from './GameState';
@@ -21,7 +21,7 @@ export class GameApp {
 
   constructor(options: GameAppOptions) {
     this.simulation = new Simulation();
-    this.inputService = new InputService();
+    this.inputService = inputService;
     this.renderer = new CanvasRenderer({ canvas: options.canvas });
 
     if (options.uiContainer) {
@@ -53,7 +53,8 @@ export class GameApp {
           this.simulation.getPreviousState(),
           alpha,
           fps,
-          frameTime
+          frameTime,
+          this.simulation.getTilemap()
         );
       }
     });
