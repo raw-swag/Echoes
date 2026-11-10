@@ -1,37 +1,21 @@
 import { globalGameState, GameStateModel } from '@core/GameState';
 
+/**
+ * UIEchoController:
+ * Synchronizes HUD elements with real game state.
+ *
+ * NOTE (M2 Audit):
+ * Artificially auto-cycling between recording and playback has been removed.
+ * Echo Trace will only advance when the actual Trace mechanic is invoked.
+ */
 export class UIEchoController {
-  private updateInterval: number | null = null;
-
   public startTraceCycle(): void {
-    let timer = 0;
-    globalGameState.setEchoTraceState('recording', 0);
-
-    if (this.updateInterval !== null) {
-      window.clearInterval(this.updateInterval);
-    }
-
-    this.updateInterval = window.setInterval(() => {
-      const state = globalGameState.getState();
-      if (state.isPaused) return;
-
-      timer += 0.1;
-      if (timer > 5.0) {
-        timer = 0;
-        // Cycle between recording and replaying
-        const nextState = state.echoTraceState === 'recording' ? 'replaying' : 'recording';
-        globalGameState.setEchoTraceState(nextState, 0);
-      } else {
-        globalGameState.update({ echoTraceTimer: Number(timer.toFixed(1)) });
-      }
-    }, 100);
+    // Left as passive listener / hook for future M3 trace events.
+    // Does not forge fake periodic trace cycles.
   }
 
   public stopTraceCycle(): void {
-    if (this.updateInterval !== null) {
-      window.clearInterval(this.updateInterval);
-      this.updateInterval = null;
-    }
+    // No-op
   }
 
   public bindState(renderCallback: (state: Readonly<GameStateModel>) => void): () => void {

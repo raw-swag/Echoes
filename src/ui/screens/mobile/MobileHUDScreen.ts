@@ -1,10 +1,10 @@
 import { globalGameState, GameStateModel } from '@core/GameState';
+import { inputService } from '@input/InputService';
 
 export function renderMobileHUD(
   state: Readonly<GameStateModel>,
   _onNavigate: (route: string) => void
 ): string {
-  // SVG Ring calculation: circumference = 2 * PI * 20 = 125.6
   const progressRatio = state.echoTraceTimer / state.echoTraceMaxTimer;
   const strokeOffset = 125.6 * (1 - progressRatio);
 
@@ -81,13 +81,27 @@ export function renderMobileHUD(
       </button>
     </div>
 
-    <!-- MIDDLE LAYER: Diegetic Spatial Prompt -->
-    <div class="relative z-20 flex-1 flex flex-col justify-end px-6 pb-4 pointer-events-none">
-      <div class="self-center mb-4 flex flex-col items-center text-center animate-bounce duration-1000">
-        <div class="px-space-md py-space-xs rounded-full bg-surface-container-lowest/80 backdrop-blur-md shadow-xl flex items-center gap-space-xs border border-surface-container-high/30">
-          <span class="material-symbols-outlined text-secondary text-[16px]">fingerprint</span>
-          <span class="font-label-sm text-[10px] uppercase tracking-widest text-on-surface">Spatial Trace Sensor Active</span>
-        </div>
+    <!-- MIDDLE LAYER: Diegetic Spatial Movement Control Layer (D-Pad & Jump) -->
+    <div class="relative z-20 flex-1 flex items-end justify-between px-4 pb-2 pointer-events-auto">
+      <!-- Left D-Pad Touch Cluster -->
+      <div class="flex items-center gap-2 bg-surface-container-lowest/75 backdrop-blur-md p-1.5 rounded-2xl border border-surface-container-high/40 shadow-xl">
+        <button id="touch-left-btn" class="w-12 h-12 rounded-xl bg-surface-container-low/90 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface border border-surface-container-high/30 transition-all active:scale-95">
+          <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+        </button>
+        <button id="touch-down-btn" class="w-12 h-12 rounded-xl bg-surface-container-low/90 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface border border-surface-container-high/30 transition-all active:scale-95" title="Drop through platform (Down + Jump)">
+          <span class="material-symbols-outlined text-[24px]">arrow_downward</span>
+        </button>
+        <button id="touch-right-btn" class="w-12 h-12 rounded-xl bg-surface-container-low/90 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface border border-surface-container-high/30 transition-all active:scale-95">
+          <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+        </button>
+      </div>
+
+      <!-- Right Jump Touch Button -->
+      <div class="flex items-center gap-2">
+        <button id="touch-jump-btn" class="w-16 h-16 rounded-2xl bg-secondary text-on-secondary active:brightness-95 flex flex-col items-center justify-center shadow-2xl border border-secondary/60 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[28px]">arrow_upward</span>
+          <span class="text-[9px] uppercase tracking-wider font-bold -mt-1">JUMP</span>
+        </button>
       </div>
     </div>
 
@@ -101,11 +115,9 @@ export function renderMobileHUD(
         </button>
 
         <!-- Center Touch Button: ECHO TRACE -->
-        <button id="touch-trace-btn" class="flex-1 py-space-sm px-space-md rounded-xl bg-secondary text-on-secondary active:brightness-95 border border-secondary/60 flex items-center justify-center gap-space-xs font-semibold transition-all active:scale-95 shadow-xl">
+        <button id="touch-trace-btn" class="flex-1 py-space-sm px-space-md rounded-xl bg-surface-container-high text-secondary border border-secondary/40 flex items-center justify-center gap-space-xs font-semibold transition-all active:scale-95 shadow-xl">
           <span class="material-symbols-outlined text-[18px]">history</span>
-          <span class="font-label-sm text-[10px] uppercase tracking-wider">${
-            state.echoTraceState === 'recording' ? 'Launch' : 'Trace'
-          }</span>
+          <span class="font-label-sm text-[10px] uppercase tracking-wider">Trace (M3)</span>
         </button>
 
         <!-- Right Touch Button: PULSE / RELEASE -->
@@ -122,9 +134,10 @@ export function renderMobileHUD(
 
 export function bindMobileHUDEvents(_onNavigate: (route: string) => void): void {
   const pauseBtn = document.getElementById('mobile-pause-btn');
-  const traceBtn = document.getElementById('touch-trace-btn');
-  const veilBtn = document.getElementById('touch-veil-btn');
-  const pulseBtn = document.getElementById('touch-pulse-btn');
+  const leftBtn = document.getElementById('touch-left-btn');
+  const rightBtn = document.getElementById('touch-right-btn');
+  const downBtn = document.getElementById('touch-down-btn');
+  const jumpBtn = document.getElementById('touch-jump-btn');
 
   if (pauseBtn) {
     pauseBtn.addEventListener('click', () => {
@@ -133,23 +146,73 @@ export function bindMobileHUDEvents(_onNavigate: (route: string) => void): void 
     });
   }
 
-  if (traceBtn) {
-    traceBtn.addEventListener('click', () => {
-      const s = globalGameState.getState();
-      const nextState = s.echoTraceState === 'recording' ? 'replaying' : 'recording';
-      globalGameState.setEchoTraceState(nextState, 0);
+  // Helper for touch press/release handling
+  const setupTouch = (el: HTMLElement | null, onPress: () => void, onRelease: () => void) => {
+    if (!el) return;
+    el.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      onPress();
     });
-  }
+    el.addEventListener('pointerup', (e) => {
+      e.preventDefault();
+      onRelease();
+    });
+    el.addEventListener('pointercancel', (e) => {
+      e.preventDefault();
+      onRelease();
+    });
+    el.addEventListener('pointerleave', (e) => {
+      e.preventDefault();
+      onRelease();
+    });
+  };
 
-  if (veilBtn) {
-    veilBtn.addEventListener('click', () => {
-      globalGameState.update({ activeWhisper: 'Veil Sight exposed hidden platform.' });
-    });
-  }
+  let curX = 0;
+  let curY = 0;
 
-  if (pulseBtn) {
-    pulseBtn.addEventListener('click', () => {
-      globalGameState.update({ activeWhisper: 'Pulse emitted. Non-lethal stun applied.' });
-    });
-  }
+  setupTouch(
+    leftBtn,
+    () => {
+      curX = -1;
+      inputService.setTouchMove(curX, curY);
+    },
+    () => {
+      if (curX === -1) curX = 0;
+      inputService.setTouchMove(curX, curY);
+    }
+  );
+
+  setupTouch(
+    rightBtn,
+    () => {
+      curX = 1;
+      inputService.setTouchMove(curX, curY);
+    },
+    () => {
+      if (curX === 1) curX = 0;
+      inputService.setTouchMove(curX, curY);
+    }
+  );
+
+  setupTouch(
+    downBtn,
+    () => {
+      curY = 1;
+      inputService.setTouchMove(curX, curY);
+    },
+    () => {
+      curY = 0;
+      inputService.setTouchMove(curX, curY);
+    }
+  );
+
+  setupTouch(
+    jumpBtn,
+    () => {
+      inputService.setTouchJump(true);
+    },
+    () => {
+      inputService.setTouchJump(false);
+    }
+  );
 }

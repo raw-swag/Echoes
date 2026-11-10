@@ -17,6 +17,7 @@ export interface InputServiceOptions {
  * Responsibilities:
  * - Listen to KeyboardEvent.code.
  * - Poll standard Gamepad API.
+ * - Ingest virtual touch action triggers (Mobile D-Pad & Jump).
  * - Safely reset stuck keys on window blur.
  * - Generate immutable, pure InputSnapshots consumed by the simulation.
  */
@@ -27,10 +28,17 @@ export class InputService {
   private readonly activeKeys = new Set<string>();
   private readonly activeActions = new Set<InputAction>();
 
+  // Virtual / Touch overrides
+  private touchMoveX: number = 0;
+  private touchMoveY: number = 0;
+  private touchJump: boolean = false;
+  private touchAbility: boolean = false;
+  private touchPulse: boolean = false;
+  private touchInteract: boolean = false;
+
   private attached = false;
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
-    // Only capture game keys if not in an input field
     const target = event.target as HTMLElement | null;
     if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
       return;
@@ -40,7 +48,6 @@ export class InputService {
     const action = this.keyBindings[event.code];
     if (action) {
       this.activeActions.add(action);
-      // Prevent browser default scroll for game controls
       if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.code)) {
         event.preventDefault();
       }
@@ -51,7 +58,6 @@ export class InputService {
     this.activeKeys.delete(event.code);
     const action = this.keyBindings[event.code];
     if (action) {
-      // Check if any other pressed key maps to the same action
       let stillActive = false;
       for (const code of this.activeKeys) {
         if (this.keyBindings[code] === action) {
@@ -98,6 +104,33 @@ export class InputService {
   public reset(): void {
     this.activeKeys.clear();
     this.activeActions.clear();
+    this.touchMoveX = 0;
+    this.touchMoveY = 0;
+    this.touchJump = false;
+    this.touchAbility = false;
+    this.touchPulse = false;
+    this.touchInteract = false;
+  }
+
+  public setTouchMove(x: number, y: number): void {
+    this.touchMoveX = x;
+    this.touchMoveY = y;
+  }
+
+  public setTouchJump(pressed: boolean): void {
+    this.touchJump = pressed;
+  }
+
+  public setTouchAbility(pressed: boolean): void {
+    this.touchAbility = pressed;
+  }
+
+  public setTouchPulse(pressed: boolean): void {
+    this.touchPulse = pressed;
+  }
+
+  public setTouchInteract(pressed: boolean): void {
+    this.touchInteract = pressed;
   }
 
   public isActionActive(action: InputAction): boolean {
@@ -105,16 +138,16 @@ export class InputService {
   }
 
   /**
-   * Sample the combined keyboard and gamepad state to produce an InputSnapshot for this tick.
+   * Sample the combined keyboard, gamepad, and touch states to produce an InputSnapshot for this tick.
    */
   public poll(): InputSnapshot {
-    let moveX = 0;
-    let moveY = 0;
+    let moveX = this.touchMoveX;
+    let moveY = this.touchMoveY;
 
-    let jump = this.activeActions.has(InputAction.Jump);
-    let ability = this.activeActions.has(InputAction.Ability);
-    let pulse = this.activeActions.has(InputAction.Pulse);
-    let interact = this.activeActions.has(InputAction.Interact);
+    let jump = this.activeActions.has(InputAction.Jump) || this.touchJump;
+    let ability = this.activeActions.has(InputAction.Ability) || this.touchAbility;
+    let pulse = this.activeActions.has(InputAction.Pulse) || this.touchPulse;
+    let interact = this.activeActions.has(InputAction.Interact) || this.touchInteract;
     let trace = this.activeActions.has(InputAction.Trace);
     let pause = this.activeActions.has(InputAction.Pause);
 
@@ -123,14 +156,17 @@ export class InputService {
     if (this.activeActions.has(InputAction.MoveUp)) moveY -= 1;
     if (this.activeActions.has(InputAction.MoveDown)) moveY += 1;
 
-    // Poll Gamepad if supported and connected
+    // Clamp digital move
+    moveX = Math.max(-1, Math.min(1, moveX));
+    moveY = Math.max(-1, Math.min(1, moveY));
+
+    // Poll Gamepad
     if (typeof navigator !== 'undefined' && typeof navigator.getGamepads === 'function') {
       const gamepads = navigator.getGamepads();
       for (let i = 0; i < gamepads.length; i++) {
         const gp = gamepads[i];
         if (!gp || !gp.connected) continue;
 
-        // Stick axes
         const axisX = gp.axes[0] ?? 0;
         const axisY = gp.axes[1] ?? 0;
 
@@ -141,7 +177,6 @@ export class InputService {
           moveY = axisY > 0 ? 1 : -1;
         }
 
-        // Standard buttons
         for (const [btnIndexStr, action] of Object.entries(DEFAULT_GAMEPAD_BUTTONS)) {
           const btnIndex = Number(btnIndexStr);
           const btn = gp.buttons[btnIndex];
@@ -180,8 +215,6 @@ export class InputService {
             }
           }
         }
-
-        // First active gamepad is sufficient for single-player
         break;
       }
     }
@@ -198,3 +231,5 @@ export class InputService {
     };
   }
 }
+
+export const inputService = new InputService();
