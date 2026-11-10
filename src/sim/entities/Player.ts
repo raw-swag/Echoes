@@ -1,7 +1,7 @@
 import { InputSnapshot } from '../InputSnapshot';
 import { AABB, createAABB } from '../physics/AABB';
 import { Tilemap } from '../physics/Tilemap';
-import { resolveMovement } from '../physics/CollisionSolver';
+import { resolveMovement, DynamicObstacle } from '../physics/CollisionSolver';
 import { MovementConfig, DEFAULT_MOVEMENT_CONFIG } from './MovementConfig';
 
 export type MovementState = 'idle' | 'running' | 'jumping' | 'falling';
@@ -71,7 +71,11 @@ export class Player {
   /**
    * Deterministic simulation tick update (60 Hz).
    */
-  public update(input: InputSnapshot, tilemap: Tilemap): void {
+  public update(
+    input: InputSnapshot,
+    tilemap: Tilemap,
+    dynamicObstacles: readonly DynamicObstacle[] = []
+  ): void {
     this.prevX = this.x;
     this.prevY = this.y;
 
@@ -145,7 +149,14 @@ export class Player {
 
     // 6. Collision Resolution
     const box = this.getBounds();
-    const collision = resolveMovement(box, this.vx, this.vy, tilemap, this.dropThroughTimer > 0);
+    const collision = resolveMovement(
+      box,
+      this.vx,
+      this.vy,
+      tilemap,
+      this.dropThroughTimer > 0,
+      dynamicObstacles
+    );
 
     this.x = collision.x;
     this.y = collision.y;

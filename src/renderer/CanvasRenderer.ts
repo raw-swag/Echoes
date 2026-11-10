@@ -175,6 +175,18 @@ export class CanvasRenderer {
       this.renderTilemap(ctx, tilemap);
     }
 
+    // Render Puzzle Entities (Pressure Plate & Echo Door)
+    this.renderPuzzleEntities(ctx, currentState);
+
+    // Render Echo Ghost (translucent, ethereal, distinct from player)
+    if (currentState.ghost && currentState.ghost.active) {
+      const prevG = previousState.ghost;
+      const curG = currentState.ghost;
+      const ghostInterpX = prevG.x + (curG.x - prevG.x) * alpha;
+      const ghostInterpY = prevG.y + (curG.y - prevG.y) * alpha;
+      this.renderGhost(ctx, ghostInterpX, ghostInterpY, curG);
+    }
+
     // Render Player
     this.renderPlayer(ctx, interpX, interpY, curP);
 
@@ -278,6 +290,132 @@ export class CanvasRenderer {
     ctx.fillStyle = '#81C784';
     ctx.font = 'bold 11px "Courier New", monospace';
     ctx.fillText('NEXUS ARCH', goalX - 4, goalY - 8);
+    ctx.restore();
+  }
+
+  private renderPuzzleEntities(ctx: CanvasRenderingContext2D, state: SimulationState): void {
+    // 1. Pressure Plates
+    for (const sensor of state.sensors) {
+      ctx.save();
+      const isActive = sensor.isActive;
+      // Plate base pad
+      ctx.fillStyle = isActive ? '#38bdf8' : '#334155';
+      ctx.strokeStyle = isActive ? '#7dd3fc' : '#64748b';
+      ctx.lineWidth = 2;
+
+      // Glow when active
+      if (isActive) {
+        ctx.shadowColor = 'rgba(56, 189, 248, 0.8)';
+        ctx.shadowBlur = 10;
+      }
+
+      ctx.beginPath();
+      ctx.roundRect(sensor.x, sensor.y, sensor.width, sensor.height, 3);
+      ctx.fill();
+      ctx.stroke();
+
+      // Label indicator
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = isActive ? '#e0f2fe' : '#94a3b8';
+      ctx.font = '9px "Courier New", monospace';
+      ctx.fillText(isActive ? 'WEIGHT: ON' : 'TRIGGER', sensor.x + 4, sensor.y - 6);
+      ctx.restore();
+    }
+
+    // 2. Echo Doors
+    for (const door of state.doors) {
+      ctx.save();
+      const openPct = door.openProgress;
+      const closedH = door.height * (1.0 - openPct);
+
+      if (closedH > 2) {
+        // Door slab retracts upward
+        ctx.fillStyle = '#0f172a';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
+
+        ctx.shadowColor = 'rgba(56, 189, 248, 0.4)';
+        ctx.shadowBlur = 8;
+
+        ctx.beginPath();
+        ctx.roundRect(door.x, door.y, door.width, closedH, 4);
+        ctx.fill();
+        ctx.stroke();
+
+        // Energy barrier hash marks
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+        ctx.lineWidth = 1;
+        for (let y = door.y + 8; y < door.y + closedH - 4; y += 12) {
+          ctx.beginPath();
+          ctx.moveTo(door.x + 3, y);
+          ctx.lineTo(door.x + door.width - 3, y);
+          ctx.stroke();
+        }
+      }
+
+      // Arch frame top
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(door.x - 4, door.y - 8, door.width + 8, 8);
+      ctx.strokeStyle = '#64748b';
+      ctx.strokeRect(door.x - 4, door.y - 8, door.width + 8, 8);
+
+      // Status indicator light
+      ctx.fillStyle = door.isPassable ? '#4ade80' : '#f87171';
+      ctx.beginPath();
+      ctx.arc(door.x + door.width / 2, door.y - 4, 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+  }
+
+  private renderGhost(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    ghost: SimulationState['ghost']
+  ): void {
+    ctx.save();
+    const w = ghost.width;
+    const h = ghost.height;
+    ctx.globalAlpha = ghost.opacity;
+
+    // Ethereal cyan glow
+    ctx.shadowColor = 'rgba(34, 211, 238, 0.9)';
+    ctx.shadowBlur = 16;
+
+    // Translucent ghostly capsule
+    ctx.fillStyle = 'rgba(14, 116, 144, 0.35)';
+    ctx.strokeStyle = '#22d3ee';
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.roundRect(x, y, w, h, 6);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.shadowBlur = 0;
+
+    // Ghost Core (Holding pulses cyan, regular pulses amber/cyan)
+    ctx.fillStyle = ghost.isHolding ? '#67e8f9' : '#a5f3fc';
+    ctx.beginPath();
+    ctx.arc(x + w / 2, y + h * 0.4, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Direction Visor
+    ctx.fillStyle = '#ecfeff';
+    const eyeX = ghost.facing === 'right' ? x + w - 7 : x + 3;
+    ctx.fillRect(eyeX, y + 10, 4, 4);
+
+    // If holding pose, render a subtle holding rune above head
+    if (ghost.isHolding) {
+      ctx.strokeStyle = '#67e8f9';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(x + w / 2, y - 8, 5, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
     ctx.restore();
   }
 

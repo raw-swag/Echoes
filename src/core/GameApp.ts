@@ -44,6 +44,31 @@ export class GameApp {
 
         const inputSnapshot = this.inputService.poll();
         this.simulation.step(inputSnapshot);
+
+        // Sync real simulation trace status back to UI GameState
+        const simState = this.simulation.getCurrentState();
+        const trace = simState.traceStatus;
+        let traceSeconds = 0;
+        if (trace.state === 'recording') {
+          traceSeconds = trace.recordTicks / 60;
+        } else if (trace.state === 'playback') {
+          traceSeconds = trace.playbackTick / 60;
+        } else if (trace.state === 'holding') {
+          traceSeconds = trace.holdTick / 60;
+        } else if (trace.state === 'dissolving') {
+          traceSeconds = trace.dissolveTick / 60;
+        }
+
+        if (
+          appState.echoTraceState !== trace.state ||
+          Math.abs(appState.echoTraceTimer - traceSeconds) >= 0.05
+        ) {
+          globalGameState.update({
+            echoTraceState: trace.state,
+            echoTraceTimer: traceSeconds,
+            echoTraceMaxTimer: trace.maxRecordTicks / 60
+          });
+        }
       },
       render: (alpha: number) => {
         const fps = this.loop.getFPS();

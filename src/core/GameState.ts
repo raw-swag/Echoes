@@ -51,8 +51,8 @@ export interface GameStateModel {
   acousticDriftHz: number;
   isPaused: boolean;
   echoTraceTimer: number; // current seconds
-  echoTraceMaxTimer: number; // 5.0s
-  echoTraceState: 'idle' | 'recording' | 'replaying' | 'dissolving';
+  echoTraceMaxTimer: number; // 8.0s (TR-01)
+  echoTraceState: 'idle' | 'recording' | 'playback' | 'holding' | 'dissolving' | 'cooldown';
 
   // Archive items
   selectedShardId: string;
@@ -73,9 +73,9 @@ export const INITIAL_GAME_STATE: GameStateModel = {
 
   acousticDriftHz: 14.8,
   isPaused: false,
-  echoTraceTimer: 2.4,
-  echoTraceMaxTimer: 5.0,
-  echoTraceState: 'recording',
+  echoTraceTimer: 0.0,
+  echoTraceMaxTimer: 8.0,
+  echoTraceState: 'idle',
 
   selectedShardId: 'fragment-42',
   chapters: [

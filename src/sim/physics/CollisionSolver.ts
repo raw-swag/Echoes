@@ -1,4 +1,4 @@
-import { AABB } from './AABB';
+import { AABB, overlapsAABB } from './AABB';
 import { Tilemap, TileType, getTile } from './Tilemap';
 
 export interface CollisionResult {
@@ -13,15 +13,21 @@ export interface CollisionResult {
   hitHazard: boolean;
 }
 
+export interface DynamicObstacle {
+  readonly isPassable: boolean;
+  getBounds(): AABB;
+}
+
 /**
- * Deterministic AABB vs Tilemap collision solver.
+ * Deterministic AABB vs Tilemap + dynamic obstacles collision solver.
  */
 export function resolveMovement(
   box: AABB,
   vx: number,
   vy: number,
   tilemap: Tilemap,
-  ignoreOneWay: boolean = false
+  ignoreOneWay: boolean = false,
+  dynamicObstacles: readonly DynamicObstacle[] = []
 ): CollisionResult {
   let x = box.x;
   let y = box.y;
@@ -40,6 +46,7 @@ export function resolveMovement(
   // ----------------------------------------------------
   x += vx;
 
+  // Check tilemap walls
   const startRowX = Math.floor((y + 0.01) / ts);
   const endRowX = Math.floor((y + h - 0.01) / ts);
 
@@ -65,6 +72,32 @@ export function resolveMovement(
         vx = 0;
         hitWallLeft = true;
         break;
+      }
+    }
+  }
+
+  // Check dynamic solid obstacles (e.g. EchoDoor when closed)
+  for (let i = 0; i < dynamicObstacles.length; i++) {
+    const obs = dynamicObstacles[i];
+    if (obs.isPassable) continue;
+
+    const obsBounds = obs.getBounds();
+    const currentBox: AABB = {
+      x,
+      y,
+      width: w,
+      height: h
+    };
+
+    if (overlapsAABB(currentBox, obsBounds)) {
+      if (vx > 0) {
+        x = obsBounds.x - w;
+        vx = 0;
+        hitWallRight = true;
+      } else if (vx < 0) {
+        x = obsBounds.x + obsBounds.width;
+        vx = 0;
+        hitWallLeft = true;
       }
     }
   }
