@@ -48,11 +48,11 @@ export class CanvasRenderer {
     });
     this.debugOverlay = new DebugOverlay();
 
-    // World size for graybox room: 60 cols * 32px = 1920, 25 rows * 32px = 800
+    // World size for Chapter 1 level: 80 cols * 32px = 2560, 25 rows * 32px = 800
     this.camera = new Camera({
       viewportWidth: vw,
       viewportHeight: vh,
-      worldWidth: 1920,
+      worldWidth: 2560,
       worldHeight: 800,
       smoothFactor: 0.1,
       lookaheadDistance: 64
@@ -276,21 +276,6 @@ export class CanvasRenderer {
         }
       }
     }
-
-    // Render Goal Gateway at column 54, row 18
-    const goalX = 54 * ts;
-    const goalY = 16 * ts;
-    ctx.save();
-    ctx.strokeStyle = '#81C784';
-    ctx.lineWidth = 2;
-    ctx.fillStyle = 'rgba(129, 199, 132, 0.15)';
-    ctx.strokeRect(goalX, goalY, ts * 2, ts * 3);
-    ctx.fillRect(goalX, goalY, ts * 2, ts * 3);
-
-    ctx.fillStyle = '#81C784';
-    ctx.font = 'bold 11px "Courier New", monospace';
-    ctx.fillText('NEXUS ARCH', goalX - 4, goalY - 8);
-    ctx.restore();
   }
 
   private renderPuzzleEntities(ctx: CanvasRenderingContext2D, state: SimulationState): void {
@@ -370,6 +355,94 @@ export class CanvasRenderer {
       ctx.arc(door.x + door.width / 2, door.y - 4, 3, 0, Math.PI * 2);
       ctx.fill();
 
+      ctx.restore();
+    }
+
+    // 3. Beacons (Checkpoints)
+    for (const b of state.beacons) {
+      ctx.save();
+      const isActive = b.isActive;
+
+      // Base Pillar
+      ctx.fillStyle = '#171a2e';
+      ctx.strokeStyle = isActive ? '#dcc39b' : '#46464c';
+      ctx.lineWidth = 1.5;
+
+      ctx.beginPath();
+      ctx.roundRect(b.x, b.y + 16, b.width, b.height - 16, 4);
+      ctx.fill();
+      ctx.stroke();
+
+      // Beacon Resonant Crystal
+      ctx.fillStyle = isActive ? '#f9dfb6' : '#5c5d6f';
+      if (isActive) {
+        ctx.shadowColor = 'rgba(249, 223, 182, 0.7)';
+        ctx.shadowBlur = 12;
+      }
+      ctx.beginPath();
+      ctx.moveTo(b.x + b.width / 2, b.y);
+      ctx.lineTo(b.x + b.width - 4, b.y + 14);
+      ctx.lineTo(b.x + 4, b.y + 14);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = isActive ? '#f9dfb6' : '#919097';
+      ctx.font = '10px "Courier New", monospace';
+      ctx.fillText(isActive ? 'BEACON ACTIVE' : 'BEACON', b.x - 8, b.y - 6);
+      ctx.restore();
+    }
+
+    // 4. Memory Shards
+    for (const s of state.shards) {
+      if (s.collected) continue;
+      ctx.save();
+      // Floating Shard Diamond
+      ctx.fillStyle = '#dcc39b';
+      ctx.strokeStyle = '#f9dfb6';
+      ctx.lineWidth = 1.5;
+
+      ctx.shadowColor = 'rgba(220, 195, 155, 0.6)';
+      ctx.shadowBlur = 10;
+
+      ctx.beginPath();
+      ctx.moveTo(s.x + s.width / 2, s.y);
+      ctx.lineTo(s.x + s.width, s.y + s.height / 2);
+      ctx.lineTo(s.x + s.width / 2, s.y + s.height);
+      ctx.lineTo(s.x, s.y + s.height / 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#f9dfb6';
+      ctx.font = '9px "Courier New", monospace';
+      ctx.fillText('SHARD', s.x - 2, s.y - 4);
+      ctx.restore();
+    }
+
+    // 5. Exit Gateway / Nexus Arch
+    if (state.exitGateway) {
+      const g = state.exitGateway;
+      ctx.save();
+      const isWon = state.isLevelCompleted;
+
+      ctx.strokeStyle = isWon ? '#81C784' : '#dcc39b';
+      ctx.lineWidth = 2;
+      ctx.fillStyle = isWon ? 'rgba(129, 199, 132, 0.25)' : 'rgba(220, 195, 155, 0.15)';
+
+      if (isWon) {
+        ctx.shadowColor = 'rgba(129, 199, 132, 0.6)';
+        ctx.shadowBlur = 16;
+      }
+
+      ctx.strokeRect(g.x, g.y, g.width, g.height);
+      ctx.fillRect(g.x, g.y, g.width, g.height);
+
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = isWon ? '#81C784' : '#dcc39b';
+      ctx.font = 'bold 11px "Courier New", monospace';
+      ctx.fillText(isWon ? 'COMPLETED' : 'NEXUS ARCH', g.x + 2, g.y - 8);
       ctx.restore();
     }
   }

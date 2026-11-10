@@ -4,6 +4,9 @@ import { GhostSnapshot } from './echo/TraceGhost';
 import { TraceStatus } from './echo/TraceState';
 import { WeightSensorSnapshot } from './echo/WeightSensor';
 import { EchoDoorSnapshot } from './echo/EchoDoor';
+import { BeaconSnapshot } from './world/BeaconEntity';
+import { MemoryShardSnapshot } from './world/MemoryShardEntity';
+import { ExitGatewaySnapshot } from './world/ExitGatewayEntity';
 import { TRACE_TICKS } from './echo/TraceConfig';
 
 /**
@@ -18,6 +21,16 @@ export interface SimulationState {
   readonly traceStatus: TraceStatus;
   readonly sensors: readonly WeightSensorSnapshot[];
   readonly doors: readonly EchoDoorSnapshot[];
+  readonly beacons: readonly BeaconSnapshot[];
+  readonly shards: readonly MemoryShardSnapshot[];
+  readonly exitGateway: ExitGatewaySnapshot;
+  readonly integrity: number; // SV-01: 3 pips
+  readonly maxIntegrity: number; // 3
+  readonly invulnerableTicks: number; // 1.5 s = 90 ticks after damage
+  readonly isLevelCompleted: boolean;
+  readonly isDead: boolean;
+  readonly collectedShardCount: number;
+  readonly totalShardCount: number;
 }
 
 export function createInitialSimulationState(
@@ -67,6 +80,22 @@ export function createInitialSimulationState(
       validSampleCount: 0
     },
     sensors: [],
-    doors: []
+    doors: [],
+    beacons: [],
+    shards: [],
+    exitGateway: {
+      x: 2336,
+      y: 512,
+      width: 64,
+      height: 96,
+      isTriggered: false
+    },
+    integrity: 3,
+    maxIntegrity: 3,
+    invulnerableTicks: 0,
+    isLevelCompleted: false,
+    isDead: false,
+    collectedShardCount: 0,
+    totalShardCount: 4
   };
 }

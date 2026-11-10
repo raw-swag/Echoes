@@ -54,22 +54,29 @@ export function renderMobileHUD(
         </div>
       </div>
 
-      <!-- Top Center: Integrity Diamonds -->
-      <div class="flex flex-col items-center bg-surface-container-lowest/70 backdrop-blur-sm px-space-md py-space-xs rounded-full border border-surface-container-high/30">
-        <span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant mb-1">Integrity</span>
-        <div class="flex items-center gap-1.5">
-          ${Array.from({ length: state.mindIntegrityMax })
-            .map((_, i) => {
-              const active = i < state.mindIntegrity;
-              return `<div class="w-3 h-3 rotate-45 ${
-                active ? 'bg-secondary' : 'bg-surface-container-highest'
-              } flex items-center justify-center transition-all duration-300 shadow-sm">
-                <div class="w-1 h-1 ${
-                  active ? 'bg-surface-container-lowest' : 'bg-secondary/40'
-                } rounded-full"></div>
-              </div>`;
-            })
-            .join('')}
+      <!-- Top Center: Integrity & Shards -->
+      <div class="flex items-center gap-space-xs">
+        <div class="flex flex-col items-center bg-surface-container-lowest/70 backdrop-blur-sm px-space-sm py-space-xs rounded-xl border border-surface-container-high/30">
+          <span class="font-label-sm text-[8px] uppercase tracking-widest text-on-surface-variant">Shards</span>
+          <span class="font-title-md text-[11px] text-secondary font-semibold font-mono">${state.collectedShardsCurrent}/${state.collectedShardsTotal}</span>
+        </div>
+
+        <div class="flex flex-col items-center bg-surface-container-lowest/70 backdrop-blur-sm px-space-sm py-space-xs rounded-xl border border-surface-container-high/30">
+          <span class="font-label-sm text-[8px] uppercase tracking-widest text-on-surface-variant mb-0.5">Integrity</span>
+          <div class="flex items-center gap-1">
+            ${Array.from({ length: state.mindIntegrityMax })
+              .map((_, i) => {
+                const active = i < state.mindIntegrity;
+                return `<div class="w-2.5 h-2.5 rotate-45 ${
+                  active ? 'bg-secondary' : 'bg-surface-container-highest'
+                } flex items-center justify-center transition-all duration-300 shadow-sm">
+                  <div class="w-0.5 h-0.5 ${
+                    active ? 'bg-surface-container-lowest' : 'bg-secondary/40'
+                  } rounded-full"></div>
+                </div>`;
+              })
+              .join('')}
+          </div>
         </div>
       </div>
 
@@ -117,7 +124,7 @@ export function renderMobileHUD(
         <!-- Center Touch Button: ECHO TRACE -->
         <button id="touch-trace-btn" class="flex-1 py-space-sm px-space-md rounded-xl bg-surface-container-high text-secondary border border-secondary/40 flex items-center justify-center gap-space-xs font-semibold transition-all active:scale-95 shadow-xl">
           <span class="material-symbols-outlined text-[18px]">history</span>
-          <span class="font-label-sm text-[10px] uppercase tracking-wider">Trace (M3)</span>
+          <span class="font-label-sm text-[10px] uppercase tracking-wider">Trace</span>
         </button>
 
         <!-- Right Touch Button: PULSE / RELEASE -->
@@ -128,6 +135,29 @@ export function renderMobileHUD(
       </div>
     </div>
   </div>
+
+  ${
+    state.isLevelCompleted
+      ? `
+  <!-- Mobile Level Completed Modal -->
+  <div class="absolute inset-0 z-40 bg-surface-container-lowest/90 backdrop-blur-xl flex flex-col items-center justify-center p-space-lg">
+    <div class="w-full bg-surface-container-low border border-secondary/40 rounded-2xl p-space-lg flex flex-col items-center text-center shadow-2xl gap-space-sm">
+      <span class="material-symbols-outlined text-[36px] text-secondary">verified</span>
+      <span class="font-headline-sm text-[20px] text-on-surface font-semibold">RECOLLECTION RESTORED</span>
+      <p class="font-body-sm text-on-surface-variant text-[12px]">
+        You have solved the Pressure Gallery, activated the Sanctuary Beacon, and crossed the Nexus Arch.
+      </p>
+      <div class="py-space-xs text-secondary font-semibold font-label-sm">
+        Shards Recovered: ${state.collectedShardsCurrent} / ${state.collectedShardsTotal}
+      </div>
+      <button id="mobile-replay-btn" class="w-full py-space-md bg-secondary text-on-secondary rounded-xl font-label-md uppercase tracking-wider font-semibold active:scale-95 transition-all">
+        Replay Recollection
+      </button>
+    </div>
+  </div>
+  `
+      : ''
+  }
 </div>
 `;
 }
@@ -146,6 +176,13 @@ export function bindMobileHUDEvents(_onNavigate: (route: string) => void): void 
     pauseBtn.addEventListener('click', () => {
       const s = globalGameState.getState();
       globalGameState.setPaused(!s.isPaused);
+    });
+  }
+
+  const replayBtn = document.getElementById('mobile-replay-btn');
+  if (replayBtn) {
+    replayBtn.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('echoes:restart-level'));
     });
   }
 

@@ -4,6 +4,8 @@ import { CanvasRenderer } from '@renderer/CanvasRenderer';
 import { FixedStepLoop } from './FixedStepLoop';
 import { globalGameState } from './GameState';
 import { UIRouter } from '../ui/UIRouter';
+import { soundService } from '../audio/SoundService';
+import { PersistenceService } from '../storage/PersistenceService';
 
 export interface GameAppOptions {
   canvas: HTMLCanvasElement;
@@ -30,6 +32,54 @@ export class GameApp {
         canvas: options.canvas
       });
     }
+
+    // Wire simulation events to audio & persistence
+    this.simulation.events = {
+      onJump: () => soundService.playJump(),
+      onTraceStart: () => soundService.playTraceRecord(),
+      onTraceLaunch: () => soundService.playTraceLaunch(),
+      onDoorStateChange: (open) => {
+        if (open) soundService.playDoorOpen();
+      },
+      onBeaconActivate: (beaconId) => {
+        soundService.playBeaconActivate();
+        const simState = this.simulation.getCurrentState();
+        PersistenceService.save({
+          version: 1,
+          activeBeaconId: beaconId,
+          respawnX: 1152,
+          respawnY: 550,
+          collectedShardIds: simState.shards.filter((s) => s.collected).map((s) => s.id),
+          integrity: simState.integrity,
+          remnants: globalGameState.getState().remnants,
+          levelCompleted: simState.isLevelCompleted
+        });
+      },
+      onShardCollect: (_id, count) => {
+        soundService.playShardCollect();
+        globalGameState.update({
+          collectedShardsCurrent: count,
+          remnants: globalGameState.getState().remnants + 25
+        });
+      },
+      onDamage: () => soundService.playDamage(),
+      onDeath: () => soundService.playDeath(),
+      onLevelComplete: () => {
+        soundService.playLevelComplete();
+        globalGameState.update({ isLevelCompleted: true });
+        const simState = this.simulation.getCurrentState();
+        PersistenceService.save({
+          version: 1,
+          activeBeaconId: 'beacon_central',
+          respawnX: 1152,
+          respawnY: 550,
+          collectedShardIds: simState.shards.filter((s) => s.collected).map((s) => s.id),
+          integrity: simState.integrity,
+          remnants: globalGameState.getState().remnants,
+          levelCompleted: true
+        });
+      }
+    };
 
     this.loop = new FixedStepLoop({
       tickRate: 60,
@@ -61,12 +111,18 @@ export class GameApp {
 
         if (
           appState.echoTraceState !== trace.state ||
-          Math.abs(appState.echoTraceTimer - traceSeconds) >= 0.05
+          Math.abs(appState.echoTraceTimer - traceSeconds) >= 0.05 ||
+          appState.mindIntegrity !== simState.integrity ||
+          appState.collectedShardsCurrent !== simState.collectedShardCount ||
+          appState.isLevelCompleted !== simState.isLevelCompleted
         ) {
           globalGameState.update({
             echoTraceState: trace.state,
             echoTraceTimer: traceSeconds,
-            echoTraceMaxTimer: trace.maxRecordTicks / 60
+            echoTraceMaxTimer: trace.maxRecordTicks / 60,
+            mindIntegrity: simState.integrity,
+            collectedShardsCurrent: simState.collectedShardCount,
+            isLevelCompleted: simState.isLevelCompleted
           });
         }
       },
@@ -124,6 +180,17 @@ export class GameApp {
     this.uiRouter?.dispose();
     this.inputService.detach(window);
     this.renderer.dispose();
+  }
+
+  public restartLevel(): void {
+    this.simulation.reset();
+    globalGameState.update({
+      mindIntegrity: 3,
+      collectedShardsCurrent: 0,
+      isLevelCompleted: false,
+      echoTraceState: 'idle',
+      echoTraceTimer: 0
+    });
   }
 
   public getSimulation(): Simulation {

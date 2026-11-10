@@ -207,8 +207,10 @@ describe('M3: Echo Trace Deterministic Recording & Playback Engine', () => {
     const plate = sim.getPressurePlate();
     const door = sim.getEchoDoor();
 
-    // 1. Teleport player onto the pressure plate at x = 650, y = 620
-    sim.getPlayer().teleport(650, 620);
+    // 1. Teleport player onto the pressure plate at plate.x + 10
+    const plateX = plate.x + 10;
+    const plateY = plate.y - 8;
+    sim.getPlayer().teleport(plateX, plateY);
 
     // Start recording while standing on plate
     sim.step({ ...EMPTY_INPUT_SNAPSHOT, trace: true });
@@ -225,10 +227,10 @@ describe('M3: Echo Trace Deterministic Recording & Playback Engine', () => {
     // Teleport living player away from the plate to starting ledge (x = 120, y = 550)
     sim.getPlayer().teleport(120, 550);
 
-    // Ghost is at frame 0 (on the plate x = 650, y = 620)!
+    // Ghost is at frame 0 (on the plate)!
     const ghost = sim.getCurrentState().ghost;
     expect(ghost.active).toBe(true);
-    expect(ghost.x).toBeCloseTo(650, 1);
+    expect(ghost.x).toBeCloseTo(plateX, 1);
 
     // Verify plate is activated by ghost
     sim.step(EMPTY_INPUT_SNAPSHOT);

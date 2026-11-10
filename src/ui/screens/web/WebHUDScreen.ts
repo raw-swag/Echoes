@@ -62,8 +62,17 @@ export function renderWebHUD(
       </p>
     </div>
 
-    <!-- Right: Mind Integrity & Pause Key -->
+    <!-- Right: Mind Integrity, Shards & Pause Key -->
     <div class="flex items-center gap-space-md">
+      <!-- Memory Shards Collected -->
+      <div class="flex flex-col items-end gap-1 bg-surface-container-low/85 backdrop-blur-md px-space-md py-space-sm rounded-lg shadow-xl border border-surface-container-high/40">
+        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Shards</span>
+        <div class="flex items-center gap-space-xs font-label-md text-secondary font-semibold">
+          <span class="material-symbols-outlined text-secondary text-[16px]">token</span>
+          <span>${state.collectedShardsCurrent} / ${state.collectedShardsTotal}</span>
+        </div>
+      </div>
+
       <!-- Integrity Pips -->
       <div class="flex flex-col items-end gap-1 bg-surface-container-low/85 backdrop-blur-md px-space-md py-space-sm rounded-lg shadow-xl border border-surface-container-high/40">
         <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Mind Integrity</span>
@@ -88,21 +97,47 @@ export function renderWebHUD(
     </div>
   </div>
 
+  ${
+    state.isLevelCompleted
+      ? `
+  <!-- Level Completed Modal Overlay -->
+  <div class="absolute inset-0 z-40 bg-surface-container-lowest/90 backdrop-blur-xl flex flex-col items-center justify-center p-space-xl">
+    <div class="max-w-md w-full bg-surface-container-low border border-secondary/40 rounded-2xl p-space-xl flex flex-col items-center text-center shadow-2xl gap-space-md">
+      <span class="material-symbols-outlined text-[48px] text-secondary">verified</span>
+      <span class="font-display-lg text-[28px] text-on-surface font-semibold tracking-wide">RECOLLECTION RESTORED</span>
+      <p class="font-body-md text-on-surface-variant text-[14px]">
+        You have solved the Pressure Gallery, activated the Sanctuary Beacon, and crossed the Nexus Arch.
+      </p>
+      <div class="flex items-center gap-space-md py-space-sm">
+        <span class="text-secondary font-semibold font-label-md">Shards Recovered: ${state.collectedShardsCurrent} / ${state.collectedShardsTotal}</span>
+      </div>
+      <button id="web-replay-btn" class="w-full py-space-md bg-secondary text-on-secondary rounded-xl font-label-md uppercase tracking-widest font-semibold hover:brightness-110 active:scale-95 transition-all cursor-pointer">
+        Replay Recollection
+      </button>
+    </div>
+  </div>
+  `
+      : ''
+  }
+
   <!-- Bottom Interactive Quick Controls Telemetry Bar -->
   <div class="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-auto">
     <div class="flex items-center gap-space-sm bg-surface-container-lowest/85 backdrop-blur-md px-space-md py-space-xs rounded-lg text-on-surface border border-surface-container-high/40 font-body-sm text-[12px] shadow-lg">
-      <span class="text-secondary font-semibold">[A] [D] / Arrows</span>
+      <span class="text-secondary font-semibold">[A] [D]</span>
       <span>Run</span>
       <span class="text-on-surface-variant/40">•</span>
       <span class="text-secondary font-semibold">[SPACE]</span>
-      <span>Jump (Hold for higher apex)</span>
+      <span>Jump</span>
       <span class="text-on-surface-variant/40">•</span>
       <span class="text-secondary font-semibold">[S] + [SPACE]</span>
-      <span>Drop-through one-way platform</span>
+      <span>Drop-through</span>
+      <span class="text-on-surface-variant/40">•</span>
+      <span class="text-secondary font-semibold">[E]</span>
+      <span>Echo Trace (Hold to cancel)</span>
     </div>
 
     <div class="flex items-center gap-space-sm bg-surface-container-lowest/85 backdrop-blur-md px-space-md py-space-xs rounded-lg border border-surface-container-high/40 font-label-sm text-[11px] text-on-surface-variant">
-      <span>M2 Deterministic Physics: Active (60 Hz)</span>
+      <span>Beacon Checkpoint: Active</span>
     </div>
   </div>
 </div>
@@ -111,11 +146,19 @@ export function renderWebHUD(
 
 export function bindWebHUDEvents(_onNavigate: (route: string) => void): void {
   const pauseBtn = document.getElementById('web-pause-btn');
+  const replayBtn = document.getElementById('web-replay-btn');
 
   if (pauseBtn) {
     pauseBtn.addEventListener('click', () => {
       const currentState = globalGameState.getState();
       globalGameState.setPaused(!currentState.isPaused);
+    });
+  }
+
+  if (replayBtn) {
+    replayBtn.addEventListener('click', () => {
+      // Trigger level restart via window dispatch event
+      window.dispatchEvent(new CustomEvent('echoes:restart-level'));
     });
   }
 }

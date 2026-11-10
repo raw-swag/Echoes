@@ -12,7 +12,7 @@ describe('GameStateManager', () => {
     const state = manager.getState();
     expect(state.remnants).toBe(1408);
     expect(state.epochThreshold).toBe(1500);
-    expect(state.mindIntegrity).toBe(2);
+    expect(state.mindIntegrity).toBe(3);
     expect(state.chapters.length).toBe(5);
     expect(state.shards.length).toBe(3);
   });

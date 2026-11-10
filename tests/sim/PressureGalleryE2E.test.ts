@@ -17,9 +17,9 @@ describe('Pressure Gallery End-to-End Puzzle Verification', () => {
     expect(door.isPassable).toBe(false);
 
     // Living player attempts to walk directly through the door without Echo Trace
-    // Door is at x = 1216, plate is at x = 640
+    // Door is at door.x, plate is at plate.x
     // Player cannot cross the closed door (solid barrier)
-    player.teleport(1200, 640 - 48); // Right in front of door
+    player.teleport(door.x - 16, 640 - 48); // Right in front of door
     sim.step({ ...EMPTY_INPUT_SNAPSHOT, moveX: 1 }); // Walk into door
     expect(player.x).toBeLessThanOrEqual(door.x);
 
@@ -28,13 +28,14 @@ describe('Pressure Gallery End-to-End Puzzle Verification', () => {
     expect(sim.getPlayer().x).toBe(120);
     expect(door.isPassable).toBe(false);
 
-    // 2. Step 1: Start recording Echo Trace while at start
+    // 2. Step 1: Teleport player near plate to record walking onto it
+    player.teleport(plate.x - 64, 640 - 48);
     sim.step({ ...EMPTY_INPUT_SNAPSHOT, trace: true });
     expect(sim.getCurrentState().traceStatus.state).toBe('recording');
 
-    // Step 2: Walk player across floor toward the pressure plate at x = 640
+    // Step 2: Walk player across floor toward the pressure plate
     let reachedPlate = false;
-    for (let t = 0; t < 240; t++) {
+    for (let t = 0; t < 60; t++) {
       sim.step({ ...EMPTY_INPUT_SNAPSHOT, moveX: 1 });
       if (plate.isActive()) {
         reachedPlate = true;
@@ -56,17 +57,14 @@ describe('Pressure Gallery End-to-End Puzzle Verification', () => {
     expect(traceState).toBe('playback');
 
     // 3. Independent living player movement:
-    // Real player sprints right toward the EchoDoor (x = 1216)
-    // While living player is running, ghost starts from Origin Mark (x = 120) and walks to plate
-    for (let t = 0; t < 120; t++) {
+    // Real player sprints right toward the EchoDoor
+    for (let t = 0; t < 30; t++) {
       sim.step({ ...EMPTY_INPUT_SNAPSHOT, moveX: 1 });
     }
 
-    // Living player arrives at door before the ghost has activated the plate
-    // Door should still be closing/closed or opening once ghost arrives
     // Advance ticks until ghost reaches the plate and holds
     let ghostDepressedPlate = false;
-    for (let t = 0; t < 240; t++) {
+    for (let t = 0; t < 120; t++) {
       sim.step(EMPTY_INPUT_SNAPSHOT);
       if (plate.isActive() && sim.getCurrentState().ghost.active) {
         ghostDepressedPlate = true;
@@ -83,8 +81,8 @@ describe('Pressure Gallery End-to-End Puzzle Verification', () => {
     expect(door.isPassable).toBe(true);
 
     // Ghost transitions to holding pose (720 ticks / 12s)
-    // Living player now steps safely through the open door to the Exit Chamber (x >= 1250)
-    sim.getPlayer().teleport(1210, 640 - 48); // Just before door
+    // Living player now steps safely through the open door into the Exit Sanctuary
+    sim.getPlayer().teleport(door.x - 8, 640 - 48); // Just before door
     for (let t = 0; t < 30; t++) {
       sim.step({ ...EMPTY_INPUT_SNAPSHOT, moveX: 1 });
     }

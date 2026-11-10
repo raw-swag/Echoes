@@ -16,6 +16,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   app.start();
 
+  window.addEventListener('echoes:restart-level', () => {
+    app.restartLevel();
+  });
+
   // Register PWA service worker if supported
   if ('serviceWorker' in navigator && import.meta.env.PROD) {
     window.addEventListener('load', () => {
