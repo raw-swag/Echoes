@@ -2,17 +2,26 @@
 
 ## Milestone 1: Core Foundation & Deterministic Simulation Loop
 
-### Status: Completed (Phase 1 Foundation)
-- **Branch:** `feat/phase-1-foundation`
+### Status: Completed (Phase 1 Foundation + Official Web & PWA UI Integration)
+- **Branches:** `feat/phase-1-foundation`, `feat/ui-integration-web-pwa`
 
 ### Summary of Completed Features
 1. **Development Environment Configuration**:
    - Configured Vite with strict TypeScript (`ES2022`, `strict: true`, clean path aliases).
    - Configured Vitest for fast, headless unit and deterministic simulation tests.
-   - Configured ESLint (`@typescript-eslint` v8) and Prettier for code consistency.
+   - Configured ESLint (`@typescript-eslint` v8), Prettier, and TailwindCSS (`@tailwindcss/postcss`).
    - Configured npm scripts: `dev`, `build`, `preview`, `test`, `test:watch`, `typecheck`, `lint`, `format`.
 
-2. **Fixed-Step Simulation Loop (`src/core/FixedStepLoop.ts`)**:
+2. **Official Web & PWA UI System Integration**:
+   - Inspected official UI archives `docs/echoes_web_ui.zip` and `docs/echoes_mobile_ui.zip`.
+   - Extracted official design tokens (`colors`, `typography`, `spacing`, `borderRadius`) into `tailwind.config.js` and `src/ui/styles/main.css`.
+   - Built dual-experience responsive router (`src/ui/UIRouter.ts`) supporting Desktop Web (editorial 12-column grid & sidebar) and Mobile PWA (touch-first HUD & bottom tab bar).
+   - Implemented all 5 official screen modules for both Web and Mobile: Prologue, Memory Chapters, Archive Records, Resonance HUD, and Archival Ledger.
+   - Integrated the Canvas 2D deterministic engine into the diegetic `#gameplay-viewport`.
+   - Added progressive web app offline shell with `public/manifest.webmanifest` and `public/sw.js`.
+   - Localized all UI artwork assets under `public/assets/ui/`.
+
+3. **Fixed-Step Simulation Loop (`src/core/FixedStepLoop.ts`)**:
    - Exact 60 Hz simulation frequency ($dt = 1/60$ s).
    - Accumulator-based loop driven by `requestAnimationFrame`.
    - Maximum 5 catch-up ticks per rendered frame to prevent spiral of death.

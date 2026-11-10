@@ -1,3 +1,4 @@
+export * from './GameState';
 export * from './Clock';
 export * from './FixedStepLoop';
 export * from './GameApp';

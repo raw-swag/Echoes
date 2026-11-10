@@ -2,9 +2,12 @@ import { Simulation } from '@sim/Simulation';
 import { InputService } from '@input/InputService';
 import { CanvasRenderer } from '@renderer/CanvasRenderer';
 import { FixedStepLoop } from './FixedStepLoop';
+import { globalGameState } from './GameState';
+import { UIRouter } from '../ui/UIRouter';
 
 export interface GameAppOptions {
   canvas: HTMLCanvasElement;
+  uiContainer?: HTMLElement;
 }
 
 export class GameApp {
@@ -12,6 +15,7 @@ export class GameApp {
   private readonly inputService: InputService;
   private readonly renderer: CanvasRenderer;
   private readonly loop: FixedStepLoop;
+  private readonly uiRouter?: UIRouter;
 
   private isStarted = false;
 
@@ -20,12 +24,24 @@ export class GameApp {
     this.inputService = new InputService();
     this.renderer = new CanvasRenderer({ canvas: options.canvas });
 
+    if (options.uiContainer) {
+      this.uiRouter = new UIRouter({
+        container: options.uiContainer,
+        canvas: options.canvas
+      });
+    }
+
     this.loop = new FixedStepLoop({
       tickRate: 60,
       maxSubSteps: 5,
       maxDeltaTime: 0.2,
       update: (_dt: number) => {
-        // Poll input state and advance pure simulation by one 60 Hz tick
+        // Sync simulation pause state with UI game state
+        const appState = globalGameState.getState();
+        if (appState.isPaused !== this.simulation.isSimulationPaused()) {
+          this.simulation.setPaused(appState.isPaused);
+        }
+
         const inputSnapshot = this.inputService.poll();
         this.simulation.step(inputSnapshot);
       },
@@ -69,6 +85,7 @@ export class GameApp {
     }
     this.isStarted = true;
     this.inputService.attach(window);
+    this.uiRouter?.init();
     this.loop.start();
   }
 
@@ -78,6 +95,7 @@ export class GameApp {
     }
     this.isStarted = false;
     this.loop.stop();
+    this.uiRouter?.dispose();
     this.inputService.detach(window);
     this.renderer.dispose();
   }
@@ -88,5 +106,9 @@ export class GameApp {
 
   public getLoop(): FixedStepLoop {
     return this.loop;
+  }
+
+  public getUIRouter(): UIRouter | undefined {
+    return this.uiRouter;
   }
 }
