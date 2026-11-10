@@ -35,6 +35,7 @@ export class UIRouter {
 
   private currentRoute: ScreenRoute = 'prologue';
   private mode: ExperienceMode = 'web';
+  private manualModeOverride = false;
   private unsubscribeState: (() => void) | null = null;
 
   constructor(options: UIRouterOptions) {
@@ -46,15 +47,16 @@ export class UIRouter {
   }
 
   private onResize = (): void => {
-    const prevMode = this.mode;
-    this.detectExperienceMode();
-    if (prevMode !== this.mode) {
-      this.render();
+    if (!this.manualModeOverride) {
+      const prevMode = this.mode;
+      this.detectExperienceMode();
+      if (prevMode !== this.mode) {
+        this.render();
+      }
     }
   };
 
   private detectExperienceMode(): void {
-    // Breakpoint < 1024px triggers mobile PWA experience
     this.mode = window.innerWidth < 1024 ? 'mobile' : 'web';
   }
 
@@ -70,6 +72,7 @@ export class UIRouter {
     if (['prologue', 'chapters', 'archive', 'hud', 'ledger'].includes(route)) {
       this.currentRoute = route as ScreenRoute;
       this.render();
+      window.scrollTo(0, 0);
     }
   }
 
@@ -78,6 +81,7 @@ export class UIRouter {
   }
 
   public setMode(mode: ExperienceMode): void {
+    this.manualModeOverride = true;
     this.mode = mode;
     this.render();
   }
@@ -132,8 +136,8 @@ export class UIRouter {
 
     this.container.innerHTML = `
 <div class="min-h-screen bg-background text-on-surface font-body-md selection:bg-secondary-container selection:text-secondary-fixed">
-  <!-- Top Navigation Header -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-primary-container/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)] border-b border-surface-container-high/40">
+  <!-- Top Navigation Header (Exact official layout) -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-primary-container/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
     <div class="h-20 w-full px-margin flex items-center justify-between gap-space-lg">
       <div class="flex items-center gap-space-xl">
         <div class="flex flex-col cursor-pointer" id="brand-home-btn">
@@ -143,7 +147,7 @@ export class UIRouter {
           </div>
           <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest text-[9px]">The Things We Chose to Forget</span>
         </div>
-        <div class="hidden xl:flex items-center gap-space-sm px-space-md py-space-xs rounded bg-surface-container-low border border-surface-container-high/30">
+        <div class="hidden xl:flex items-center gap-space-sm px-space-md py-space-xs rounded bg-surface-container-low">
           <span class="material-symbols-outlined text-secondary text-[16px]">auto_stories</span>
           <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Whisper:</span>
           <span class="font-body-sm text-body-sm text-on-surface-variant italic truncate max-w-xs">${state.activeWhisper}</span>
@@ -151,16 +155,16 @@ export class UIRouter {
         </div>
       </div>
 
-      <nav class="hidden lg:flex items-center gap-space-xs">
-        <button class="${navItemClass('prologue')}" data-route="prologue">Prologue</button>
-        <button class="${navItemClass('archive')}" data-route="archive">Archive</button>
-        <button class="${navItemClass('chapters')}" data-route="chapters">Chapters</button>
-        <button class="${navItemClass('hud')}" data-route="hud">Resonance HUD</button>
-        <button class="${navItemClass('ledger')}" data-route="ledger">Ledger</button>
+      <nav class="hidden lg:flex items-center gap-space-xs" data-active-classes="bg-surface-container-high text-secondary">
+        <a class="${navItemClass('prologue')}" data-route="prologue" href="#">Prologue</a>
+        <a class="${navItemClass('archive')}" data-route="archive" href="#">Archive</a>
+        <a class="${navItemClass('chapters')}" data-route="chapters" href="#">Chapters</a>
+        <a class="${navItemClass('hud')}" data-route="hud" href="#">HUD</a>
+        <a class="${navItemClass('ledger')}" data-route="ledger" href="#">Ledger</a>
       </nav>
 
       <div class="flex items-center gap-space-lg">
-        <div class="flex items-center gap-space-sm px-space-md py-space-xs rounded bg-surface-container-low border border-surface-container-high/30">
+        <div class="flex items-center gap-space-sm px-space-md py-space-xs rounded bg-surface-container-low">
           <span class="material-symbols-outlined text-secondary text-[18px]">hourglass_empty</span>
           <div class="flex flex-col text-right">
             <span class="font-title-md text-title-md text-secondary leading-none">${state.remnants}</span>
@@ -168,11 +172,11 @@ export class UIRouter {
           </div>
         </div>
 
-        <button id="toggle-experience-mode" class="px-3 py-1.5 rounded bg-surface-container-high hover:bg-secondary hover:text-on-secondary text-secondary text-xs uppercase tracking-wider font-semibold transition-colors" title="Switch between Desktop Web and Mobile PWA modes">
-          Mobile PWA View
+        <button id="toggle-experience-mode" class="px-2.5 py-1 rounded bg-surface-container-high hover:bg-surface-bright text-secondary text-[10px] uppercase tracking-wider transition-colors cursor-pointer" title="Toggle Experience Mode">
+          Mobile View
         </button>
 
-        <div class="flex items-center gap-space-sm pl-space-sm">
+        <div class="flex items-center gap-space-sm pl-space-md">
           <div class="hidden md:flex flex-col text-right">
             <span class="font-label-md text-label-md text-on-surface">${state.archivistId}</span>
             <span class="font-label-sm text-label-sm text-tertiary tracking-widest uppercase text-[9px]">Recollection Sync</span>
@@ -185,47 +189,44 @@ export class UIRouter {
     </div>
   </header>
 
-  <!-- Left Folio Sidebar -->
-  <aside class="fixed left-0 top-20 bottom-0 w-64 bg-surface-container-lowest z-40 flex flex-col justify-between py-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.3)] border-r border-surface-container-high/30">
+  <!-- Left Folio Sidebar (Exact official layout) -->
+  <aside class="fixed left-0 top-20 bottom-0 w-64 bg-surface-container-lowest z-40 flex flex-col justify-between py-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.3)]">
     <div class="flex flex-col gap-space-lg">
       <div class="px-space-lg">
         <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block mb-space-xs">Folio Index</span>
         <div class="h-[1px] w-full bg-surface-container-high"></div>
       </div>
-      <nav class="flex flex-col px-space-md gap-space-xs">
-        <button class="${sidebarItemClass('prologue')}" data-route="prologue">
+      <nav class="flex flex-col px-space-md gap-space-xs" data-active-classes="bg-surface-container-high text-secondary">
+        <a class="${sidebarItemClass('prologue')}" data-route="prologue" href="#">
           <span class="font-label-sm text-label-sm text-secondary/60">01</span><span>Prologue</span>
-        </button>
-        <button class="${sidebarItemClass('archive')}" data-route="archive">
+        </a>
+        <a class="${sidebarItemClass('archive')}" data-route="archive" href="#">
           <span class="font-label-sm text-label-sm text-secondary/60">02</span><span>Archive Records</span>
-        </button>
-        <button class="${sidebarItemClass('chapters')}" data-route="chapters">
+        </a>
+        <a class="${sidebarItemClass('chapters')}" data-route="chapters" href="#">
           <span class="font-label-sm text-label-sm text-secondary/60">03</span><span>Memory Chapters</span>
-        </button>
-        <button class="${sidebarItemClass('hud')}" data-route="hud">
+        </a>
+        <a class="${sidebarItemClass('hud')}" data-route="hud" href="#">
           <span class="font-label-sm text-label-sm text-secondary/60">04</span><span>Resonance HUD</span>
-        </button>
-        <button class="${sidebarItemClass('ledger')}" data-route="ledger">
+        </a>
+        <a class="${sidebarItemClass('ledger')}" data-route="ledger" href="#">
           <span class="font-label-sm text-label-sm text-secondary/60">05</span><span>Archival Ledger</span>
-        </button>
+        </a>
       </nav>
     </div>
+
     <div class="px-space-lg flex flex-col gap-space-xs">
       <span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase tracking-widest">Condition</span>
       <div class="flex items-center gap-space-sm">
-        <div class="w-2 h-2 rounded-full ${state.mindTetherStable ? 'bg-tertiary' : 'bg-error'}"></div>
+        <div class="w-2 h-2 rounded-full bg-tertiary"></div>
         <span class="font-body-sm text-body-sm text-on-surface-variant">Mind Tether Stable</span>
       </div>
     </div>
   </aside>
 
-  <!-- Main Content Stage -->
+  <!-- Main Viewport Area (Offset by left sidebar w-64) -->
   <div class="pl-64">
-    <main class="relative pt-20 bg-background min-h-screen">
-      <div class="flex flex-col w-full">
-        ${screenContent}
-      </div>
-    </main>
+    ${screenContent}
   </div>
 </div>
 `;
@@ -251,65 +252,85 @@ export class UIRouter {
         break;
     }
 
+    const screenTitles: Record<ScreenRoute, string> = {
+      prologue: 'Prologue',
+      archive: 'Archive',
+      chapters: 'Chapters',
+      hud: 'Resonance HUD',
+      ledger: 'Ledger'
+    };
+
     const bottomTabClass = (route: ScreenRoute) =>
       this.currentRoute === route
-        ? 'flex flex-col items-center gap-1 text-secondary font-medium'
-        : 'flex flex-col items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors';
+        ? 'flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs py-space-xs rounded transition-colors text-secondary bg-surface-container-high/60'
+        : 'flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs py-space-xs rounded text-on-surface-variant hover:text-on-surface transition-colors';
 
     this.container.innerHTML = `
-<div class="min-h-screen bg-surface text-on-surface font-body-md flex flex-col selection:bg-secondary-container selection:text-secondary-fixed">
-  <!-- Mobile Header -->
-  <header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl border-b border-surface-container-high/30 shadow-md">
-    <div class="h-14 px-gutter-mobile flex items-center justify-between gap-space-sm">
-      <div class="flex items-center gap-space-sm min-w-0">
-        <img alt="Echoes Emblem" class="h-6 w-auto object-contain shrink-0" src="/assets/ui/echoes_emblem.png" />
+<div class="min-h-screen bg-surface text-on-surface font-body-md select-none">
+  <!-- Official Mobile Top App Bar -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.12)]">
+    <div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-sm min-w-0 cursor-pointer" id="brand-home-btn">
+        <img alt="Echoes Archival Fragment Emblem" class="h-8 w-auto object-contain shrink-0" src="/assets/ui/echoes_emblem.svg"/>
         <div class="flex flex-col min-w-0">
-          <span class="font-label-sm text-[8px] uppercase tracking-widest text-on-surface-variant truncate">Echoes</span>
-          <h1 class="font-headline-sm text-[16px] text-on-surface truncate leading-none uppercase">${this.currentRoute}</h1>
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant truncate">Echoes</span>
+          <h1 class="font-headline-sm text-headline-sm text-on-surface truncate leading-tight">${screenTitles[this.currentRoute]}</h1>
         </div>
       </div>
-
-      <div class="flex items-center gap-space-sm">
-        <div class="flex items-center gap-space-xs px-2 py-1 bg-surface-container-low/80 rounded-lg">
-          <span class="material-symbols-outlined text-secondary text-[14px]">token</span>
-          <span class="font-title-md text-[12px] text-secondary leading-none">${state.remnants}</span>
+      <div class="flex items-center gap-space-md shrink-0">
+        <div class="flex items-center gap-space-xs px-space-sm py-space-xs bg-surface-container-low/80 rounded-lg animate-remnant">
+          <span class="material-symbols-outlined text-secondary text-[16px]">token</span>
+          <div class="flex flex-col items-end">
+            <span class="font-title-md text-title-md text-secondary leading-none">${state.remnants}</span>
+            <span class="font-label-sm text-[8px] uppercase tracking-widest text-on-surface-variant leading-tight">Remnants</span>
+          </div>
         </div>
-
-        <button id="toggle-experience-mode" class="px-2 py-1 rounded bg-surface-container-high text-secondary text-[10px] uppercase tracking-wider font-semibold">
-          Desktop View
+        <button id="toggle-experience-mode" class="px-2 py-1 rounded bg-surface-container-high text-secondary text-[9px] uppercase tracking-wider">
+          Web
         </button>
+        <div class="relative flex items-center">
+          <img alt="Profile" class="w-8 h-8 rounded-full object-cover shrink-0" src="/assets/ui/mobile_avatar.jpg"/>
+          <span class="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-secondary/80"></span>
+        </div>
+      </div>
+    </div>
+    <div class="px-gutter-mobile pb-space-xs flex justify-center">
+      <div class="w-full max-w-sm px-space-md py-space-xs rounded bg-surface-container-lowest/60 backdrop-blur-sm flex items-center justify-between gap-space-sm">
+        <div class="flex items-center gap-space-xs min-w-0">
+          <span class="material-symbols-outlined text-secondary text-[14px] shrink-0">history_edu</span>
+          <span class="font-body-sm text-body-sm text-on-surface-variant italic truncate">Whisper: "${state.activeWhisper}"</span>
+        </div>
+        <span class="font-label-sm text-label-sm text-secondary uppercase shrink-0">[${state.activeWhisperLedger}]</span>
       </div>
     </div>
   </header>
 
-  <!-- Mobile Screen Content Stage -->
-  <main class="flex flex-col relative w-full pt-14 pb-20 bg-surface min-h-screen">
-    ${screenContent}
-  </main>
+  <!-- Mobile Screen Content Body -->
+  ${screenContent}
 
-  <!-- Mobile Bottom Tab Navigation Bar -->
-  <nav class="fixed bottom-0 left-0 right-0 z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl border-t border-surface-container-high/40 shadow-2xl">
-    <div class="h-16 px-4 flex items-center justify-around">
-      <button class="${bottomTabClass('prologue')}" data-route="prologue">
-        <span class="material-symbols-outlined text-[20px]">explore</span>
-        <span class="text-[9px] uppercase tracking-wider">Prologue</span>
-      </button>
-      <button class="${bottomTabClass('chapters')}" data-route="chapters">
+  <!-- Official Mobile Bottom Navigation -->
+  <nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.3)]">
+    <div class="flex justify-around items-center h-16 px-space-xs">
+      <a class="${bottomTabClass('prologue')}" data-route="prologue" href="#">
         <span class="material-symbols-outlined text-[20px]">auto_stories</span>
-        <span class="text-[9px] uppercase tracking-wider">Chapters</span>
-      </button>
-      <button class="${bottomTabClass('hud')}" data-route="hud">
-        <span class="material-symbols-outlined text-[22px] text-secondary">adjust</span>
-        <span class="text-[9px] uppercase tracking-wider font-semibold text-secondary">HUD</span>
-      </button>
-      <button class="${bottomTabClass('archive')}" data-route="archive">
+        <span class="font-label-sm text-label-sm mt-space-xs">Prologue</span>
+      </a>
+      <a class="${bottomTabClass('archive')}" data-route="archive" href="#">
         <span class="material-symbols-outlined text-[20px]">inventory_2</span>
-        <span class="text-[9px] uppercase tracking-wider">Archive</span>
-      </button>
-      <button class="${bottomTabClass('ledger')}" data-route="ledger">
-        <span class="material-symbols-outlined text-[20px]">history_edu</span>
-        <span class="text-[9px] uppercase tracking-wider">Ledger</span>
-      </button>
+        <span class="font-label-sm text-label-sm mt-space-xs">Archive</span>
+      </a>
+      <a class="${bottomTabClass('chapters')}" data-route="chapters" href="#">
+        <span class="material-symbols-outlined text-[20px]">map</span>
+        <span class="font-label-sm text-label-sm mt-space-xs">Chapters</span>
+      </a>
+      <a class="${bottomTabClass('hud')}" data-route="hud" href="#">
+        <span class="material-symbols-outlined text-[20px]">visibility</span>
+        <span class="font-label-sm text-label-sm mt-space-xs">HUD</span>
+      </a>
+      <a class="${bottomTabClass('ledger')}" data-route="ledger" href="#">
+        <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+        <span class="font-label-sm text-label-sm mt-space-xs">Ledger</span>
+      </a>
     </div>
   </nav>
 </div>
@@ -323,10 +344,12 @@ export class UIRouter {
         mountTarget.appendChild(this.canvas);
       }
       this.canvas.style.display = 'block';
+      this.canvas.style.position = 'absolute';
+      this.canvas.style.inset = '0';
       this.canvas.style.width = '100%';
       this.canvas.style.height = '100%';
+      this.canvas.style.zIndex = '1';
     } else {
-      // Keep canvas mounted offscreen or in body if not in HUD screen
       if (
         this.canvas.parentElement !== this.container &&
         this.canvas.parentElement !== document.body
@@ -341,7 +364,8 @@ export class UIRouter {
     // Mode toggle button
     const toggleBtn = document.getElementById('toggle-experience-mode');
     if (toggleBtn) {
-      toggleBtn.addEventListener('click', () => {
+      toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         this.setMode(this.mode === 'web' ? 'mobile' : 'web');
       });
     }
@@ -354,10 +378,11 @@ export class UIRouter {
       });
     }
 
-    // Top and sidebar navigation buttons
+    // Navigation buttons
     const navButtons = document.querySelectorAll('[data-route]');
     navButtons.forEach((btn) => {
       btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const target = e.currentTarget as HTMLElement;
         const route = target.getAttribute('data-route');
         if (route) {
