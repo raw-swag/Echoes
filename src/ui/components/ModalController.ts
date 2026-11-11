@@ -14,6 +14,7 @@ const SETTINGS_STORAGE_KEY = 'echoes_settings_v1';
 export class ModalController {
   private static instance: ModalController;
   private activeModal: 'pause' | 'settings' | 'reading' | 'confirm' | null = null;
+  private previousModal: 'pause' | null = null;
   private confirmCallback: (() => void) | null = null;
   private activeReadingShard: {
     id: string;
@@ -117,6 +118,9 @@ export class ModalController {
   }
 
   public openSettings(): void {
+    if (this.activeModal === 'pause') {
+      this.previousModal = 'pause';
+    }
     this.activeModal = 'settings';
     this.render();
   }
@@ -149,10 +153,22 @@ export class ModalController {
 
   public close(): void {
     const wasPause = this.activeModal === 'pause';
+    const hadPreviousPause = this.previousModal === 'pause';
+    const wasSettings = this.activeModal === 'settings';
+
     this.activeModal = null;
     this.activeReadingShard = null;
     this.confirmCallback = null;
     this.removeModalElement();
+
+    if (wasSettings && hadPreviousPause) {
+      // Re-open pause modal if closed from settings
+      this.previousModal = null;
+      this.openPause();
+      return;
+    }
+
+    this.previousModal = null;
     if (wasPause) {
       globalGameState.setPaused(false);
     }

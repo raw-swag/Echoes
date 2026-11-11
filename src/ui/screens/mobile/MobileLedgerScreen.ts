@@ -46,8 +46,8 @@ export function renderMobileLedger(
 <span class="material-symbols-outlined text-[14px]">science</span>
 <span>Demo: Simulate</span>
 </button>
-<button class="py-space-xs px-space-sm rounded-lg bg-surface-container-high text-secondary font-label-sm uppercase tracking-wider flex items-center justify-center cursor-pointer" id="btnOffline">
-<span id="offlineBtnText">Toggle Offline</span>
+<button class="py-space-xs px-space-sm rounded-lg bg-surface-container-high text-secondary font-label-sm uppercase tracking-wider flex items-center justify-center cursor-pointer" id="btnOffline" title="Emulates offline queue for UI testing">
+<span id="offlineBtnText">Demo: Offline</span>
 </button>
 <button class="py-space-xs px-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm uppercase tracking-wider flex items-center justify-center cursor-pointer" id="btnClear">
 <span class="material-symbols-outlined text-[16px]">delete_sweep</span>
@@ -112,13 +112,13 @@ export function bindMobileLedgerEvents(_onNavigate: (route: string) => void): vo
     btnOffline.addEventListener('click', () => {
       isOffline = !isOffline;
       if (isOffline) {
-        connText.textContent = 'OFFLINE';
+        connText.textContent = 'DEMO OFFLINE';
         connText.className = 'font-label-sm text-label-sm text-error uppercase font-semibold';
-        offlineBtnText.textContent = 'Go Online';
+        offlineBtnText.textContent = 'Demo: Online';
       } else {
         connText.textContent = 'ONLINE';
         connText.className = 'font-label-sm text-label-sm text-secondary uppercase font-semibold';
-        offlineBtnText.textContent = 'Toggle Offline';
+        offlineBtnText.textContent = 'Demo: Offline';
       }
     });
   }

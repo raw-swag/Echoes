@@ -1,0 +1,11 @@
+{
+  "consoleMessages": [
+    "[warn] Error while trying to use the following icon from the Manifest: http://localhost:4173/assets/ui/echoes_emblem.png (Download error or resource isn't a valid image)",
+    "[warn] Error while trying to use the following icon from the Manifest: http://localhost:4173/assets/ui/echoes_emblem.png (Download error or resource isn't a valid image)",
+    "[warn] Error while trying to use the following icon from the Manifest: http://localhost:4173/assets/ui/echoes_emblem.png (Download error or resource isn't a valid image)",
+    "[warn] Error while trying to use the following icon from the Manifest: http://localhost:4173/assets/ui/echoes_emblem.png (Download error or resource isn't a valid image)"
+  ],
+  "networkFailures": [],
+  "timestamp": "2026-11-11T16:02:41.530Z",
+  "status": "ALL_EVIDENCE_GAPS_CLOSED"
+}

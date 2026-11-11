@@ -188,11 +188,11 @@ export function renderWebLedger(
 </div>
 <div class="flex items-center justify-between bg-surface-container-lowest p-space-md rounded-lg">
 <div class="flex flex-col">
-<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Sync State</span>
-<span class="font-headline-md text-headline-md text-tertiary" id="sync-status-badge">SYNCED</span>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Diagnostics Mode</span>
+<span class="font-headline-md text-headline-md text-tertiary" id="sync-status-badge">ONLINE (LIVE)</span>
 </div>
-<button class="px-space-md py-space-xs rounded bg-surface-container-high hover:bg-surface-bright text-secondary text-label-md font-label-md uppercase tracking-wider transition-colors cursor-pointer" id="btn-toggle-offline">
-<span id="btn-offline-label">Toggle Offline</span>
+<button class="px-space-md py-space-xs rounded bg-surface-container-high hover:bg-surface-bright text-secondary text-label-md font-label-md uppercase tracking-wider transition-colors cursor-pointer" id="btn-toggle-offline" title="Simulates client offline queuing behavior for UX testing">
+<span id="btn-offline-label">Demo: Emulate Offline</span>
 </button>
 </div>
 
@@ -259,13 +259,13 @@ export function bindWebLedgerEvents(_onNavigate: (route: string) => void): void 
     offlineBtn.addEventListener('click', () => {
       isOffline = !isOffline;
       if (isOffline) {
-        syncBadge.textContent = 'DESYNCED';
+        syncBadge.textContent = 'EMULATED OFFLINE';
         syncBadge.className = 'font-headline-md text-headline-md text-secondary';
-        offlineLabel.textContent = 'Go Online';
+        offlineLabel.textContent = 'Demo: Restore Online';
       } else {
-        syncBadge.textContent = 'SYNCED';
+        syncBadge.textContent = 'ONLINE (LIVE)';
         syncBadge.className = 'font-headline-md text-headline-md text-tertiary';
-        offlineLabel.textContent = 'Toggle Offline';
+        offlineLabel.textContent = 'Demo: Emulate Offline';
       }
     });
   }
@@ -368,19 +368,43 @@ export function bindWebLedgerEvents(_onNavigate: (route: string) => void): void 
   // Export Telemetry JSON
   const exportBtn = document.getElementById('btn-export-telemetry');
   if (exportBtn) {
-    exportBtn.addEventListener('click', () => {
+    exportBtn.addEventListener('click', async () => {
       soundService.playUIClick();
-      const exportData = {
+      const payloadString = JSON.stringify({
         ledgerId: 'LDG-408-A',
         exportDate: new Date().toISOString(),
         attestedRemnants: counter,
-        hashProof: '8e91fa40b3c102a9',
-        signature: 'ed25519:7b30c14f',
         records: [
           { id: 'FRAG_042', stratum: 'Flooded Terrace', remnants: 25, status: 'VERIFIED' },
           { id: 'BEACON_03', stratum: 'Iron Arch', remnants: 15, status: 'VERIFIED' },
           { id: 'SECRET_01', stratum: 'Under-Keel', remnants: 50, status: 'VERIFIED' }
         ]
+      });
+
+      // Compute actual SHA-256 hash digest of the telemetry payload
+      let sha256Checksum = 'hash-unavailable';
+      if (typeof crypto !== 'undefined' && crypto.subtle) {
+        try {
+          const encoder = new TextEncoder();
+          const data = encoder.encode(payloadString);
+          const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          sha256Checksum = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+        } catch {
+          sha256Checksum = 'sha256-calculation-fallback';
+        }
+      }
+
+      const exportData = {
+        meta: {
+          ledgerId: 'LDG-408-A',
+          format: 'ECHOES_TELEMETRY_ARCHIVE_V1',
+          exportedAt: new Date().toISOString(),
+          sha256Digest: sha256Checksum,
+          isSigned: false, // Explicitly false: Verified SHA-256 digest without asymmetric signature
+          verificationMode: 'SHA256_INTEGRITY_CHECK'
+        },
+        payload: JSON.parse(payloadString)
       };
 
       const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });

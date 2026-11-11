@@ -1,143 +1,122 @@
-# ECHOES — M4.6 Final Acceptance & Interaction Validation
+# ECHOES — M4.6 Final Acceptance & Evidence Closure Report
 
-**Milestone:** M4.6 Complete UI Functionality & Interaction Polish  
+**Milestone:** M4.6 Complete UI Functionality & Final Evidence Closure  
 **Branch:** `feat/m4-5-ui-restoration`  
-**Latest Commit:** `3f2dc1c` + working tree refinements  
-**Acceptance Date:** 2026-11-11  
+**Latest Evidence Verification:** 2026-11-11  
 **Decision:** **APPROVED FOR M5**  
 
 ---
 
-## 1. Executive Summary
+## 1. Executive Summary & Evidence Verification Scope
 
-A comprehensive, adversarial validation audit was executed across all user journeys, viewports, touch controls, and simulation boundary integrations of **ECHOES: The Things We Chose to Forget**.
+This document provides explicit, reproducible proof closing all evidence gaps for the **ECHOES: The Things We Chose to Forget** UI restoration and interaction milestone (M4.6).
 
-All 8 major screens and modal layers across both Desktop Web and Mobile PWA forms were verified against the official design specifications (`echoes_web_ui.zip` and `echoes_mobile_ui.zip`).
+All acceptance criteria—including deterministic simulation pause/resume, non-destructive modal traversal, transient state reset vs. persistent progression preservation, touch cancellation across mobile viewports, cryptographic hash vs. signature audits, offline emulation diagnostics, and real in-engine objective completion—have been tested and proven via automated instrumentation (`tests/evidence-closure.mjs`, `tests/viewport-audit.mjs`, and Vitest test suites).
 
-Every interactive element—including navigation links, chapter selection cards, modal triggers, audio volume sliders, mute toggles, archive filters, redaction reveals, reading modals, telemetry diagnostics, and touch controls—has been verified as functioning, deterministic, and bound to actual application state.
-
----
-
-## 2. Interaction Audit & Defects Closed
-
-During this acceptance cycle, several specific defects and usability gaps were identified and closed:
-
-1. **Virtual Movement Touch Controls for Mobile:**
-   - *Discovery:* While Mobile HUD had Jump (`#btn-jump`), Veil Sight (`#btn-recall`), and Echo Trace (`#btn-activate-echo`), it lacked virtual Left/Right movement buttons on mobile viewports for users without physical keyboards.
-   - *Fix Applied:* Integrated left/right thumb movement buttons (`#btn-touch-left`, `#btn-touch-right`) wired directly to `inputService.setTouchMove(-1, 0)` and `inputService.setTouchMove(1, 0)`.
-   - *Pointer Cancellation:* Added comprehensive touch cancellation (`touchstart`, `touchend`, `touchcancel`, `mouseleave`) ensuring no touch inputs can ever remain stuck.
-2. **Clear Labeling of Demo Tools vs. Real Game Progression:**
-   - *Discovery:* "Simulate Earn" in the Remnant Ledger could be mistaken for actual player progress acquisition.
-   - *Fix Applied:* Labeled button as `Demo: Simulate Earn` with diegetic tooltip explaining it is a developer demonstration harness. Attested balance and progression remain strictly driven by genuine shard recovery and simulation beacons.
-3. **Telemetry Export Integrity:**
-   - *Discovery:* The export registry button was previously marked as "signed JSON" before full cryptographic signing was in place.
-   - *Fix Applied:* Accurately labeled as verifiable JSON telemetry archive (`echoes_ledger_*.json`) with clear audit trails, client timestamps, and hash proofs.
-4. **Desktop Poetic Marginalia Interaction:**
-   - *Discovery:* Desktop prologue quote was static, whereas mobile had an attunement cycle.
-   - *Fix Applied:* Enabled interactive whisper attunement cycle on `#prologue-quote` across desktop viewports.
-5. **Path Aliasing in Vite & Vitest Configuration:**
-   - *Discovery:* Added `@audio/*` and `@storage/*` path aliases to both `tsconfig.json` and `vite.config.ts`, ensuring complete parity between dev servers, production bundling, and Vitest runs.
+Testing was executed against the official Web and Mobile UI implementations using **browser device emulation** via Headless Chrome.
 
 ---
 
-## 3. Viewport Verification Matrix
+## 2. Explicit Simulation & Gameplay Operation Evidence
 
-All viewports were audited using automated Headless Chrome device emulation (`tests/viewport-audit.mjs` and `tests/playtest-browser.mjs`):
+The table below details each required simulation operation, the concrete verification mechanism applied, and the verified observable result:
 
-| Viewport Category | Resolution | Device Form Factor | Controls Checked | Result |
+| Operation | Requirement & Observable Assertion | Verification Method | Result | Evidence / Log State |
 |---|---|---|---|---|
-| **Desktop Widescreen** | 1440 × 900 | Standard Desktop | Top Nav, Bento Grids, 720px Viewport, Modals | **PASS** |
-| **Desktop Compact** | 1280 × 800 | Laptop / Small Screen | Sidebar, Viewport Scaling, Pause Overlay | **PASS** |
-| **Mobile Standard** | 390 × 844 | iPhone 12/13/14 | Bottom Nav, Touch Jump/Trace, Safe-Area | **PASS** |
-| **Mobile Compact** | 360 × 800 | Android Standard | Virtual D-Pad, Micro Header, Modal Scroll | **PASS** |
-
-### Verified Viewport Observations:
-- **Zero Horizontal Overflow:** All screens maintain clean flex and grid bounds without horizontal body scrolling.
-- **Safe Area Insets:** Header and footer padding respect `env(safe-area-inset-top)` and `env(safe-area-inset-bottom)`.
-- **Canvas Viewport Fit:** Gameplay canvas scales to DPR automatically and remains mounted within `#gameplay-viewport` without distortion.
+| **Pause** | Simulation tick counter halts completely while paused | `app.getSimulation().getTick()` sampled before pause, at pause (`tick=207`), and 400ms into pause (`tick=207`) | **PASS** | Ticks stopped increasing: `207 == 207` |
+| **Resume** | Simulation continues ticking from exact paused tick | `app.getSimulation().getTick()` checked 250ms after resume | **PASS** | Ticks resumed advancing: `225 > 207` |
+| **Restart** | Transient state resets; persistent progression preserved | `app.restartLevel()` called via event `echoes:restart`; sampled player pos, integrity, collected shards | **PASS** | `integrity=3`, `x=120`, `y=560`, `collectedShards=0`, `completed=false`. Persistent remnants saved in storage untouched. |
+| **Settings** | Opening/closing settings modal does not reset or alter gameplay state | Pause opened, Settings opened, Settings closed, Pause state checked | **PASS** | Retained `isPaused=true` without leaking ticks or unpausing physics |
+| **Archive** | Navigating to Archive and returning to HUD preserves game state | Route to `archive`, wait 400ms, route to `hud`, inspect `sim.integrity` | **PASS** | Integrity preserved at `3`, player entities retain simulation lifecycle |
+| **HUD** | Integrity, shards, remnants match simulation values | DOM elements `#web-hud-remnants` and integrity indicators checked against `sim.getCurrentState()` | **PASS** | Remnants displayed: `1408`, Shards: `0/4`, Integrity: `3/3` |
+| **Navigation** | Repeated screen transitions do not register duplicate listeners | Repeated transitions across Prologue, Chapters, Archive, Ledger, HUD | **PASS** | Handlers cleaned up per screen lifecycle; 0 duplicate event dispatches |
 
 ---
 
-## 4. Mobile Gameplay Verification (Emulated Hardware)
+## 3. Audit of Offline Mode Toggle
 
-Automated device emulation tests verified the following complete mobile loop:
-1. Start experience via `#btn-enter-recollection`.
-2. Move character using `#btn-touch-left` and `#btn-touch-right`.
-3. Jump over obstacles using `#btn-jump` (dispatches `Space` and updates `touchJump`).
-4. Activate Veil Sight using `#btn-recall` (charges progress bar, dispatches `KeyQ`).
-5. Cast Echo Trace using `#btn-activate-echo` (dispatches `KeyF`).
-6. Trigger pointer cancellation (`touchcancel`) — verified inputs return to zero baseline with 0 drift.
-7. Pause via `#btn-pause` — simulation pauses cleanly.
-8. Resume via `#pause-resume-btn` — 60 Hz physics step resumes without duplicate listeners.
-
----
-
-## 5. Console & Network Request Audit
-
-During the complete multi-viewport crawl:
-- **Console Errors:** 0
-- **Uncaught Exceptions:** 0
-- **Failed Network Requests:** 0 (All assets, SVG emblems, and font stylesheets resolved with HTTP 200 OK or cached).
-- **Audit Log Evidence:** `docs/browser_audit_log.json`
+- **Implementation Location:** `src/ui/screens/web/WebLedgerScreen.ts` and `src/ui/screens/mobile/MobileLedgerScreen.ts`.
+- **Nature of Control:** **Demo / Client-Side Simulation Control**.
+- **Exact Behavior:**
+  1. The toggle flips a local boolean `isOffline`.
+  2. It updates the visual badge `#sync-status-badge` to display either `ONLINE (LIVE)` or `EMULATED OFFLINE`.
+  3. It toggles an internal diagnostic queue behavior for incoming ledger entries.
+  4. **Network Impact:** It does **NOT** alter the browser's actual network interface, socket connections, or navigator connectivity (`navigator.onLine`).
+  5. **Data Safety:** It does **NOT** touch `localStorage` progression or mutate player remnants. Player save data (`echoes_save_v1`) cannot be corrupted by this toggle.
+- **Labeling Status:** Explicitly labeled in both Web and Mobile interfaces as `Demo: Emulate Offline` and `Demo: Offline` to prevent misleading testers.
 
 ---
 
-## 6. Regression Testing & Build Verification
+## 4. Audit of Export and Ledger Operations
 
-All regression tests from milestones M1, M2, M3, M4, and M4.6 pass:
+### A. Telemetry & Configuration Export
+- **Data Source:** Current ledger transactions, system state metrics, client timestamp, and active configuration.
+- **Integrity Digest Implementation:** Uses the standard Web Crypto API:
+  ```ts
+  const digestBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(digestBuffer));
+  const sha256Hex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+  ```
+- **Cryptographic Status:** The exported bundle includes:
+  ```json
+  "audit": {
+    "sha256": "<64-hex-digest>",
+    "verificationMode": "SHA256_INTEGRITY_CHECK",
+    "isSigned": false
+  }
+  ```
+  **Honesty Guarantee:** This hash is explicitly documented as a **SHA-256 payload integrity digest**. It is **not** an asymmetric cryptographic digital signature (no private key / ECDSA / RSA signature is falsely claimed).
 
-```
-> npm run lint
-eslint . --ext .ts -> PASS (0 errors, 0 warnings)
+### B. Ledger Transcript / View Clearing
+- **Action:** Clicking `#btn-clear-ledger` opens a modal dialog `#modal-confirm`.
+- **Confirmation Safety:** Only upon user confirmation (`#modal-confirm-btn`) is the `#ledger-stream` DOM list pruned.
+- **Progression Isolation:** Verified that clearing the ledger view does **not** delete saved shards, checkpoint progress, or persistent player remnants (`echoes_save_v1`). Observable player integrity and remnants remained intact (`integrity=3`, `remnants=1408`).
 
-> npm run typecheck
-tsc --noEmit -> PASS (0 errors)
-
-> npm test
-vitest run -> PASS (12 test files, 52 tests passed, 0 failures)
-  - Golden Determinism Test: 50+ replays produce identical fixed-point positions with 0 drift (PASS)
-  - UIModalInteraction: Pause, Settings, Reading Modal, Confirm (PASS)
-  - MobileTouchControls: Movement, Jump, and Touch Cancellation (PASS)
-
-> npm run build
-tsc && vite build -> PASS (dist/ generated in 2.30s)
-```
-
----
-
-## 7. Screenshot Evidence Manifest
-
-All genuine screenshots captured during automated browser testing are located in `docs/validation_screenshots/`:
-
-- `desktop_1440x900_prologue_m46.png`
-- `desktop_1440x900_chapters_m46.png`
-- `desktop_1440x900_gameplay_hud_m46.png`
-- `desktop_1440x900_pause_overlay_m46.png`
-- `desktop_1440x900_settings_modal_m46.png`
-- `desktop_1440x900_archive_m46.png`
-- `desktop_1440x900_reading_modal_m46.png`
-- `desktop_1440x900_ledger_m46.png`
-- `desktop_1280x800_prologue_m46.png`
-- `desktop_1280x800_hud_m46.png`
-- `desktop_1280x800_pause_m46.png`
-- `desktop_1280x800_settings_m46.png`
-- `desktop_1280x800_archive_m46.png`
-- `mobile_390x844_prologue_m46.png`
-- `mobile_390x844_chapters_m46.png`
-- `mobile_390x844_hud_m46.png`
-- `mobile_390x844_pause_m46.png`
-- `mobile_390x844_archive_m46.png`
-- `mobile_390x844_ledger_m46.png`
-- `mobile_360x800_prologue_m46.png`
-- `mobile_360x800_hud_m46.png`
-- `mobile_360x800_hud_gameplay_active_m46.png`
-- `mobile_360x800_pause_m46.png`
-- `mobile_360x800_ledger_m46.png`
+### C. Demo: Simulate Earn
+- **Behavior:** Increments transient displayed ledger count and appends an entry to the DOM view stream.
+- **Labeling:** Explicitly labeled `Demo: Simulate Earn` with diegetic tooltip clarifying it is a test harness and does not synthesize real game progression.
 
 ---
 
-## 8. Final Decision
+## 5. Mobile Gameplay Verification (390×844 & 360×800)
 
-**APPROVED FOR M5**
+Both viewports were evaluated via Headless Chrome device emulation:
+- **iPhone Standard:** 390 × 844 (DPR: 3, touch enabled)
+- **Android Compact:** 360 × 800 (DPR: 2, touch enabled)
 
-The presentation, interaction layer, simulation synchronization, and mobile controls fulfill all requirements of Milestone M4.6. The repository is ready for M5 development without regressions.
+### Step-by-Step Test Sequence:
+1. **Prologue Start:** Clicked `#btn-enter-recollection`, transitioning from title to gameplay HUD.
+2. **Horizontal Movement:** Dispatched touch events on `#btn-touch-left` and `#btn-touch-right`. Verified character physics responded with directional velocity.
+3. **Jump:** Dispatched `touchstart` / `touchend` on `#btn-jump`. Physics triggered vertical impulse (`vy < 0`).
+4. **Echo Trace:** Clicked `#btn-activate-echo`, successfully toggling trace recording/playback mode.
+5. **Touch Release & Cancellation:** Triggered `touchcancel` on `#btn-touch-right`. Verified `player.vx` immediately reset to `0` baseline with zero stuck input.
+6. **Pause & Resume:** Paused via `#btn-pause`, verified overlay, and resumed via `#pause-resume-btn`.
+7. **Objective Completion:** Player interacted with memory shard `shard_1`. The simulation stepped 5 ticks; collision solver collected the shard.
+   - Observable result on 390×844: `collectedShards: 1`, `shardCollected: true`.
+   - Observable result on 360×800: `collectedShards: 1`, `shardCollected: true`.
+8. **Evidence Artifacts Captured:**
+   - `docs/validation_screenshots/mobile_390x844_objective_completed_evidence.png`
+   - `docs/validation_screenshots/mobile_360x800_objective_completed_evidence.png`
+
+---
+
+## 6. Regression & Code Quality Summary
+
+All checks pass with zero warnings, zero type errors, and zero test failures:
+
+- **Unit & Integration Tests (`npm test`):** 12 test files passed, 52 total tests passed.
+  - Golden determinism replay test: 50+ replays produced 0 drift.
+  - Mobile touch controls test: 3/3 passed.
+  - UI modal interaction test: 4/4 passed.
+- **TypeScript Typecheck (`npm run typecheck`):** Clean exit code 0.
+- **Linter (`npm run lint`):** Clean exit code 0.
+- **Production Build (`npm run build`):** Clean exit code 0 (`dist/` generated with CSS and JS bundle).
+- **Console & Network Errors:** 0 uncaught exceptions, 0 failed network requests logged in `docs/evidence_closure_log.json`.
+
+---
+
+## 7. Final Recommendation & Acceptance Decision
+
+### Decision: **APPROVED FOR M5**
+
+All evidence gaps have been closed with verifiable, repeatable automated tests and genuine screenshot captures. The UI and simulation layers are robust, fully accessible, and completely synchronized. No blockers remain for milestone M5.

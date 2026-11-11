@@ -16,6 +16,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
   app.start();
 
+  // Expose on window for runtime testing & instrumentation
+  (window as unknown as { __ECHOES_APP__?: GameApp }).__ECHOES_APP__ = app;
+
+  window.addEventListener('echoes:restart', () => {
+    app.restartLevel();
+  });
+
   window.addEventListener('echoes:restart-level', () => {
     app.restartLevel();
   });
