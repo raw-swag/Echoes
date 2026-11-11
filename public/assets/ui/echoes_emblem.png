@@ -1,6 +1,22 @@
-<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
-<TITLE>302 Moved</TITLE></HEAD><BODY>
-<H1>302 Moved</H1>
-The document has moved
-<A HREF="https://lh3.google.com/rd-aida/ALJJyrDmeDvfIsrYXDEl7dWRLyX7ePNK0FYJIEiYMUq015T6D3Rdc6JUwLlHgK_Rte4amvEtR2KBdIfelkTaG1Lq2W11eT40F2q8QtOBrZEOWeZORFQLOzegzK5YC2WbgGBuk129DjChqoOrw5vJXwW1heqZyuS2quIpDeQza2_7AEsZy5nJHvQsTAbn7IpJiIgEWuxe6zea65JoBGbXkS-igUtdoP69cj8LFqFq-C8PS4jEuP2aszwmFPhga3srDKQE2uHp3Uf_o05hIPloXQ56Ua7B_UEEzRXNn_FprgQbs6oTYpQaGgLdUvB0ybPi8a-hf57QgrKgtui9ywRyBsXPxt7Kuur95tDiH61RcP3jJOZpiOxs9hAqV1n5V-aHXhZSVL1V6Xv6vZuIGvPb2SkMWpdQ9VEULtmI5pu5rAY6nNr58U4-x4GiW0dPaNNKqVmHigbrJy1IAJgVsX920Hd0rS1XJmc7IdGcvPV1zsxxkJbItPOLVmtc3cVXaXm__btYwgHGnmSDSUB7VR2O2k6QuoU1UrMppcSE_toZG4E6E6OYyQrQla_EXKO9dTBEnHM7dtOK2qiiZbis5QwAfDMkjYdSygiQpESBg9JrJeYbZQxXO-I=s512">here</A>.
-</BODY></HTML>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <radialGradient id="emblemGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#dcc39b" stop-opacity="0.9" />
+      <stop offset="60%" stop-color="#a18b67" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#111322" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <!-- Background Disc -->
+  <circle cx="24" cy="24" r="23" fill="#111322" stroke="#dcc39b" stroke-width="1.2" stroke-opacity="0.6"/>
+  <!-- Concentric Rings -->
+  <circle cx="24" cy="24" r="19" fill="none" stroke="#dcc39b" stroke-width="0.75" stroke-dasharray="2 3" stroke-opacity="0.5"/>
+  <circle cx="24" cy="24" r="14" fill="none" stroke="#dcc39b" stroke-width="1" stroke-opacity="0.8"/>
+  <circle cx="24" cy="24" r="8" fill="url(#emblemGlow)"/>
+  <!-- Archival Compass Lines -->
+  <line x1="24" y1="2" x2="24" y2="8" stroke="#dcc39b" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="24" y1="40" x2="24" y2="46" stroke="#dcc39b" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="2" y1="24" x2="8" y2="24" stroke="#dcc39b" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="40" y1="24" x2="46" y2="24" stroke="#dcc39b" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Diamond Core -->
+  <polygon points="24,19 28,24 24,29 20,24" fill="#f9dfb6"/>
+</svg>

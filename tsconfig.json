@@ -32,7 +32,9 @@
       "@core/*": ["src/core/*"],
       "@scenes/*": ["src/scenes/*"],
       "@assets/*": ["src/assets/*"],
-      "@ui/*": ["src/ui/*"]
+      "@ui/*": ["src/ui/*"],
+      "@audio/*": ["src/audio/*"],
+      "@storage/*": ["src/storage/*"]
     }
   },
   "include": ["src", "tests", "vite.config.ts"]

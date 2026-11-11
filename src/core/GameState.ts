@@ -51,8 +51,12 @@ export interface GameStateModel {
   acousticDriftHz: number;
   isPaused: boolean;
   echoTraceTimer: number; // current seconds
-  echoTraceMaxTimer: number; // 5.0s
-  echoTraceState: 'idle' | 'recording' | 'replaying' | 'dissolving';
+  echoTraceMaxTimer: number; // 8.0s (TR-01)
+  echoTraceState: 'idle' | 'recording' | 'playback' | 'holding' | 'dissolving' | 'cooldown';
+  isLevelCompleted: boolean;
+  collectedShardsCurrent: number;
+  collectedShardsTotal: number;
+  activeBeaconName: string;
 
   // Archive items
   selectedShardId: string;
@@ -62,7 +66,7 @@ export interface GameStateModel {
 export const INITIAL_GAME_STATE: GameStateModel = {
   remnants: 1408,
   epochThreshold: 1500,
-  mindIntegrity: 2,
+  mindIntegrity: 3,
   mindIntegrityMax: 3,
   mindTetherStable: true,
   archivistId: 'Archivist #09',
@@ -73,9 +77,13 @@ export const INITIAL_GAME_STATE: GameStateModel = {
 
   acousticDriftHz: 14.8,
   isPaused: false,
-  echoTraceTimer: 2.4,
-  echoTraceMaxTimer: 5.0,
-  echoTraceState: 'recording',
+  echoTraceTimer: 0.0,
+  echoTraceMaxTimer: 8.0,
+  echoTraceState: 'idle',
+  isLevelCompleted: false,
+  collectedShardsCurrent: 0,
+  collectedShardsTotal: 4,
+  activeBeaconName: 'Sanctuary Beacon',
 
   selectedShardId: 'fragment-42',
   chapters: [

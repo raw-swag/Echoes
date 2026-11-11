@@ -11,7 +11,7 @@ export interface DebugMetrics {
  * Technical debug overlay rendering diagnostic telemetry with an ethereal terminal aesthetic.
  */
 export class DebugOverlay {
-  private visible = true;
+  private visible = false;
 
   public toggle(): void {
     this.visible = !this.visible;

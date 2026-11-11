@@ -12,7 +12,7 @@ describe('GameStateManager', () => {
     const state = manager.getState();
     expect(state.remnants).toBe(1408);
     expect(state.epochThreshold).toBe(1500);
-    expect(state.mindIntegrity).toBe(2);
+    expect(state.mindIntegrity).toBe(3);
     expect(state.chapters.length).toBe(5);
     expect(state.shards.length).toBe(3);
   });
@@ -40,9 +40,9 @@ describe('GameStateManager', () => {
     expect(state.echoTraceState).toBe('recording');
     expect(state.echoTraceTimer).toBe(1.5);
 
-    manager.setEchoTraceState('replaying', 0);
+    manager.setEchoTraceState('playback', 0);
     state = manager.getState();
-    expect(state.echoTraceState).toBe('replaying');
+    expect(state.echoTraceState).toBe('playback');
     expect(state.echoTraceTimer).toBe(0);
   });
 

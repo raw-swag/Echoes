@@ -35,6 +35,7 @@ export class InputService {
   private touchAbility: boolean = false;
   private touchPulse: boolean = false;
   private touchInteract: boolean = false;
+  private touchTrace: boolean = false;
 
   private attached = false;
 
@@ -110,6 +111,7 @@ export class InputService {
     this.touchAbility = false;
     this.touchPulse = false;
     this.touchInteract = false;
+    this.touchTrace = false;
   }
 
   public setTouchMove(x: number, y: number): void {
@@ -133,6 +135,10 @@ export class InputService {
     this.touchInteract = pressed;
   }
 
+  public setTouchTrace(pressed: boolean): void {
+    this.touchTrace = pressed;
+  }
+
   public isActionActive(action: InputAction): boolean {
     return this.activeActions.has(action);
   }
@@ -148,7 +154,7 @@ export class InputService {
     let ability = this.activeActions.has(InputAction.Ability) || this.touchAbility;
     let pulse = this.activeActions.has(InputAction.Pulse) || this.touchPulse;
     let interact = this.activeActions.has(InputAction.Interact) || this.touchInteract;
-    let trace = this.activeActions.has(InputAction.Trace);
+    let trace = this.activeActions.has(InputAction.Trace) || this.touchTrace;
     let pause = this.activeActions.has(InputAction.Pause);
 
     if (this.activeActions.has(InputAction.MoveLeft)) moveX -= 1;

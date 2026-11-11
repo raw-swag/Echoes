@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-low": "#171a2e", "on-primary": "#2d2f40", "inverse-primary": "#5c5d6f", "on-background": "#dfe1fc", "surface-container-highest": "#303349", "surface-bright": "#35384d", "tertiary-fixed-dim": "#bdcabb", "inverse-surface": "#dfe1fc", "primary": "#c4c5da", "secondary": "#dcc39b", "surface-container-lowest": "#090d20", "secondary-container": "#584628", "error-container": "#93000a", "on-tertiary-container": "#768275", "on-surface": "#dfe1fc", "on-tertiary-fixed": "#141e15", "on-error": "#690005", "on-tertiary-fixed-variant": "#3e4a3e", "on-primary-container": "#7c7d90", "primary-fixed": "#e1e1f6", "background": "#0f1225", "on-secondary-fixed": "#261902", "on-error-container": "#ffdad6", "on-primary-fixed": "#191a2a", "on-surface-variant": "#c7c5cd", "error": "#ffb4ab", "on-secondary-fixed-variant": "#554426", "tertiary": "#bdcabb", "surface-container-high": "#25293d", "secondary-fixed": "#f9dfb6", "surface-tint": "#c4c5da", "on-secondary-container": "#cdb58e", "surface-dim": "#0f1225", "secondary-fixed-dim": "#dcc39b", "on-secondary": "#3d2e12", "primary-fixed-dim": "#c4c5da", "tertiary-container": "#0c160d", "surface-variant": "#303349", "surface": "#0f1225", "outline-variant": "#46464c", "tertiary-fixed": "#d9e6d7", "on-tertiary": "#283329", "on-primary-fixed-variant": "#444657", "outline": "#919097", "surface-container": "#1b1e32", "primary-container": "#111322", "inverse-on-surface": "#2c2f44" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-sm": "0.5rem", "space-md": "1rem", "margin": "3rem", "space-xl": "2.5rem", "space-xs": "0.25rem", "gutter-mobile": "1rem", "space-lg": "1.5rem", "gutter": "1.5rem", "margin-mobile": "1.25rem" }, "fontFamily": { "headline-lg": ["Playfair Display"], "body-md": ["Inter"], "headline-sm": ["Playfair Display"], "label-sm": ["Inter"], "display-lg-mobile": ["Playfair Display"], "body-lg": ["Inter"], "headline-lg-mobile": ["Playfair Display"], "title-md": ["Inter"], "body-sm": ["Inter"], "display-lg": ["Playfair Display"], "headline-md": ["Playfair Display"], "label-md": ["Inter"] }, "fontSize": { "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.005em", "fontWeight": "400"}], "body-md": ["14px", {"lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "400"}], "headline-sm": ["20px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "500"}], "label-sm": ["10px", {"lineHeight": "14px", "letterSpacing": "0.12em", "fontWeight": "600"}], "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0em", "fontWeight": "400"}], "body-lg": ["16px", {"lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400"}], "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "400"}], "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600"}], "body-sm": ["12px", {"lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "400"}], "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "400"}], "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "400"}], "label-md": ["11px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}] } } } }</script><style>@layer base{html,body{width:100vw;min-height:100vh;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}@keyframes remnant-pulse{0%,100%{opacity:0.85;}50%{opacity:1;filter:drop-shadow(0 0 4px rgba(220,195,155,0.4));}}.animate-remnant{animation:remnant-pulse 4s ease-in-out infinite;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-secondary-container selection:text-secondary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.12)]"><div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="Echoes Archival Fragment Emblem" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrB6KUUIKWRUihvNHs5oTBQ_IOuasSx2zQ2hl1ozEqIaVR0dGzYylEEhs7mhr_JlaMXm9Xjguo-EudYJ52rO-1--gAyhQLRqhYEyF-1EsrPcVNnjLcOTsDUsq-VS1oz3LjMW8B4u4m_gZKkkN5cE-E2KMhHe5YpLc_1Y-AqzfbwhS5SEgQt0v7O7YFEfwrdq3SzI4LUkx3INvTZuFoj4D2irPkI6V1XbVy5iEu2vXcdl"/><div class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant truncate">Echoes</span><h1 class="font-headline-sm text-headline-sm text-on-surface truncate leading-tight">Ledger</h1></div></div><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-xs px-space-sm py-space-xs bg-surface-container-low/80 rounded-lg animate-remnant"><span class="material-symbols-outlined text-secondary text-[16px]">token</span><div class="flex flex-col items-end"><span class="font-title-md text-title-md text-secondary leading-none">1,408</span><span class="font-label-sm text-[8px] uppercase tracking-widest text-on-surface-variant leading-tight">Remnants</span></div></div><div class="relative flex items-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7iTpeSc3V_Ak-ytx6wIehF4Sl_4Gmq8qVf9lMaNIvEaKsTSyj23Ru9MyrSQLRcbtb1v-RD0VmRklMLFIaZvDPZ-LtwcyjAtD9BCAF9rPR0TkI3SL-V9xYxCutSepzjHZ5QC5HyLyL4vFJva_gZP1SCoNVUH59xp3OcHGiB0BsYZBd_YSmmpIE4ImJM3K8Ls69KXespheOOjbMbfY4sCk5BPnqSQBKI4sY1GYM9Xkt"/><span class="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-secondary/80"></span></div></div></div><div class="px-gutter-mobile pb-space-xs flex justify-center"><div class="w-full max-w-sm px-space-md py-space-xs rounded bg-surface-container-lowest/60 backdrop-blur-sm flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs min-w-0"><span class="material-symbols-outlined text-secondary text-[14px] shrink-0">history_edu</span><span class="font-body-sm text-body-sm text-on-surface-variant italic truncate">Whisper: "Some doors only swing inward..."</span></div><span class="font-label-sm text-label-sm text-secondary uppercase shrink-0">Ledger #40</span></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full px-gutter-mobile py-space-sm space-y-space-md">
+<!-- Micro Archival Protocol Header -->
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded bg-surface-container-lowest">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary animate-pulse shrink-0"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary truncate">Telemetry Registry — Node 0x7B</span>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Archivist Mode:</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Active</span>
+</div>
+</div>
+<!-- Top Summary Metrics Grid -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Remnant Metric Card -->
+<div class="relative overflow-hidden rounded bg-surface-container-low p-space-md shadow-sm">
+<div class="absolute -right-4 -bottom-4 opacity-5 pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[80px]">toll</span>
+</div>
+<div class="flex flex-col space-y-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Total Accumulated</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-secondary font-headline-lg tracking-tight" id="totalRemnants">485</span>
+<span class="font-label-sm text-label-sm uppercase text-secondary/70">Remnants</span>
+</div>
+<div class="flex items-center gap-space-xs pt-space-xs">
+<span class="material-symbols-outlined text-[14px] text-tertiary">trending_up</span>
+<span class="font-body-sm text-body-sm text-tertiary">+75 past cycle</span>
+</div>
+</div>
+</div>
+<!-- Active Streak Card -->
+<div class="relative overflow-hidden rounded bg-surface-container-low p-space-md shadow-sm">
+<div class="absolute -right-4 -bottom-4 opacity-5 pointer-events-none text-on-surface">
+<span class="material-symbols-outlined text-[80px]">auto_stories</span>
+</div>
+<div class="flex flex-col space-y-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Attunement Depth</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-headline-lg tracking-tight" id="streakCount">12</span>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Recollections</span>
+</div>
+<div class="flex items-center gap-space-xs pt-space-xs">
+<span class="material-symbols-outlined text-[14px] text-secondary">flare</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Veil Unbroken</span>
+</div>
+</div>
+</div>
+</div>
+<!-- API Connection Status Banner -->
+<div class="rounded bg-surface-container-high px-space-md py-space-sm flex items-center justify-between gap-space-sm shadow-sm transition-colors duration-200" id="connectionBanner">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0" id="connPulseIcon">wifi_tethering</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase font-semibold text-secondary" id="connBadgeText">SYNCED (ONLINE)</span>
+<span class="font-label-sm text-[9px] text-on-surface-variant opacity-60">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="latencyTag">24ms latency</span>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant truncate font-mono">/api/remnants/earn [TLS v1.3]</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] shrink-0">terminal</span>
+</div>
+<!-- API Control Bar & Interactive Simulation Buttons -->
+<div class="rounded bg-surface-container-low p-space-sm space-y-space-sm shadow-sm">
+<div class="flex items-center justify-between px-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Archivist Dispatcher</span>
+<span class="font-label-sm text-[9px] text-secondary uppercase bg-surface-container-highest px-space-xs py-0.5 rounded">Mock Harness</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-xs">
+<button class="w-full flex items-center justify-center gap-space-xs py-space-sm px-space-sm rounded bg-surface-container-high hover:bg-surface-bright active:bg-secondary-container text-on-surface transition-all" id="btnSimulate" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">add_circle</span>
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold text-secondary">Earn +25</span>
+</button>
+<button class="w-full flex items-center justify-center gap-space-xs py-space-sm px-space-sm rounded bg-surface-container hover:bg-surface-container-high active:bg-surface-container-highest text-on-surface-variant transition-all" id="btnOffline" type="button">
+<span class="material-symbols-outlined text-[16px]" id="offlineIcon">wifi_off</span>
+<span class="font-label-md text-label-md uppercase tracking-wider" id="offlineBtnText">Toggle Offline</span>
+</button>
+<button class="w-full flex items-center justify-center gap-space-xs py-space-sm px-space-sm rounded bg-surface-container hover:bg-surface-container-high active:bg-error-container text-on-surface-variant hover:text-error transition-all" id="btnClear" type="button">
+<span class="material-symbols-outlined text-[16px]">delete_sweep</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Clear History</span>
+</button>
+</div>
+</div>
+<!-- Filter Chips (Horizontal Scrollable) -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-space-xs pt-space-xs no-scrollbar">
+<button class="filter-chip active-filter shrink-0 px-space-sm py-space-xs rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm uppercase tracking-wider font-medium transition-colors" data-filter="all">
+      All Earns (4)
+    </button>
+<button class="filter-chip shrink-0 px-space-sm py-space-xs rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm uppercase tracking-wider font-medium transition-colors" data-filter="chapters">
+      Chapter Completions
+    </button>
+<button class="filter-chip shrink-0 px-space-sm py-space-xs rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm uppercase tracking-wider font-medium transition-colors" data-filter="beacons">
+      Beacons
+    </button>
+<button class="filter-chip shrink-0 px-space-sm py-space-xs rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm uppercase tracking-wider font-medium transition-colors" data-filter="discoveries">
+      Discoveries
+    </button>
+<button class="filter-chip shrink-0 px-space-sm py-space-xs rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm uppercase tracking-wider font-medium transition-colors" data-filter="queued">
+      Queued (Offline)
+    </button>
+</div>
+<!-- Archival Ledger Registry Section -->
+<div class="flex flex-col space-y-space-sm">
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[16px]">history_edu</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface font-medium">Memory Ledger Transcripts</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Archived Folio #89</span>
+</div>
+<!-- Registry Container (Styled like vintage registry paper with pinhole edge strip) -->
+<div class="flex flex-col space-y-space-xs" id="ledgerEntriesContainer">
+<!-- Ledger Row 1 -->
+<div class="ledger-row relative overflow-hidden rounded bg-surface-container-low p-space-md shadow-sm transition-all" data-category="chapters">
+<!-- Visual pinhole strip indicator on left -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary/80"></div>
+<div class="flex flex-col space-y-space-xs pl-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate font-semibold">FRAGMENT #042 RESTORED</span>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Chapter I</span>
+<span class="text-on-surface-variant text-[10px]">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Codex Folio VII</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-title-md text-title-md text-secondary font-bold">+25</span>
+<span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant">Remnants</span>
+</div>
+</div>
+<!-- Poetic Whisper Recalled -->
+<div class="mt-space-xs p-space-xs rounded bg-surface-container-lowest/60 flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[14px] shrink-0 mt-0.5">format_quote</span>
+<p class="font-body-sm text-body-sm italic text-on-surface/90">"Some doors only lock from the inside."</p>
+</div>
+<!-- Network Protocol Stamp -->
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-sm text-[10px] font-mono text-on-surface-variant">ID: rec_09491a2</span>
+<div class="flex items-center gap-space-xs px-space-xs py-0.5 rounded bg-surface-container-high">
+<span class="material-symbols-outlined text-tertiary text-[12px]">done_all</span>
+<span class="font-label-sm text-[10px] uppercase font-mono tracking-wider text-tertiary">200 OK SYNCED</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Ledger Row 2 -->
+<div class="ledger-row relative overflow-hidden rounded bg-surface-container-low p-space-md shadow-sm transition-all" data-category="beacons">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary/80"></div>
+<div class="flex flex-col space-y-space-xs pl-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate font-semibold">BEACON 03 LIGHTING</span>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Chapter II</span>
+<span class="text-on-surface-variant text-[10px]">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">The Drowned Belfry</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-title-md text-title-md text-secondary font-bold">+15</span>
+<span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant">Remnants</span>
+</div>
+</div>
+<div class="mt-space-xs p-space-xs rounded bg-surface-container-lowest/60 flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[14px] shrink-0 mt-0.5">format_quote</span>
+<p class="font-body-sm text-body-sm italic text-on-surface/90">"Warmth returns before sight."</p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-sm text-[10px] font-mono text-on-surface-variant">ID: rec_09491a3</span>
+<div class="flex items-center gap-space-xs px-space-xs py-0.5 rounded bg-surface-container-high">
+<span class="material-symbols-outlined text-tertiary text-[12px]">done_all</span>
+<span class="font-label-sm text-[10px] uppercase font-mono tracking-wider text-tertiary">200 OK SYNCED</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Ledger Row 3 -->
+<div class="ledger-row relative overflow-hidden rounded bg-surface-container-low p-space-md shadow-sm transition-all" data-category="discoveries">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary/80"></div>
+<div class="flex flex-col space-y-space-xs pl-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate font-semibold">HIDDEN MEMORY DISCOVERED</span>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Chapter II</span>
+<span class="text-on-surface-variant text-[10px]">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Under-Keel Vault</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-title-md text-title-md text-secondary font-bold">+50</span>
+<span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant">Remnants</span>
+</div>
+</div>
+<div class="mt-space-xs p-space-xs rounded bg-surface-container-lowest/60 flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[14px] shrink-0 mt-0.5">format_quote</span>
+<p class="font-body-sm text-body-sm italic text-on-surface/90">"You were looking where no one else looked."</p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-sm text-[10px] font-mono text-on-surface-variant">ID: rec_09491a4</span>
+<div class="flex items-center gap-space-xs px-space-xs py-0.5 rounded bg-surface-container-high">
+<span class="material-symbols-outlined text-tertiary text-[12px]">done_all</span>
+<span class="font-label-sm text-[10px] uppercase font-mono tracking-wider text-tertiary">200 OK SYNCED</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Ledger Row 4 (Queued Offline State) -->
+<div class="ledger-row relative overflow-hidden rounded bg-surface-container-low p-space-md shadow-sm transition-all" data-category="queued">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div>
+<div class="flex flex-col space-y-space-xs pl-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface truncate font-semibold">HERO ABILITY: VEIL SIGHT FIRST USE</span>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Chapter I</span>
+<span class="text-on-surface-variant text-[10px]">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">The Obsidian Threshold</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-title-md text-title-md text-secondary font-bold">+10</span>
+<span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant">Remnants</span>
+</div>
+</div>
+<div class="mt-space-xs p-space-xs rounded bg-surface-container-lowest/60 flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[14px] shrink-0 mt-0.5">format_quote</span>
+<p class="font-body-sm text-body-sm italic text-on-surface/90">"The dark was never empty."</p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-sm text-[10px] font-mono text-on-surface-variant">ID: rec_09491a5 (local)</span>
+<div class="flex items-center gap-space-xs px-space-xs py-0.5 rounded bg-secondary-container">
+<span class="material-symbols-outlined text-secondary-fixed text-[12px] animate-spin">sync</span>
+<span class="font-label-sm text-[10px] uppercase font-mono tracking-wider text-secondary-fixed font-semibold">QUEUED FOR SYNC</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Developer API Echo Debug Drawer -->
+<div class="rounded bg-surface-container-lowest p-space-md shadow-sm space-y-space-sm">
+<div class="flex items-center justify-between cursor-pointer select-none" id="debugToggle">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">data_object</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">Developer API Echo Console</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-[10px] uppercase tracking-widest text-on-surface-variant bg-surface-container-high px-space-xs py-0.5 rounded">Inspect Payload</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px] transition-transform" id="drawerChevron">expand_less</span>
+</div>
+</div>
+<!-- Monospace Payload Echo Area -->
+<div class="space-y-space-sm transition-all duration-200" id="debugContent">
+<!-- Outgoing Transmission -->
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] uppercase tracking-widest text-on-surface-variant font-mono">POST /api/remnants/earn [Request Payload]</span>
+<span class="font-label-sm text-[9px] text-tertiary font-mono">HTTP/2 Secure</span>
+</div>
+<pre class="bg-surface-container-lowest p-space-sm rounded text-[11px] font-mono leading-relaxed text-primary overflow-x-auto selection:bg-secondary-container"><code>{
+  "event": "checkpoint_light",
+  "amount": 15,
+  "chapter": 2,
+  "session_id": "anon_994a",
+  "timestamp": 1718294021
+}</code></pre>
+</div>
+<!-- Server Echoed Response -->
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] uppercase tracking-widest text-secondary font-mono">REPLY [HTTP 200 / Echoed Whisper Stream]</span>
+<span class="font-label-sm text-[9px] text-secondary font-mono">24ms Roundtrip</span>
+</div>
+<pre class="bg-surface-container-lowest p-space-sm rounded text-[11px] font-mono leading-relaxed text-secondary overflow-x-auto selection:bg-secondary-container"><code>{
+  "status": 200,
+  "code": "OK",
+  "whisper": "Warmth returns before sight.",
+  "remnants_balance": 485,
+  "ledger_seal": "0x78ab12e_signed"
+}</code></pre>
+</div>
+</div>
+</div>
+<!-- Privacy & Local Vault Assurance Note -->
+<div class="p-space-md rounded bg-surface-container-lowest flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">verified_user</span>
+<div class="flex flex-col space-y-space-xs min-w-0">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Archival Integrity &amp; Privacy Mandate</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        Remnant API is strictly optional and transmits zero personal data. Disable in Settings to count offline. All memory transcripts remain signed locally inside the client ledger.
+      </p>
+</div>
+</div>
+</div>
+<script>
+  (function initLedgerConsole() {
+    let remnants = 485;
+    let streak = 12;
+    let isOffline = false;
+
+    const totalEl = document.getElementById('totalRemnants');
+    const streakEl = document.getElementById('streakCount');
+    const btnSimulate = document.getElementById('btnSimulate');
+    const btnOffline = document.getElementById('btnOffline');
+    const btnClear = document.getElementById('btnClear');
+    const connectionBanner = document.getElementById('connectionBanner');
+    const connBadgeText = document.getElementById('connBadgeText');
+    const latencyTag = document.getElementById('latencyTag');
+    const connPulseIcon = document.getElementById('connPulseIcon');
+    const offlineBtnText = document.getElementById('offlineBtnText');
+    const ledgerContainer = document.getElementById('ledgerEntriesContainer');
+    const debugToggle = document.getElementById('debugToggle');
+    const debugContent = document.getElementById('debugContent');
+    const drawerChevron = document.getElementById('drawerChevron');
+    const filterButtons = document.querySelectorAll('.filter-chip');
+
+    // Simulate Earn Event
+    btnSimulate.addEventListener('click', () => {
+      remnants += 25;
+      streak += 1;
+      totalEl.textContent = remnants.toLocaleString();
+      streakEl.textContent = streak;
+
+      // Create new dynamic ledger row
+      const whispers = [
+        "The archive remembers every deliberate step.",
+        "A quiet truth settles in the stone.",
+        "You walked into the mist and brought back a lantern.",
+        "The veil folds around what is remembered."
+      ];
+      const randomWhisper = whispers[Math.floor(Math.random() * whispers.length)];
+      const randId = Math.floor(Math.random() * 900) + 100;
+      const statusHtml = isOffline 
+        ? `<div class="flex items-center gap-space-xs px-space-xs py-0.5 rounded bg-secondary-container">
+             <span class="material-symbols-outlined text-secondary-fixed text-[12px] animate-spin">sync</span>
+             <span class="font-label-sm text-[10px] uppercase font-mono tracking-wider text-secondary-fixed font-semibold">QUEUED FOR SYNC</span>
+           </div>`
+        : `<div class="flex items-center gap-space-xs px-space-xs py-0.5 rounded bg-surface-container-high">
+             <span class="material-symbols-outlined text-tertiary text-[12px]">done_all</span>
+             <span class="font-label-sm text-[10px] uppercase font-mono tracking-wider text-tertiary">200 OK SYNCED</span>
+           </div>`;
+
+      const newRow = document.createElement('div');
+      newRow.className = 'ledger-row relative overflow-hidden rounded bg-surface-container-low p-space-md shadow-sm transition-all animate-remnant';
+      newRow.setAttribute('data-category', isOffline ? 'queued' : 'chapters');
+      newRow.innerHTML = `
+        <div class="absolute left-0 top-0 bottom-0 w-1 ${isOffline ? 'bg-secondary-container' : 'bg-secondary/80'}"></div>
+        <div class="flex flex-col space-y-space-xs pl-space-xs">
+          <div class="flex items-start justify-between gap-space-sm">
+            <div class="flex flex-col min-w-0">
+              <span class="font-title-md text-title-md text-on-surface truncate font-semibold">SIMULATED REVELATION #${randId}</span>
+              <div class="flex items-center gap-space-xs mt-0.5">
+                <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Dispatcher</span>
+                <span class="text-on-surface-variant text-[10px]">•</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Archivist Echo</span>
+              </div>
+            </div>
+            <div class="flex flex-col items-end shrink-0">
+              <span class="font-title-md text-title-md text-secondary font-bold">+25</span>
+              <span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant">Remnants</span>
+            </div>
+          </div>
+          <div class="mt-space-xs p-space-xs rounded bg-surface-container-lowest/60 flex items-start gap-space-xs">
+            <span class="material-symbols-outlined text-secondary text-[14px] shrink-0 mt-0.5">format_quote</span>
+            <p class="font-body-sm text-body-sm italic text-on-surface/90">"${randomWhisper}"</p>
+          </div>
+          <div class="flex items-center justify-between pt-space-xs">
+            <span class="font-label-sm text-[10px] font-mono text-on-surface-variant">ID: rec_sim_${Date.now().toString().slice(-6)}</span>
+            ${statusHtml}
+          </div>
+        </div>
+      `;
+
+      ledgerContainer.prepend(newRow);
+    });
+
+    // Toggle Offline Mode
+    btnOffline.addEventListener('click', () => {
+      isOffline = !isOffline;
+      if (isOffline) {
+        connBadgeText.textContent = "OFFLINE (STORE & FORWARD)";
+        connBadgeText.className = "font-label-sm text-label-sm uppercase font-semibold text-error";
+        latencyTag.textContent = "queue active";
+        connPulseIcon.textContent = "wifi_off";
+        connPulseIcon.className = "material-symbols-outlined text-error text-[18px] shrink-0";
+        offlineBtnText.textContent = "Go Online";
+        btnOffline.classList.add('bg-error-container', 'text-on-error-container');
+      } else {
+        connBadgeText.textContent = "SYNCED (ONLINE)";
+        connBadgeText.className = "font-label-sm text-label-sm uppercase font-semibold text-secondary";
+        latencyTag.textContent = "24ms latency";
+        connPulseIcon.textContent = "wifi_tethering";
+        connPulseIcon.className = "material-symbols-outlined text-secondary text-[18px] shrink-0";
+        offlineBtnText.textContent = "Toggle Offline";
+        btnOffline.classList.remove('bg-error-container', 'text-on-error-container');
+      }
+    });
+
+    // Clear History
+    btnClear.addEventListener('click', () => {
+      const rows = ledgerContainer.querySelectorAll('.ledger-row');
+      rows.forEach(r => r.remove());
+      const emptyNotice = document.createElement('div');
+      emptyNotice.id = 'emptyPlaceholder';
+      emptyNotice.className = 'p-space-lg rounded bg-surface-container-low text-center flex flex-col items-center justify-center space-y-space-xs';
+      emptyNotice.innerHTML = `
+        <span class="material-symbols-outlined text-on-surface-variant text-[32px]">folder_off</span>
+        <span class="font-title-md text-title-md text-on-surface">Ledger Cleared</span>
+        <span class="font-body-sm text-body-sm text-on-surface-variant">Memory transcripts purged from local cache.</span>
+      `;
+      ledgerContainer.appendChild(emptyNotice);
+    });
+
+    // Filter Chips
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.classList.remove('bg-surface-container-highest', 'text-secondary');
+          b.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+        });
+        btn.classList.add('bg-surface-container-highest', 'text-secondary');
+        btn.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+
+        const filter = btn.getAttribute('data-filter');
+        const rows = ledgerContainer.querySelectorAll('.ledger-row');
+        rows.forEach(row => {
+          const category = row.getAttribute('data-category');
+          if (filter === 'all' || category === filter) {
+            row.style.display = 'block';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Toggle Debug Drawer
+    let drawerOpen = true;
+    debugToggle.addEventListener('click', () => {
+      drawerOpen = !drawerOpen;
+      if (drawerOpen) {
+        debugContent.style.display = 'block';
+        drawerChevron.style.transform = 'rotate(0deg)';
+      } else {
+        debugContent.style.display = 'none';
+        drawerChevron.style.transform = 'rotate(180deg)';
+      }
+    });
+
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.3)]" data-active-classes="text-secondary bg-surface-container-high/60"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs py-space-xs rounded text-on-surface-variant hover:text-on-surface transition-colors" data-path="prologue" href="#"><span class="material-symbols-outlined text-[20px]">auto_stories</span><span class="font-label-sm text-label-sm mt-space-xs">Prologue</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs py-space-xs rounded text-on-surface-variant hover:text-on-surface transition-colors" data-path="archive" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span class="font-label-sm text-label-sm mt-space-xs">Archive</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs py-space-xs rounded text-on-surface-variant hover:text-on-surface transition-colors" data-path="chapters" href="#"><span class="material-symbols-outlined text-[20px]">map</span><span class="font-label-sm text-label-sm mt-space-xs">Chapters</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs py-space-xs rounded text-on-surface-variant hover:text-on-surface transition-colors" data-path="hud" href="#"><span class="material-symbols-outlined text-[20px]">visibility</span><span class="font-label-sm text-label-sm mt-space-xs">HUD</span></a><a aria-current="page" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs py-space-xs rounded transition-colors text-secondary bg-surface-container-high/60" data-path="ledger" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-label-sm text-label-sm mt-space-xs">Ledger</span></a></div></nav></body></html>

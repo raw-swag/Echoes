@@ -1,218 +1,355 @@
-import { globalGameState, GameStateModel } from '@core/GameState';
+import { GameStateModel } from '@core/GameState';
+import { modalController } from '@ui/components/ModalController';
 import { inputService } from '@input/InputService';
 
 export function renderMobileHUD(
   state: Readonly<GameStateModel>,
   _onNavigate: (route: string) => void
 ): string {
-  const progressRatio = state.echoTraceTimer / state.echoTraceMaxTimer;
-  const strokeOffset = 125.6 * (1 - progressRatio);
-
   return `
-<div class="flex flex-col w-full relative select-none screen-fade-enter-active">
-  <!-- Viewport Frame / Living Playfield Layer -->
-  <div class="relative w-full h-[580px] rounded-xl overflow-hidden bg-surface-container-lowest shadow-2xl flex flex-col justify-between border border-surface-container-high/40">
-    <!-- Active Simulation Canvas 2D Mount Target -->
-    <div id="gameplay-viewport" class="absolute inset-0 z-0 flex items-center justify-center bg-black">
-      <!-- Active Game Canvas is mounted here -->
-    </div>
-
-    <!-- Vignette & Gradient Overlays -->
-    <div class="absolute inset-0 bg-gradient-to-t from-background/90 via-surface-container-lowest/30 to-background/90 pointer-events-none z-10"></div>
-
-    <!-- TOP HUD LAYER: Diegetic Metrics & Echo Ring -->
-    <div class="relative z-30 pt-4 px-4 flex items-start justify-between pointer-events-auto">
-      <!-- Upper Left: Archival Echo Ring Indicator -->
-      <div class="flex items-center gap-space-sm bg-surface-container-lowest/70 backdrop-blur-md px-space-sm py-space-xs rounded-xl shadow-lg border border-surface-container-high/30">
-        <div class="relative w-12 h-12 flex items-center justify-center shrink-0">
-          <svg class="w-12 h-12 -rotate-90" viewBox="0 0 48 48">
-            <circle class="text-surface-container-highest" cx="24" cy="24" fill="none" r="20" stroke="currentColor" stroke-dasharray="3 3" stroke-width="2.5"></circle>
-            <circle class="text-secondary transition-all duration-300" cx="24" cy="24" fill="none" id="echo-ring-svg" r="20" stroke="currentColor" stroke-dasharray="125.6" stroke-dashoffset="${strokeOffset.toFixed(
-              1
-            )}" stroke-linecap="round" stroke-width="2.5"></circle>
-          </svg>
-          <span class="material-symbols-outlined text-secondary text-[18px] absolute" id="echo-center-icon">
-            ${state.echoTraceState === 'recording' ? 'radio_button_checked' : 'adjust'}
-          </span>
-        </div>
-        <div class="flex flex-col min-w-0 pr-space-xs">
-          <div class="flex items-center gap-space-xs">
-            <span class="w-1.5 h-1.5 rounded-full ${
-              state.echoTraceState === 'recording'
-                ? 'bg-error animate-ping'
-                : 'bg-secondary animate-pulse'
-            }"></span>
-            <span class="font-label-sm text-[10px] uppercase ${
-              state.echoTraceState === 'recording' ? 'text-error' : 'text-secondary'
-            } font-semibold tracking-widest truncate">
-              ${state.echoTraceState.toUpperCase()}
-            </span>
-          </div>
-          <span class="font-title-md text-[13px] text-on-surface tracking-wider font-mono">
-            ${state.echoTraceTimer.toFixed(1)}s <span class="text-on-surface-variant/70 text-[10px]">/ 05.0s</span>
-          </span>
-        </div>
-      </div>
-
-      <!-- Top Center: Integrity Diamonds -->
-      <div class="flex flex-col items-center bg-surface-container-lowest/70 backdrop-blur-sm px-space-md py-space-xs rounded-full border border-surface-container-high/30">
-        <span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant mb-1">Integrity</span>
-        <div class="flex items-center gap-1.5">
-          ${Array.from({ length: state.mindIntegrityMax })
-            .map((_, i) => {
-              const active = i < state.mindIntegrity;
-              return `<div class="w-3 h-3 rotate-45 ${
-                active ? 'bg-secondary' : 'bg-surface-container-highest'
-              } flex items-center justify-center transition-all duration-300 shadow-sm">
-                <div class="w-1 h-1 ${
-                  active ? 'bg-surface-container-lowest' : 'bg-secondary/40'
-                } rounded-full"></div>
-              </div>`;
-            })
-            .join('')}
-        </div>
-      </div>
-
-      <!-- Upper Right: Pause Button -->
-      <button id="mobile-pause-btn" aria-label="Pause" class="w-9 h-9 rounded-lg bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-secondary active:scale-95 transition-all border border-surface-container-high/40">
-        <span class="material-symbols-outlined text-[20px]">${
-          state.isPaused ? 'play_arrow' : 'pause'
-        }</span>
-      </button>
-    </div>
-
-    <!-- MIDDLE LAYER: Diegetic Spatial Movement Control Layer (D-Pad & Jump) -->
-    <div class="relative z-20 flex-1 flex items-end justify-between px-4 pb-2 pointer-events-auto">
-      <!-- Left D-Pad Touch Cluster -->
-      <div class="flex items-center gap-2 bg-surface-container-lowest/75 backdrop-blur-md p-1.5 rounded-2xl border border-surface-container-high/40 shadow-xl">
-        <button id="touch-left-btn" class="w-12 h-12 rounded-xl bg-surface-container-low/90 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface border border-surface-container-high/30 transition-all active:scale-95">
-          <span class="material-symbols-outlined text-[24px]">arrow_back</span>
-        </button>
-        <button id="touch-down-btn" class="w-12 h-12 rounded-xl bg-surface-container-low/90 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface border border-surface-container-high/30 transition-all active:scale-95" title="Drop through platform (Down + Jump)">
-          <span class="material-symbols-outlined text-[24px]">arrow_downward</span>
-        </button>
-        <button id="touch-right-btn" class="w-12 h-12 rounded-xl bg-surface-container-low/90 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface border border-surface-container-high/30 transition-all active:scale-95">
-          <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
-        </button>
-      </div>
-
-      <!-- Right Jump Touch Button -->
-      <div class="flex items-center gap-2">
-        <button id="touch-jump-btn" class="w-16 h-16 rounded-2xl bg-secondary text-on-secondary active:brightness-95 flex flex-col items-center justify-center shadow-2xl border border-secondary/60 active:scale-95 transition-all">
-          <span class="material-symbols-outlined text-[28px]">arrow_upward</span>
-          <span class="text-[9px] uppercase tracking-wider font-bold -mt-1">JUMP</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- BOTTOM LAYER: Diegetic Touch Interaction Control Bar -->
-    <div class="relative z-30 px-4 pb-4 pt-2 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent pointer-events-auto">
-      <div class="flex items-center justify-between gap-4">
-        <!-- Left Touch Button: VEIL SIGHT -->
-        <button id="touch-veil-btn" class="flex-1 py-space-sm px-space-md rounded-xl bg-surface-container-low/85 backdrop-blur-md active:bg-surface-container-high border border-surface-container-high/40 flex items-center justify-center gap-space-xs text-on-surface transition-all active:scale-95 shadow-lg">
-          <span class="material-symbols-outlined text-[18px] text-tertiary">visibility</span>
-          <span class="font-label-sm text-[10px] uppercase tracking-wider">Veil Sight</span>
-        </button>
-
-        <!-- Center Touch Button: ECHO TRACE -->
-        <button id="touch-trace-btn" class="flex-1 py-space-sm px-space-md rounded-xl bg-surface-container-high text-secondary border border-secondary/40 flex items-center justify-center gap-space-xs font-semibold transition-all active:scale-95 shadow-xl">
-          <span class="material-symbols-outlined text-[18px]">history</span>
-          <span class="font-label-sm text-[10px] uppercase tracking-wider">Trace (M3)</span>
-        </button>
-
-        <!-- Right Touch Button: PULSE / RELEASE -->
-        <button id="touch-pulse-btn" class="flex-1 py-space-sm px-space-md rounded-xl bg-surface-container-low/85 backdrop-blur-md active:bg-surface-container-high border border-surface-container-high/40 flex items-center justify-center gap-space-xs text-on-surface transition-all active:scale-95 shadow-lg">
-          <span class="material-symbols-outlined text-[18px] text-secondary">flare</span>
-          <span class="font-label-sm text-[10px] uppercase tracking-wider">Pulse</span>
-        </button>
-      </div>
-    </div>
-  </div>
+<main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full relative select-none">
+<!-- Viewport Frame / Living Playfield Layer -->
+<div id="gameplay-viewport" class="relative w-full h-[620px] rounded-xl overflow-hidden bg-surface-container-lowest shadow-2xl flex flex-col justify-between">
+<!-- Diegetic Background World Canvas -->
+<div class="absolute inset-0 z-0 bg-cover bg-center filter contrast-105 brightness-90 transition-transform duration-1000 ease-out" style="background-image: url('/assets/ui/mobile_avatar.jpg');">
+<!-- Vignette and Ambient Gradient Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-background via-surface-container-lowest/40 to-background/90"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-background/70"></div>
+<!-- Subtle Atmospheric Mist Particle Layer (Simulated via SVG) -->
+<svg class="absolute inset-0 w-full h-full opacity-20 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+<filter id="hud-fog">
+<feturbulence basefrequency="0.015" numoctaves="3" result="noise" type="fractalNoise"></feturbulence>
+<fecolormatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.4 0"></fecolormatrix>
+</filter>
+<rect filter="url(#hud-fog)" height="100%" width="100%"></rect>
+</svg>
 </div>
+<!-- Top Floating Toast Notification (Rekindled Beacon Remnant Surge) -->
+<div class="absolute top-2 right-4 z-40 flex items-center gap-space-sm px-space-md py-space-xs rounded bg-surface-container-lowest/80 backdrop-blur-md transition-all duration-700 transform translate-y-0 opacity-100 shadow-md" id="remnant-toast">
+<span class="material-symbols-outlined text-secondary text-[16px] animate-pulse">auto_awesome</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-semibold tracking-wider uppercase">+15 Remnants: Beacon Rekindled</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant italic">“A spark in the quiet.” — Synced</span>
+</div>
+</div>
+<!-- TOP HUD LAYER: Diegetic Metrics & Echo Ring -->
+<div class="relative z-30 pt-4 px-4 flex items-start justify-between">
+<!-- Upper Left: The Archival Echo Ring Indicator -->
+<div class="flex items-center gap-space-sm bg-surface-container-lowest/70 backdrop-blur-md px-space-sm py-space-xs rounded-xl shadow-lg">
+<!-- SVG Ring Progress -->
+<div class="relative w-12 h-12 flex items-center justify-center shrink-0">
+<svg class="w-12 h-12 -rotate-90" viewbox="0 0 48 48">
+<!-- Background Path -->
+<circle class="text-surface-container-highest" cx="24" cy="24" fill="none" r="20" stroke="currentColor" stroke-dasharray="3 3" stroke-width="2.5"></circle>
+<!-- Active Fill Path -->
+<circle class="text-secondary transition-all duration-300" cx="24" cy="24" fill="none" id="echo-ring-svg" r="20" stroke="currentColor" stroke-dasharray="125.6" stroke-dashoffset="65" stroke-linecap="round" stroke-width="2.5"></circle>
+</svg>
+<span class="material-symbols-outlined text-secondary text-[18px] absolute" id="echo-center-icon">adjust</span>
+</div>
+<!-- Echo Meta Details -->
+<div class="flex flex-col min-w-0 pr-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping" id="echo-status-dot"></span>
+<span class="font-label-sm text-[10px] uppercase text-secondary font-semibold tracking-widest truncate" id="echo-state-label">RECORDING TRACE</span>
+</div>
+<span class="font-title-md text-[13px] text-on-surface tracking-wider font-mono" id="echo-timer">02.4s <span class="text-on-surface-variant/70 text-[10px]">/ 05.0s</span></span>
+</div>
+</div>
+<!-- Top Center: Archival Hero Stability Integrity Pips -->
+<div class="flex flex-col items-center bg-surface-container-lowest/60 backdrop-blur-sm px-space-md py-space-xs rounded-full">
+<span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant mb-1">Stability (${state.collectedShardsCurrent}/${state.collectedShardsTotal})</span>
+<div class="flex items-center gap-1.5" id="mobile-integrity-pips">
+<!-- Pip 1 -->
+<div class="w-3 h-3 rotate-45 ${state.mindIntegrity >= 1 ? 'bg-secondary' : 'bg-surface-container-highest'} flex items-center justify-center transition-all duration-300 shadow-sm" id="pip-1">
+<div class="w-1 h-1 ${state.mindIntegrity >= 1 ? 'bg-surface-container-lowest' : 'bg-secondary/40'} rounded-full"></div>
+</div>
+<!-- Pip 2 -->
+<div class="w-3 h-3 rotate-45 ${state.mindIntegrity >= 2 ? 'bg-secondary' : 'bg-surface-container-highest'} flex items-center justify-center transition-all duration-300 shadow-sm" id="pip-2">
+<div class="w-1 h-1 ${state.mindIntegrity >= 2 ? 'bg-surface-container-lowest' : 'bg-secondary/40'} rounded-full"></div>
+</div>
+<!-- Pip 3 -->
+<div class="w-3 h-3 rotate-45 ${state.mindIntegrity >= 3 ? 'bg-secondary' : 'bg-surface-container-highest'} flex items-center justify-center transition-all duration-300" id="pip-3">
+<div class="w-1 h-1 ${state.mindIntegrity >= 3 ? 'bg-surface-container-lowest' : 'bg-secondary/40'} rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Upper Right: Ghost Checkpoint & Quick Pause -->
+<div class="flex items-center gap-space-xs">
+<div class="flex items-center gap-1 bg-surface-container-lowest/70 backdrop-blur-md px- space-sm px-2.5 py-1.5 rounded-lg text-tertiary">
+<span class="material-symbols-outlined text-[15px]">flag_circle</span>
+<span class="font-label-sm text-[9px] uppercase tracking-widest text-tertiary-fixed-dim">CP-14</span>
+</div>
+<button aria-label="Audio & Settings" class="w-8 h-8 rounded-lg bg-surface-container-lowest/70 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-secondary active:scale-95 transition-all" id="btn-mobile-settings">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button aria-label="Pause Recollection" class="w-8 h-8 rounded-lg bg-surface-container-lowest/70 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-secondary active:scale-95 transition-all" id="btn-pause">
+<span class="material-symbols-outlined text-[18px]">pause</span>
+</button>
+</div>
+</div>
+<!-- MIDDLE LAYER: Diegetic World Overlay Elements -->
+<div class="relative z-20 flex-1 flex flex-col justify-end px-6 pb-4 pointer-events-none">
+<!-- In-world Spatial Prompt (Appears over game environment) -->
+<div class="self-center mb-6 flex flex-col items-center text-center animate-bounce duration-1000" id="spatial-interaction-prompt">
+<div class="px-space-md py-space-xs rounded-full bg-surface-container-lowest/80 backdrop-blur-md shadow-xl flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[16px]">fingerprint</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">Memory Trace Detected [Press Recall]</span>
+</div>
+<div class="w-1.5 h-1.5 rotate-45 bg-surface-container-lowest/80 -mt-1"></div>
+</div>
+<!-- Environmental Narrative Whisper Bar (Discreet Sub-HUD text) -->
+<div class="self-start max-w-xs bg-surface-container-lowest/60 backdrop-blur-sm px-3 py-1.5 rounded flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[14px]">graphic_eq</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant/90 italic truncate">“${state.activeWhisper}”</span>
+</div>
+</div>
+<!-- BOTTOM LAYER: Diegetic Touch Interaction Control Bar -->
+<div class="relative z-30 px-4 pb-4 pt-2 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent">
+<div class="flex items-center justify-between gap-4">
+<!-- Left Thumb: Movement & HOLD TO RECALL [VEIL SIGHT] -->
+<div class="flex items-center gap-2">
+<!-- Virtual Movement Left / Right -->
+<div class="flex items-center gap-1 bg-surface-container-low/90 p-1 rounded-xl shadow-xl">
+<button class="w-10 h-10 rounded-lg bg-surface-container-high/80 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface active:scale-90 transition-all select-none" id="btn-touch-left" aria-label="Move Left">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-surface-container-high/80 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface active:scale-90 transition-all select-none" id="btn-touch-right" aria-label="Move Right">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+<!-- Veil Sight Recall Button -->
+<button class="group relative flex items-center gap-space-sm px- space-sm px-3 py-2.5 rounded-xl bg-surface-container-low/90 active:bg-secondary-container transition-all duration-200 active:scale-95 shadow-xl overflow-hidden" id="btn-recall" aria-label="Veil Sight Recall">
+<!-- Inner charging bar animation on press -->
+<div class="absolute inset-y-0 left-0 w-0 bg-secondary/20 transition-all duration-150" id="recall-progress-bar"></div>
+<div class="w-7 h-7 rounded bg-surface-container-highest/60 flex items-center justify-center text-secondary relative z-10">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</div>
+<div class="flex flex-col text-left relative z-10">
+<span class="font-label-sm text-[8px] uppercase tracking-widest text-secondary font-semibold">RECALL</span>
+<span class="font-body-sm text-[10px] text-on-surface leading-tight font-medium">Veil Sight</span>
+</div>
+</button>
+</div>
+<!-- Right Thumb: Action Pair (Jump & Echo Trace) -->
+<div class="flex items-center gap-2">
+<!-- Jump / Restore Action Button -->
+<div class="flex flex-col items-center gap-1">
+<button class="w-12 h-12 rounded-xl bg-surface-container-low/90 active:bg-surface-container-highest flex items-center justify-center text-on-surface active:scale-90 transition-all duration-150 shadow-xl" id="btn-jump">
+<span class="material-symbols-outlined text-[22px]">north</span>
+</button>
+<span class="font-label-sm text-[8px] uppercase tracking-wider text-on-surface-variant/60">JUMP</span>
+</div>
+<!-- Primary Hero Ability: ECHO TRACE [ACTIVATE] -->
+<div class="flex flex-col items-end gap-1">
+<button class="relative flex items-center gap-space-sm px-space-md py-3 rounded-xl bg-secondary text-on-secondary active:scale-95 transition-all duration-200 shadow-xl min-w-[130px] justify-center" id="btn-activate-echo">
+<span class="material-symbols-outlined text-[20px]">play_circle</span>
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-[9px] uppercase tracking-widest text-on-secondary font-bold">ECHO TRACE</span>
+<span class="font-body-sm text-[11px] text-on-secondary leading-tight font-medium">Activate</span>
+</div>
+</button>
+<span class="font-label-sm text-[8px] text-on-surface-variant/60 tracking-wider pr-1">RIGHT ANCHOR</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive HUD State Machine Switcher (Design Tooling / Gameplay Demo Controls) -->
+<div class="mt-4 px-gutter-mobile flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[16px]">tune</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Trace State Simulation</span>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-mono">DEBUG HARNESS</span>
+</div>
+<!-- Toggle Selector Pill Group -->
+<div class="grid grid-cols-5 gap-1.5 p-1 bg-surface-container-lowest rounded-xl">
+<button class="hud-state-btn py-1.5 px-2 rounded-lg font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors flex justify-center items-center" data-state="idle">
+        Idle
+      </button>
+<button class="hud-state-btn active-state py-1.5 px-2 rounded-lg font-label-sm text-[10px] uppercase tracking-wider bg-surface-container-high text-secondary font-semibold transition-colors flex justify-center items-center" data-state="recording">
+        Rec
+      </button>
+<button class="hud-state-btn py-1.5 px-2 rounded-lg font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors flex justify-center items-center" data-state="playback">
+        Play
+      </button>
+<button class="hud-state-btn py-1.5 px-2 rounded-lg font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors flex justify-center items-center" data-state="holding">
+        Hold
+      </button>
+<button class="hud-state-btn py-1.5 px-2 rounded-lg font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors flex justify-center items-center" data-state="dissolving">
+        Fade
+      </button>
+</div>
+</div>
+<!-- Archival Context / Diegetic HUD Specs Panel -->
+<div class="mt-4 px-gutter-mobile">
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Diegetic Recollection Parameters</span>
+<span class="font-label-sm text-[10px] text-tertiary">LATENCY: 14ms (OPTIMAL)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        Echo Traces reproduce your previous 5.0 seconds of movement across the physical plane. While Veil Sight is held, faded structures solidify and spectral platforms become traversable.
+      </p>
+<div class="flex items-center gap-space-md pt-2">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-[10px] text-on-surface">Parallax Dissolve: Enabled</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-[10px] text-on-surface">Haptic Resonance: Active</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
 `;
 }
 
-export function bindMobileHUDEvents(_onNavigate: (route: string) => void): void {
-  const pauseBtn = document.getElementById('mobile-pause-btn');
-  const leftBtn = document.getElementById('touch-left-btn');
-  const rightBtn = document.getElementById('touch-right-btn');
-  const downBtn = document.getElementById('touch-down-btn');
-  const jumpBtn = document.getElementById('touch-jump-btn');
-
+export function bindMobileHUDEvents(onNavigate: (route: string) => void): void {
+  // Pause button
+  const pauseBtn = document.getElementById('btn-pause');
   if (pauseBtn) {
     pauseBtn.addEventListener('click', () => {
-      const s = globalGameState.getState();
-      globalGameState.setPaused(!s.isPaused);
+      modalController.openPause();
+      modalController.render(onNavigate, () => {
+        window.dispatchEvent(new CustomEvent('echoes:restart'));
+      });
     });
   }
 
-  // Helper for touch press/release handling
-  const setupTouch = (el: HTMLElement | null, onPress: () => void, onRelease: () => void) => {
-    if (!el) return;
-    el.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      onPress();
+  // Settings button
+  const settingsBtn = document.getElementById('btn-mobile-settings');
+  if (settingsBtn) {
+    settingsBtn.addEventListener('click', () => {
+      modalController.openSettings();
+      modalController.render(onNavigate);
     });
-    el.addEventListener('pointerup', (e) => {
+  }
+
+  // Touch Left Movement
+  const btnLeft = document.getElementById('btn-touch-left');
+  if (btnLeft) {
+    const startLeft = (e: Event) => {
       e.preventDefault();
-      onRelease();
-    });
-    el.addEventListener('pointercancel', (e) => {
+      inputService.setTouchMove(-1, 0);
+    };
+    const endLeft = (e: Event) => {
       e.preventDefault();
-      onRelease();
-    });
-    el.addEventListener('pointerleave', (e) => {
+      inputService.setTouchMove(0, 0);
+    };
+    btnLeft.addEventListener('touchstart', startLeft, { passive: false });
+    btnLeft.addEventListener('touchend', endLeft, { passive: false });
+    btnLeft.addEventListener('touchcancel', endLeft, { passive: false });
+    btnLeft.addEventListener('mousedown', startLeft);
+    btnLeft.addEventListener('mouseup', endLeft);
+    btnLeft.addEventListener('mouseleave', endLeft);
+  }
+
+  // Touch Right Movement
+  const btnRight = document.getElementById('btn-touch-right');
+  if (btnRight) {
+    const startRight = (e: Event) => {
       e.preventDefault();
-      onRelease();
-    });
-  };
+      inputService.setTouchMove(1, 0);
+    };
+    const endRight = (e: Event) => {
+      e.preventDefault();
+      inputService.setTouchMove(0, 0);
+    };
+    btnRight.addEventListener('touchstart', startRight, { passive: false });
+    btnRight.addEventListener('touchend', endRight, { passive: false });
+    btnRight.addEventListener('touchcancel', endRight, { passive: false });
+    btnRight.addEventListener('mousedown', startRight);
+    btnRight.addEventListener('mouseup', endRight);
+    btnRight.addEventListener('mouseleave', endRight);
+  }
 
-  let curX = 0;
-  let curY = 0;
-
-  setupTouch(
-    leftBtn,
-    () => {
-      curX = -1;
-      inputService.setTouchMove(curX, curY);
-    },
-    () => {
-      if (curX === -1) curX = 0;
-      inputService.setTouchMove(curX, curY);
-    }
-  );
-
-  setupTouch(
-    rightBtn,
-    () => {
-      curX = 1;
-      inputService.setTouchMove(curX, curY);
-    },
-    () => {
-      if (curX === 1) curX = 0;
-      inputService.setTouchMove(curX, curY);
-    }
-  );
-
-  setupTouch(
-    downBtn,
-    () => {
-      curY = 1;
-      inputService.setTouchMove(curX, curY);
-    },
-    () => {
-      curY = 0;
-      inputService.setTouchMove(curX, curY);
-    }
-  );
-
-  setupTouch(
-    jumpBtn,
-    () => {
+  // Jump button -> simulate keyboard Space & setTouchJump with full cancellation
+  const jumpBtn = document.getElementById('btn-jump');
+  if (jumpBtn) {
+    const startJump = (e: Event) => {
+      e.preventDefault();
       inputService.setTouchJump(true);
-    },
-    () => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }));
+    };
+    const endJump = (e: Event) => {
+      e.preventDefault();
       inputService.setTouchJump(false);
-    }
-  );
+      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'Space' }));
+    };
+
+    jumpBtn.addEventListener('touchstart', startJump, { passive: false });
+    jumpBtn.addEventListener('touchend', endJump, { passive: false });
+    jumpBtn.addEventListener('touchcancel', endJump, { passive: false });
+    jumpBtn.addEventListener('mousedown', startJump);
+    jumpBtn.addEventListener('mouseup', endJump);
+    jumpBtn.addEventListener('mouseleave', endJump);
+  }
+
+  // Recall button -> simulate Q (Veil Sight)
+  const recallBtn = document.getElementById('btn-recall');
+  const recallBar = document.getElementById('recall-progress-bar');
+  if (recallBtn) {
+    const startVeil = () => {
+      if (recallBar) {
+        recallBar.style.width = '100%';
+        recallBar.style.transitionDuration = '1200ms';
+      }
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyQ' }));
+    };
+    const endVeil = () => {
+      if (recallBar) {
+        recallBar.style.transitionDuration = '200ms';
+        recallBar.style.width = '0%';
+      }
+      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyQ' }));
+    };
+
+    recallBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      startVeil();
+    }, { passive: false });
+    recallBtn.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      endVeil();
+    }, { passive: false });
+    recallBtn.addEventListener('touchcancel', (e) => {
+      e.preventDefault();
+      endVeil();
+    }, { passive: false });
+    recallBtn.addEventListener('mousedown', startVeil);
+    recallBtn.addEventListener('mouseup', endVeil);
+    recallBtn.addEventListener('mouseleave', endVeil);
+  }
+
+  // Echo Trace button -> simulate F
+  const echoBtn = document.getElementById('btn-activate-echo');
+  if (echoBtn) {
+    const triggerEcho = () => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyF' }));
+      setTimeout(() => {
+        window.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyF' }));
+      }, 100);
+    };
+    echoBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      triggerEcho();
+    }, { passive: false });
+    echoBtn.addEventListener('click', triggerEcho);
+  }
+
+  // State buttons for simulation harness
+  const stateButtons = document.querySelectorAll('.hud-state-btn');
+  stateButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      stateButtons.forEach(b => {
+        b.className = 'hud-state-btn py-1.5 px-2 rounded-lg font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors flex justify-center items-center';
+      });
+      btn.className = 'hud-state-btn active-state py-1.5 px-2 rounded-lg font-label-sm text-[10px] uppercase tracking-wider bg-surface-container-high text-secondary font-semibold transition-colors flex justify-center items-center';
+    });
+  });
 }
