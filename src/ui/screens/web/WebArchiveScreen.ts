@@ -1,4 +1,6 @@
 import { GameStateModel } from '@core/GameState';
+import { modalController } from '@ui/components/ModalController';
+import { soundService } from '@audio/SoundService';
 
 export function renderWebArchive(
   _state: Readonly<GameStateModel>,
@@ -264,13 +266,52 @@ export function bindWebArchiveEvents(_onNavigate: (route: string) => void): void
     });
   });
 
+  // Archive cards reading modal inspection
+  const itemCards = document.querySelectorAll('.archive-item-card');
+  itemCards.forEach(card => {
+    card.addEventListener('click', () => {
+      soundService.playUIClick();
+      const id = card.getAttribute('data-id');
+      if (id === '42') {
+        modalController.openReadingModal({
+          id: 'fragment-42',
+          title: 'Water-Damaged Vellum Script',
+          quote: 'The names of smaller birds were lost first, followed by the second verse of songs sung at harbor edge.',
+          body: 'Recovered from the lower flooded terrace beneath three strata of sediment. The cursive script matches the hand of Archivist Valen before the Great Submersion. The ink has survived due to gall-iron saturation, though the parchment edges remain brittle and prone to atmospheric decay.',
+          classification: 'REMNANT #042 // RECOVERED SCRIPT',
+          chapter: 'Stratum 01 • Deep Woods'
+        });
+      } else if (id === '14') {
+        modalController.openReadingModal({
+          id: 'relic-14',
+          title: 'Brass Chrono-Astrolabe',
+          quote: 'Time ceases to be an arrow when echoes refuse to turn to silence.',
+          body: 'A complex clockwork mechanism salvaged from the clockwork clearing. The concentric brass rings are calibrated to acoustic resonant frequencies rather than celestial coordinates. Depressing the primary stem emits a harmonic 14.8 Hz hum.',
+          classification: 'RELIC #014 // CHRONO MECHANISM',
+          chapter: 'Stratum 02 • Clockwork Clearing'
+        });
+      } else if (id === '09') {
+        modalController.openReadingModal({
+          id: 'acoustic-09',
+          title: 'Peat Bog Bell Resonance',
+          quote: 'The bell rings twice each solstice beneath the black peat colonnade.',
+          body: 'Acoustic waveform analysis collected by hydrophone array at depth -142m. The harmonic timbre corresponds to low-frequency bronze casting characteristic of the Pre-Omission cathedrals. Resonance shows zero temporal decay over 120 years.',
+          classification: 'ACOUSTIC #009 // HYDRO RESONANCE',
+          chapter: 'Stratum 03 • Sunken Bell'
+        });
+      }
+    });
+  });
+
   // Decode relic buttons
   const decodeBtns = document.querySelectorAll('.decode-btn');
   decodeBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      soundService.playPlateClick();
       btn.innerHTML = '<span class="material-symbols-outlined text-[12px] animate-spin">refresh</span><span>Attuning...</span>';
       setTimeout(() => {
+        soundService.playShardCollect();
         btn.innerHTML = '<span class="material-symbols-outlined text-[12px] text-tertiary">check</span><span class="text-tertiary">Attuned</span>';
         btn.classList.add('bg-tertiary-container');
       }, 700);

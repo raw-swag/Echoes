@@ -1,4 +1,6 @@
 import { GameStateModel } from '@core/GameState';
+import { modalController } from '@ui/components/ModalController';
+import { soundService } from '@audio/SoundService';
 
 export function renderWebLedger(
   state: Readonly<GameStateModel>,
@@ -225,10 +227,14 @@ export function renderWebLedger(
 </div>
 </div>
 
-<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center justify-between pt-space-xs gap-space-sm">
 <button class="px-space-md py-space-xs rounded bg-surface-container-high hover:bg-surface-bright text-secondary text-label-sm font-label-sm uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer" id="btn-trigger-harness">
 <span class="material-symbols-outlined text-[14px]">play_arrow</span>
 <span>Run Harness Verification</span>
+</button>
+<button class="px-space-md py-space-xs rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface text-label-sm font-label-sm uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer" id="btn-export-telemetry" title="Download signed JSON archive">
+<span class="material-symbols-outlined text-[14px]">download</span>
+<span>Export Registry</span>
 </button>
 <span class="font-label-sm text-[10px] text-tertiary" id="telemetry-live-row">200 OK • Live</span>
 </div>
@@ -300,17 +306,24 @@ export function bindWebLedgerEvents(_onNavigate: (route: string) => void): void 
     });
   }
 
-  // Clear view
+  // Clear view with confirmation
   const clearBtn = document.getElementById('btn-clear-ledger');
   if (clearBtn && stream) {
     clearBtn.addEventListener('click', () => {
-      stream.innerHTML = `
-        <div class="rounded bg-surface-container-low p-space-xl flex flex-col items-center justify-center text-center gap-space-sm">
-          <span class="material-symbols-outlined text-on-surface-variant/40 text-[36px]">auto_stories</span>
-          <span class="font-headline-sm text-headline-sm text-on-surface">Client Ledger Memory Pruned</span>
-          <p class="font-body-md text-body-md text-on-surface-variant max-w-md">Local transcripts archived to cold storage. Attested balance remains intact.</p>
-        </div>
-      `;
+      modalController.openConfirmModal(
+        'Prune Displayed Ledger Stream',
+        'This will clear the cached visual stream of event transactions from the UI view. Your attested remnants balance and persistent save data are not deleted. Continue?',
+        () => {
+          soundService.playUIClick();
+          stream.innerHTML = `
+            <div class="rounded bg-surface-container-low p-space-xl flex flex-col items-center justify-center text-center gap-space-sm">
+              <span class="material-symbols-outlined text-on-surface-variant/40 text-[36px]">auto_stories</span>
+              <span class="font-headline-sm text-headline-sm text-on-surface">Client Ledger Memory Pruned</span>
+              <p class="font-body-md text-body-md text-on-surface-variant max-w-md">Local transcripts archived to cold storage. Attested balance remains intact.</p>
+            </div>
+          `;
+        }
+      );
     });
   }
 
@@ -344,10 +357,41 @@ export function bindWebLedgerEvents(_onNavigate: (route: string) => void): void 
   const codeEl = document.getElementById('response-status-code');
   if (harnessBtn && reqPayload && resPayload && codeEl) {
     harnessBtn.addEventListener('click', () => {
+      soundService.playPlateClick();
       codeEl.textContent = 'TEST HARNESS PASSED';
       codeEl.className = 'px-space-sm py-0.5 rounded bg-tertiary-container text-tertiary font-mono text-[11px] font-bold';
       reqPayload.textContent = JSON.stringify({ harness: 'LOCAL_VERIFY', entropy_bits: 256, timestamp: Date.now() }, null, 2);
       resPayload.textContent = JSON.stringify({ status: 'ALL_PASSED', integrity: '1.000', verified: 1408 }, null, 2);
+    });
+  }
+
+  // Export Telemetry JSON
+  const exportBtn = document.getElementById('btn-export-telemetry');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      soundService.playUIClick();
+      const exportData = {
+        ledgerId: 'LDG-408-A',
+        exportDate: new Date().toISOString(),
+        attestedRemnants: counter,
+        hashProof: '8e91fa40b3c102a9',
+        signature: 'ed25519:7b30c14f',
+        records: [
+          { id: 'FRAG_042', stratum: 'Flooded Terrace', remnants: 25, status: 'VERIFIED' },
+          { id: 'BEACON_03', stratum: 'Iron Arch', remnants: 15, status: 'VERIFIED' },
+          { id: 'SECRET_01', stratum: 'Under-Keel', remnants: 50, status: 'VERIFIED' }
+        ]
+      };
+
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `echoes_ledger_${Date.now()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     });
   }
 }

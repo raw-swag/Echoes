@@ -1,4 +1,6 @@
 import { GameStateModel } from '@core/GameState';
+import { modalController } from '@ui/components/ModalController';
+import { soundService } from '@audio/SoundService';
 
 export function renderMobileLedger(
   state: Readonly<GameStateModel>,
@@ -147,16 +149,23 @@ export function bindMobileLedgerEvents(_onNavigate: (route: string) => void): vo
     });
   }
 
-  // Clear ledger
+  // Clear ledger with confirmation
   if (btnClear && container) {
     btnClear.addEventListener('click', () => {
-      container.innerHTML = `
-        <div class="p-space-lg rounded-xl bg-surface-container-low text-center flex flex-col items-center justify-center space-y-space-xs">
-          <span class="material-symbols-outlined text-on-surface-variant text-[32px]">folder_off</span>
-          <span class="font-title-md text-title-md text-on-surface">Ledger Cleared</span>
-          <span class="font-body-sm text-body-sm text-on-surface-variant">Memory transcripts purged from local cache.</span>
-        </div>
-      `;
+      modalController.openConfirmModal(
+        'Clear Local Ledger',
+        'Purge the local telemetry event log from memory? This does not alter your saved game progress.',
+        () => {
+          soundService.playUIClick();
+          container.innerHTML = `
+            <div class="p-space-lg rounded-xl bg-surface-container-low text-center flex flex-col items-center justify-center space-y-space-xs">
+              <span class="material-symbols-outlined text-on-surface-variant text-[32px]">folder_off</span>
+              <span class="font-title-md text-title-md text-on-surface">Ledger Cleared</span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">Memory transcripts purged from local cache.</span>
+            </div>
+          `;
+        }
+      );
     });
   }
 

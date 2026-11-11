@@ -68,3 +68,33 @@
   transform: translateY(0);
   transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
+
+/* Reduced motion preference */
+html.reduced-motion *,
+html.reduced-motion *::before,
+html.reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* High contrast mode enhancement */
+html.high-contrast {
+  filter: contrast(115%);
+}
+
+@keyframes scale-up {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-up {
+  animation: scale-up 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

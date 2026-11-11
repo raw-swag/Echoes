@@ -1,4 +1,5 @@
-import { GameStateModel, globalGameState } from '@core/GameState';
+import { GameStateModel } from '@core/GameState';
+import { modalController } from '@ui/components/ModalController';
 
 export function renderWebHUD(
   state: Readonly<GameStateModel>,
@@ -65,27 +66,31 @@ export function renderWebHUD(
           “${state.activeWhisper}”
         </p>
 </div>
-<!-- Right: Integrity Diamonds, Remnants Tally, Pause ESC -->
+<!-- Right: Integrity Diamonds, Remnants Tally, Settings & Pause -->
 <div class="flex items-center gap-space-md">
 <!-- Integrity Pips -->
 <div class="flex flex-col items-end gap-1 bg-surface-container-low/85 backdrop-blur-md px-space-md py-space-sm rounded-lg shadow-xl">
 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Mind Integrity</span>
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-secondary text-[16px]" style="font-variation-settings: 'FILL' 1;">diamond</span>
-<span class="material-symbols-outlined text-secondary text-[16px]" style="font-variation-settings: 'FILL' 1;">diamond</span>
-<span class="material-symbols-outlined text-secondary/40 text-[16px]" style="font-variation-settings: 'FILL' 0;">diamond</span>
+<div class="flex items-center gap-space-xs" id="web-integrity-diamonds">
+<span class="material-symbols-outlined text-secondary text-[16px]" style="font-variation-settings: 'FILL' ${state.mindIntegrity >= 1 ? 1 : 0};">diamond</span>
+<span class="material-symbols-outlined text-secondary text-[16px]" style="font-variation-settings: 'FILL' ${state.mindIntegrity >= 2 ? 1 : 0};">diamond</span>
+<span class="material-symbols-outlined text-secondary text-[16px]" style="font-variation-settings: 'FILL' ${state.mindIntegrity >= 3 ? 1 : 0};">diamond</span>
 </div>
 </div>
 <!-- Remnants Counter -->
 <div class="hidden sm:flex items-center gap-space-sm bg-surface-container-low/85 backdrop-blur-md px-space-md py-space-sm rounded-lg shadow-xl">
 <span class="material-symbols-outlined text-secondary text-[18px]">grain</span>
 <div class="flex flex-col text-right">
-<span class="font-title-md text-title-md text-secondary leading-tight">1,408</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Fragments</span>
+<span class="font-title-md text-title-md text-secondary leading-tight" id="web-hud-remnants">${state.remnants}</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Fragments (${state.collectedShardsCurrent}/${state.collectedShardsTotal})</span>
 </div>
 </div>
+<!-- Settings Shortcut Button -->
+<button class="group flex items-center justify-center w-10 h-10 bg-surface-container-low/85 hover:bg-surface-container-high transition-colors backdrop-blur-md rounded-lg shadow-xl cursor-pointer" id="hud-settings-btn" title="Configuration & Audio" type="button">
+<span class="material-symbols-outlined text-secondary group-hover:text-on-surface text-[20px]">tune</span>
+</button>
 <!-- Pause Key Button -->
-<button class="group flex items-center justify-center w-10 h-10 bg-surface-container-low/85 hover:bg-surface-container-high transition-colors backdrop-blur-md rounded-lg shadow-xl cursor-pointer" title="Pause System [ESC]" type="button">
+<button class="group flex items-center justify-center w-10 h-10 bg-surface-container-low/85 hover:bg-surface-container-high transition-colors backdrop-blur-md rounded-lg shadow-xl cursor-pointer" id="hud-pause-btn" title="Pause System [ESC]" type="button">
 <span class="font-label-sm text-label-sm text-secondary group-hover:text-on-surface tracking-wider font-semibold">ESC</span>
 </button>
 </div>
@@ -273,14 +278,26 @@ export function renderWebHUD(
 `;
 }
 
-export function bindWebHUDEvents(_onNavigate: (route: string) => void): void {
+export function bindWebHUDEvents(onNavigate: (route: string) => void): void {
   // ESC button
   const pauseBtns = document.querySelectorAll('[title="Pause System [ESC]"], #hud-pause-btn');
   pauseBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
-      globalGameState.setPaused(!globalGameState.getState().isPaused);
+      modalController.openPause();
+      modalController.render(onNavigate, () => {
+        window.dispatchEvent(new CustomEvent('echoes:restart'));
+      });
     });
   });
+
+  // Settings shortcut button
+  const settingsBtn = document.getElementById('hud-settings-btn');
+  if (settingsBtn) {
+    settingsBtn.addEventListener('click', () => {
+      modalController.openSettings();
+      modalController.render(onNavigate);
+    });
+  }
 
   // Echo Trace Cast [F]
   const echoCastBtn = document.getElementById('btnEchoCast');

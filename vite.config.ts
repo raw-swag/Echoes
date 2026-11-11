@@ -10,7 +10,9 @@ export default defineConfig({
       '@core': path.resolve(__dirname, './src/core'),
       '@scenes': path.resolve(__dirname, './src/scenes'),
       '@assets': path.resolve(__dirname, './src/assets'),
-      '@ui': path.resolve(__dirname, './src/ui')
+      '@ui': path.resolve(__dirname, './src/ui'),
+      '@audio': path.resolve(__dirname, './src/audio'),
+      '@storage': path.resolve(__dirname, './src/storage')
     }
   },
   server: {

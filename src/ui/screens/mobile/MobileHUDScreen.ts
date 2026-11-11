@@ -1,4 +1,5 @@
-import { GameStateModel, globalGameState } from '@core/GameState';
+import { GameStateModel } from '@core/GameState';
+import { modalController } from '@ui/components/ModalController';
 
 export function renderMobileHUD(
   state: Readonly<GameStateModel>,
@@ -55,19 +56,19 @@ export function renderMobileHUD(
 </div>
 <!-- Top Center: Archival Hero Stability Integrity Pips -->
 <div class="flex flex-col items-center bg-surface-container-lowest/60 backdrop-blur-sm px-space-md py-space-xs rounded-full">
-<span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant mb-1">Stability</span>
-<div class="flex items-center gap-1.5">
-<!-- Pip 1: Fully Restored -->
-<div class="w-3 h-3 rotate-45 bg-secondary flex items-center justify-center transition-all duration-300 shadow-sm" id="pip-1">
-<div class="w-1 h-1 bg-surface-container-lowest rounded-full"></div>
+<span class="font-label-sm text-[9px] uppercase tracking-widest text-on-surface-variant mb-1">Stability (${state.collectedShardsCurrent}/${state.collectedShardsTotal})</span>
+<div class="flex items-center gap-1.5" id="mobile-integrity-pips">
+<!-- Pip 1 -->
+<div class="w-3 h-3 rotate-45 ${state.mindIntegrity >= 1 ? 'bg-secondary' : 'bg-surface-container-highest'} flex items-center justify-center transition-all duration-300 shadow-sm" id="pip-1">
+<div class="w-1 h-1 ${state.mindIntegrity >= 1 ? 'bg-surface-container-lowest' : 'bg-secondary/40'} rounded-full"></div>
 </div>
-<!-- Pip 2: Fully Restored -->
-<div class="w-3 h-3 rotate-45 bg-secondary flex items-center justify-center transition-all duration-300 shadow-sm" id="pip-2">
-<div class="w-1 h-1 bg-surface-container-lowest rounded-full"></div>
+<!-- Pip 2 -->
+<div class="w-3 h-3 rotate-45 ${state.mindIntegrity >= 2 ? 'bg-secondary' : 'bg-surface-container-highest'} flex items-center justify-center transition-all duration-300 shadow-sm" id="pip-2">
+<div class="w-1 h-1 ${state.mindIntegrity >= 2 ? 'bg-surface-container-lowest' : 'bg-secondary/40'} rounded-full"></div>
 </div>
-<!-- Pip 3: Flickering Memory Anchor (Damaged/Recalling) -->
-<div class="w-3 h-3 rotate-45 bg-surface-container-highest flex items-center justify-center transition-all duration-300" id="pip-3">
-<div class="w-1 h-1 bg-secondary/40 rounded-full"></div>
+<!-- Pip 3 -->
+<div class="w-3 h-3 rotate-45 ${state.mindIntegrity >= 3 ? 'bg-secondary' : 'bg-surface-container-highest'} flex items-center justify-center transition-all duration-300" id="pip-3">
+<div class="w-1 h-1 ${state.mindIntegrity >= 3 ? 'bg-surface-container-lowest' : 'bg-secondary/40'} rounded-full"></div>
 </div>
 </div>
 </div>
@@ -77,6 +78,9 @@ export function renderMobileHUD(
 <span class="material-symbols-outlined text-[15px]">flag_circle</span>
 <span class="font-label-sm text-[9px] uppercase tracking-widest text-tertiary-fixed-dim">CP-14</span>
 </div>
+<button aria-label="Audio & Settings" class="w-8 h-8 rounded-lg bg-surface-container-lowest/70 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-secondary active:scale-95 transition-all" id="btn-mobile-settings">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
 <button aria-label="Pause Recollection" class="w-8 h-8 rounded-lg bg-surface-container-lowest/70 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-secondary active:scale-95 transition-all" id="btn-pause">
 <span class="material-symbols-outlined text-[18px]">pause</span>
 </button>
@@ -195,12 +199,24 @@ export function renderMobileHUD(
 `;
 }
 
-export function bindMobileHUDEvents(_onNavigate: (route: string) => void): void {
+export function bindMobileHUDEvents(onNavigate: (route: string) => void): void {
   // Pause button
   const pauseBtn = document.getElementById('btn-pause');
   if (pauseBtn) {
     pauseBtn.addEventListener('click', () => {
-      globalGameState.setPaused(!globalGameState.getState().isPaused);
+      modalController.openPause();
+      modalController.render(onNavigate, () => {
+        window.dispatchEvent(new CustomEvent('echoes:restart'));
+      });
+    });
+  }
+
+  // Settings button
+  const settingsBtn = document.getElementById('btn-mobile-settings');
+  if (settingsBtn) {
+    settingsBtn.addEventListener('click', () => {
+      modalController.openSettings();
+      modalController.render(onNavigate);
     });
   }
 

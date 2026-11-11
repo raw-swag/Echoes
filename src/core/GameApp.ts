@@ -159,6 +159,10 @@ export class GameApp {
     window.addEventListener('blur', () => {
       this.inputService.reset();
     });
+
+    window.addEventListener('echoes:restart', () => {
+      this.restartLevel();
+    });
   }
 
   public start(): void {

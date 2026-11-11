@@ -1,4 +1,6 @@
 import { GameStateModel } from '@core/GameState';
+import { modalController } from '@ui/components/ModalController';
+import { soundService } from '@audio/SoundService';
 
 export function renderMobileArchive(
   _state: Readonly<GameStateModel>,
@@ -77,11 +79,40 @@ export function renderMobileArchive(
 }
 
 export function bindMobileArchiveEvents(_onNavigate: (route: string) => void): void {
+  // Fragment cards click -> open modal
+  const mobileItems = document.querySelectorAll('.mobile-archive-item');
+  mobileItems.forEach(item => {
+    item.addEventListener('click', () => {
+      soundService.playUIClick();
+      const cat = item.getAttribute('data-category');
+      if (cat === 'script') {
+        modalController.openReadingModal({
+          id: 'fragment-42',
+          title: 'Water-Damaged Vellum',
+          quote: 'The names of smaller birds were lost first...',
+          body: 'Recovered from the flooded terrace. Hand-inscribed marginalia from the pre-omission era describing the slow loss of coastal language.',
+          classification: 'REMNANT // 042',
+          chapter: 'Chapter 01 • Deep Woods'
+        });
+      } else {
+        modalController.openReadingModal({
+          id: 'acoustic-09',
+          title: 'Peat Bog Resonance',
+          quote: 'Recorded 14.8 Hz solitary bronze bell.',
+          body: 'Hydro-acoustic trace proving acoustic persistence across flooded temple ruins.',
+          classification: 'ACOUSTIC // 009',
+          chapter: 'Chapter 03 • Sunken Bell'
+        });
+      }
+    });
+  });
+
   // Redaction deciphering
   const redactions = document.querySelectorAll('.redaction-tag');
   const unlockedStatus = document.getElementById('archive-unlocked-status');
   redactions.forEach(tag => {
     tag.addEventListener('click', () => {
+      soundService.playShardCollect();
       const text = tag.getAttribute('data-text') || 'decoded truth';
       tag.classList.remove('text-transparent', 'bg-surface-container-highest');
       tag.classList.add('text-secondary-fixed', 'font-semibold', 'underline', 'bg-surface-container-high');

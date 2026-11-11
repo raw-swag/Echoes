@@ -6,9 +6,72 @@
 export class SoundService {
   private ctx: AudioContext | null = null;
   private isMuted: boolean = false;
+  private masterVolume: number = 0.8;
+  private sfxVolume: number = 0.8;
 
   constructor() {
     // Lazy initialized on first user interaction to conform to browser autoplay policies
+    this.loadSettings();
+  }
+
+  private loadSettings(): void {
+    if (typeof localStorage !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('echoes_audio_settings');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (typeof parsed.masterVolume === 'number') this.masterVolume = parsed.masterVolume;
+          if (typeof parsed.sfxVolume === 'number') this.sfxVolume = parsed.sfxVolume;
+          if (typeof parsed.isMuted === 'boolean') this.isMuted = parsed.isMuted;
+        }
+      } catch {
+        // Fallback to default
+      }
+    }
+  }
+
+  public saveSettings(): void {
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem(
+          'echoes_audio_settings',
+          JSON.stringify({
+            masterVolume: this.masterVolume,
+            sfxVolume: this.sfxVolume,
+            isMuted: this.isMuted
+          })
+        );
+      } catch {
+        // Ignore storage errors
+      }
+    }
+  }
+
+  public setMasterVolume(vol: number): void {
+    this.masterVolume = Math.max(0, Math.min(1, vol));
+    this.saveSettings();
+  }
+
+  public getMasterVolume(): number {
+    return this.masterVolume;
+  }
+
+  public setSfxVolume(vol: number): void {
+    this.sfxVolume = Math.max(0, Math.min(1, vol));
+    this.saveSettings();
+  }
+
+  public getSfxVolume(): number {
+    return this.sfxVolume;
+  }
+
+  public getIsMuted(): boolean {
+    return this.isMuted;
+  }
+
+  public getEffectiveGain(baseGain: number): number {
+    if (this.isMuted) return 0;
+    return baseGain * this.masterVolume * this.sfxVolume;
   }
 
   private initContext(): void {
@@ -27,10 +90,12 @@ export class SoundService {
 
   public setMuted(muted: boolean): void {
     this.isMuted = muted;
+    this.saveSettings();
   }
 
   public toggleMute(): boolean {
     this.isMuted = !this.isMuted;
+    this.saveSettings();
     return this.isMuted;
   }
 
@@ -51,8 +116,8 @@ export class SoundService {
       osc.frequency.setValueAtTime(280, t);
       osc.frequency.exponentialRampToValueAtTime(480, t + 0.12);
 
-      gain.gain.setValueAtTime(0.12, t);
-      gain.gain.linearRampToValueAtTime(0.01, t + 0.12);
+      gain.gain.setValueAtTime(this.getEffectiveGain(0.12), t);
+      gain.gain.linearRampToValueAtTime(0.001, t + 0.12);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
@@ -80,7 +145,7 @@ export class SoundService {
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, t + i * 0.06);
 
-        gain.gain.setValueAtTime(0.15, t + i * 0.06);
+        gain.gain.setValueAtTime(this.getEffectiveGain(0.15), t + i * 0.06);
         gain.gain.exponentialRampToValueAtTime(0.001, t + i * 0.06 + 0.45);
 
         osc.connect(gain);
@@ -110,7 +175,7 @@ export class SoundService {
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, t);
 
-        gain.gain.setValueAtTime(0.1, t);
+        gain.gain.setValueAtTime(this.getEffectiveGain(0.1), t);
         gain.gain.exponentialRampToValueAtTime(0.001, t + 0.8);
 
         osc.connect(gain);
@@ -141,7 +206,7 @@ export class SoundService {
       osc.frequency.setValueAtTime(440, t);
       osc.frequency.setValueAtTime(660, t + 0.04);
 
-      gain.gain.setValueAtTime(0.08, t);
+      gain.gain.setValueAtTime(this.getEffectiveGain(0.08), t);
       gain.gain.linearRampToValueAtTime(0.001, t + 0.1);
 
       osc.connect(gain);
@@ -171,7 +236,7 @@ export class SoundService {
       osc.frequency.setValueAtTime(330, t);
       osc.frequency.exponentialRampToValueAtTime(550, t + 0.25);
 
-      gain.gain.setValueAtTime(0.12, t);
+      gain.gain.setValueAtTime(this.getEffectiveGain(0.12), t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
 
       osc.connect(gain);
@@ -201,7 +266,7 @@ export class SoundService {
       osc.frequency.setValueAtTime(160, t);
       osc.frequency.linearRampToValueAtTime(80, t + 0.05);
 
-      gain.gain.setValueAtTime(0.08, t);
+      gain.gain.setValueAtTime(this.getEffectiveGain(0.08), t);
       gain.gain.linearRampToValueAtTime(0.001, t + 0.05);
 
       osc.connect(gain);
@@ -231,7 +296,7 @@ export class SoundService {
       osc.frequency.setValueAtTime(90, t);
       osc.frequency.linearRampToValueAtTime(140, t + 0.3);
 
-      gain.gain.setValueAtTime(0.1, t);
+      gain.gain.setValueAtTime(this.getEffectiveGain(0.1), t);
       gain.gain.linearRampToValueAtTime(0.001, t + 0.3);
 
       osc.connect(gain);
@@ -261,7 +326,7 @@ export class SoundService {
       osc.frequency.setValueAtTime(110, t);
       osc.frequency.exponentialRampToValueAtTime(40, t + 0.18);
 
-      gain.gain.setValueAtTime(0.2, t);
+      gain.gain.setValueAtTime(this.getEffectiveGain(0.2), t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
 
       osc.connect(gain);
@@ -291,7 +356,7 @@ export class SoundService {
       osc.frequency.setValueAtTime(180, t);
       osc.frequency.exponentialRampToValueAtTime(40, t + 0.4);
 
-      gain.gain.setValueAtTime(0.25, t);
+      gain.gain.setValueAtTime(this.getEffectiveGain(0.25), t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
 
       osc.connect(gain);
@@ -320,7 +385,7 @@ export class SoundService {
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(freq, t + idx * 0.12);
 
-        gain.gain.setValueAtTime(0.15, t + idx * 0.12);
+        gain.gain.setValueAtTime(this.getEffectiveGain(0.15), t + idx * 0.12);
         gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.12 + 0.6);
 
         osc.connect(gain);
@@ -329,6 +394,36 @@ export class SoundService {
         osc.start(t + idx * 0.12);
         osc.stop(t + idx * 0.12 + 0.6);
       });
+    } catch (err) {
+      void err;
+    }
+  }
+
+  /**
+   * UI Click / Subtle bell chime
+   */
+  public playUIClick(): void {
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const t = this.ctx.currentTime;
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, t); // D5
+      osc.frequency.exponentialRampToValueAtTime(880, t + 0.05);
+
+      gain.gain.setValueAtTime(this.getEffectiveGain(0.06), t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(t);
+      osc.stop(t + 0.08);
     } catch (err) {
       void err;
     }

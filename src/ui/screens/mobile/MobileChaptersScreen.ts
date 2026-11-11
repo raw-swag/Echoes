@@ -1,4 +1,5 @@
 import { GameStateModel } from '@core/GameState';
+import { soundService } from '@audio/SoundService';
 
 export function renderMobileChapters(
   _state: Readonly<GameStateModel>,
@@ -124,6 +125,7 @@ export function bindMobileChaptersEvents(onNavigate: (route: string) => void): v
   milestoneBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      soundService.playShardCollect();
       const chapter = btn.getAttribute('data-chapter-name') || 'Chapter';
       const rem = btn.getAttribute('data-remnants') || '25';
       if (toast && toastMsg) {

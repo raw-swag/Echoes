@@ -1,4 +1,5 @@
 import { GameStateModel } from '@core/GameState';
+import { soundService } from '@audio/SoundService';
 
 export function renderWebChapters(
   _state: Readonly<GameStateModel>,
@@ -283,6 +284,7 @@ export function bindWebChaptersEvents(onNavigate: (route: string) => void): void
   audioBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      soundService.playShardCollect();
       btn.classList.add('text-secondary', 'scale-110');
       setTimeout(() => btn.classList.remove('text-secondary', 'scale-110'), 600);
     });
@@ -292,6 +294,7 @@ export function bindWebChaptersEvents(onNavigate: (route: string) => void): void
   const claimBtn = document.getElementById('claim-all-remnants-btn');
   if (claimBtn) {
     claimBtn.addEventListener('click', () => {
+      soundService.playBeaconActivate();
       claimBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-tertiary">check</span><span class="text-tertiary">Synced</span>';
       setTimeout(() => {
         claimBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">hourglass_empty</span><span>Ledger Attested</span>';

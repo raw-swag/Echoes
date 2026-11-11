@@ -1,5 +1,7 @@
 import { globalGameState, GameStateModel } from '@core/GameState';
 import { uiEchoController } from './components/UIEchoController';
+import { modalController } from './components/ModalController';
+import { soundService } from '../audio/SoundService';
 
 // Web Screens
 import { renderWebPrologue, bindWebPrologueEvents } from './screens/web/WebPrologueScreen';
@@ -176,7 +178,7 @@ export class UIRouter {
           Mobile View
         </button>
 
-        <div class="flex items-center gap-space-sm pl-space-md">
+        <div class="flex items-center gap-space-sm pl-space-md cursor-pointer hover:opacity-80 transition-opacity" id="archivist-profile-btn" title="Open System Configuration">
           <div class="hidden md:flex flex-col text-right">
             <span class="font-label-md text-label-md text-on-surface">${state.archivistId}</span>
             <span class="font-label-sm text-label-sm text-tertiary tracking-widest uppercase text-[9px]">Recollection Sync</span>
@@ -288,7 +290,7 @@ export class UIRouter {
         <button id="toggle-experience-mode" class="px-2 py-1 rounded bg-surface-container-high text-secondary text-[9px] uppercase tracking-wider">
           Web
         </button>
-        <div class="relative flex items-center">
+        <div class="relative flex items-center cursor-pointer" id="mobile-profile-btn" title="Configuration">
           <img alt="Profile" class="w-8 h-8 rounded-full object-cover shrink-0" src="/assets/ui/mobile_avatar.jpg"/>
           <span class="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-secondary/80"></span>
         </div>
@@ -374,7 +376,26 @@ export class UIRouter {
     const brandBtn = document.getElementById('brand-home-btn');
     if (brandBtn) {
       brandBtn.addEventListener('click', () => {
+        soundService.playUIClick();
         this.navigate('prologue');
+      });
+    }
+
+    // Profile avatar click -> open settings modal
+    const profileBtn = document.getElementById('archivist-profile-btn');
+    if (profileBtn) {
+      profileBtn.addEventListener('click', () => {
+        soundService.playUIClick();
+        modalController.openSettings();
+        modalController.render((r) => this.navigate(r));
+      });
+    }
+    const mobileProfileBtn = document.getElementById('mobile-profile-btn');
+    if (mobileProfileBtn) {
+      mobileProfileBtn.addEventListener('click', () => {
+        soundService.playUIClick();
+        modalController.openSettings();
+        modalController.render((r) => this.navigate(r));
       });
     }
 
@@ -383,6 +404,7 @@ export class UIRouter {
     navButtons.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
+        soundService.playUIClick();
         const target = e.currentTarget as HTMLElement;
         const route = target.getAttribute('data-route');
         if (route) {
