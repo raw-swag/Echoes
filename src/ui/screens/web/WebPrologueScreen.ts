@@ -216,6 +216,29 @@ export function bindWebPrologueEvents(onNavigate: (route: string) => void): void
     });
   }
 
+  // Poetic Marginalia cycling
+  const quoteEl = document.getElementById('prologue-quote');
+  if (quoteEl) {
+    quoteEl.style.cursor = 'pointer';
+    quoteEl.title = 'Click to attune memory whisper';
+    const quotes = [
+      '“Some things are lost. Others are left behind.”',
+      '“We did not forget. We simply buried the key.”',
+      '“An echo is a sound that refuses to become silence.”',
+      '“The dust remembers where the light fell.”'
+    ];
+    let qIdx = 0;
+    quoteEl.addEventListener('click', () => {
+      quoteEl.style.opacity = '0';
+      quoteEl.style.transition = 'opacity 0.25s ease';
+      setTimeout(() => {
+        qIdx = (qIdx + 1) % quotes.length;
+        quoteEl.textContent = quotes[qIdx];
+        quoteEl.style.opacity = '1';
+      }, 250);
+    });
+  }
+
   // Right bento card navigations
   const navTiles = document.querySelectorAll('main [data-route]');
   navTiles.forEach(tile => {

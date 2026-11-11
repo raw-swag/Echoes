@@ -42,9 +42,9 @@ export function renderMobileLedger(
 </div>
 <!-- Quick Ledger Controls -->
 <div class="flex items-center justify-between gap-space-sm">
-<button class="flex-1 py-space-xs px-space-sm rounded-lg bg-secondary text-on-secondary font-label-sm uppercase tracking-wider font-semibold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all cursor-pointer" id="btnSimulate">
-<span class="material-symbols-outlined text-[14px]">add</span>
-<span>Simulate Fragment</span>
+<button class="flex-1 py-space-xs px-space-sm rounded-lg bg-secondary/80 active:bg-secondary text-on-secondary font-label-sm uppercase tracking-wider font-semibold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all cursor-pointer" id="btnSimulate" title="Simulation Demonstration Tool">
+<span class="material-symbols-outlined text-[14px]">science</span>
+<span>Demo: Simulate</span>
 </button>
 <button class="py-space-xs px-space-sm rounded-lg bg-surface-container-high text-secondary font-label-sm uppercase tracking-wider flex items-center justify-center cursor-pointer" id="btnOffline">
 <span id="offlineBtnText">Toggle Offline</span>

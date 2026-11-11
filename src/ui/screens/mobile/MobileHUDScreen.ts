@@ -1,5 +1,6 @@
 import { GameStateModel } from '@core/GameState';
 import { modalController } from '@ui/components/ModalController';
+import { inputService } from '@input/InputService';
 
 export function renderMobileHUD(
   state: Readonly<GameStateModel>,
@@ -105,20 +106,29 @@ export function renderMobileHUD(
 <!-- BOTTOM LAYER: Diegetic Touch Interaction Control Bar -->
 <div class="relative z-30 px-4 pb-4 pt-2 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent">
 <div class="flex items-center justify-between gap-4">
-<!-- Left Thumb: HOLD TO RECALL [VEIL SIGHT] -->
-<div class="flex flex-col items-start gap-1">
-<button class="group relative flex items-center gap-space-sm px-space-md py-3 rounded-xl bg-surface-container-low/90 active:bg-secondary-container transition-all duration-200 active:scale-95 shadow-xl overflow-hidden min-w-[145px]" id="btn-recall">
+<!-- Left Thumb: Movement & HOLD TO RECALL [VEIL SIGHT] -->
+<div class="flex items-center gap-2">
+<!-- Virtual Movement Left / Right -->
+<div class="flex items-center gap-1 bg-surface-container-low/90 p-1 rounded-xl shadow-xl">
+<button class="w-10 h-10 rounded-lg bg-surface-container-high/80 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface active:scale-90 transition-all select-none" id="btn-touch-left" aria-label="Move Left">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-surface-container-high/80 active:bg-secondary active:text-on-secondary flex items-center justify-center text-on-surface active:scale-90 transition-all select-none" id="btn-touch-right" aria-label="Move Right">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+<!-- Veil Sight Recall Button -->
+<button class="group relative flex items-center gap-space-sm px- space-sm px-3 py-2.5 rounded-xl bg-surface-container-low/90 active:bg-secondary-container transition-all duration-200 active:scale-95 shadow-xl overflow-hidden" id="btn-recall" aria-label="Veil Sight Recall">
 <!-- Inner charging bar animation on press -->
 <div class="absolute inset-y-0 left-0 w-0 bg-secondary/20 transition-all duration-150" id="recall-progress-bar"></div>
-<div class="w-8 h-8 rounded bg-surface-container-highest/60 flex items-center justify-center text-secondary relative z-10">
-<span class="material-symbols-outlined text-[20px]">visibility</span>
+<div class="w-7 h-7 rounded bg-surface-container-highest/60 flex items-center justify-center text-secondary relative z-10">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
 </div>
 <div class="flex flex-col text-left relative z-10">
-<span class="font-label-sm text-[9px] uppercase tracking-widest text-secondary font-semibold">HOLD TO RECALL</span>
-<span class="font-body-sm text-[11px] text-on-surface leading-tight font-medium">Veil Sight</span>
+<span class="font-label-sm text-[8px] uppercase tracking-widest text-secondary font-semibold">RECALL</span>
+<span class="font-body-sm text-[10px] text-on-surface leading-tight font-medium">Veil Sight</span>
 </div>
 </button>
-<span class="font-label-sm text-[8px] text-on-surface-variant/60 tracking-wider pl-1">LEFT ANCHOR</span>
 </div>
 <!-- Right Thumb: Action Pair (Jump & Echo Trace) -->
 <div class="flex items-center gap-2">
@@ -220,23 +230,64 @@ export function bindMobileHUDEvents(onNavigate: (route: string) => void): void {
     });
   }
 
-  // Jump button -> simulate keyboard Space
+  // Touch Left Movement
+  const btnLeft = document.getElementById('btn-touch-left');
+  if (btnLeft) {
+    const startLeft = (e: Event) => {
+      e.preventDefault();
+      inputService.setTouchMove(-1, 0);
+    };
+    const endLeft = (e: Event) => {
+      e.preventDefault();
+      inputService.setTouchMove(0, 0);
+    };
+    btnLeft.addEventListener('touchstart', startLeft, { passive: false });
+    btnLeft.addEventListener('touchend', endLeft, { passive: false });
+    btnLeft.addEventListener('touchcancel', endLeft, { passive: false });
+    btnLeft.addEventListener('mousedown', startLeft);
+    btnLeft.addEventListener('mouseup', endLeft);
+    btnLeft.addEventListener('mouseleave', endLeft);
+  }
+
+  // Touch Right Movement
+  const btnRight = document.getElementById('btn-touch-right');
+  if (btnRight) {
+    const startRight = (e: Event) => {
+      e.preventDefault();
+      inputService.setTouchMove(1, 0);
+    };
+    const endRight = (e: Event) => {
+      e.preventDefault();
+      inputService.setTouchMove(0, 0);
+    };
+    btnRight.addEventListener('touchstart', startRight, { passive: false });
+    btnRight.addEventListener('touchend', endRight, { passive: false });
+    btnRight.addEventListener('touchcancel', endRight, { passive: false });
+    btnRight.addEventListener('mousedown', startRight);
+    btnRight.addEventListener('mouseup', endRight);
+    btnRight.addEventListener('mouseleave', endRight);
+  }
+
+  // Jump button -> simulate keyboard Space & setTouchJump with full cancellation
   const jumpBtn = document.getElementById('btn-jump');
   if (jumpBtn) {
-    jumpBtn.addEventListener('touchstart', (e) => {
+    const startJump = (e: Event) => {
       e.preventDefault();
+      inputService.setTouchJump(true);
       window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }));
-    }, { passive: false });
-    jumpBtn.addEventListener('touchend', (e) => {
+    };
+    const endJump = (e: Event) => {
       e.preventDefault();
+      inputService.setTouchJump(false);
       window.dispatchEvent(new KeyboardEvent('keyup', { code: 'Space' }));
-    }, { passive: false });
-    jumpBtn.addEventListener('mousedown', () => {
-      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }));
-    });
-    jumpBtn.addEventListener('mouseup', () => {
-      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'Space' }));
-    });
+    };
+
+    jumpBtn.addEventListener('touchstart', startJump, { passive: false });
+    jumpBtn.addEventListener('touchend', endJump, { passive: false });
+    jumpBtn.addEventListener('touchcancel', endJump, { passive: false });
+    jumpBtn.addEventListener('mousedown', startJump);
+    jumpBtn.addEventListener('mouseup', endJump);
+    jumpBtn.addEventListener('mouseleave', endJump);
   }
 
   // Recall button -> simulate Q (Veil Sight)
@@ -266,8 +317,13 @@ export function bindMobileHUDEvents(onNavigate: (route: string) => void): void {
       e.preventDefault();
       endVeil();
     }, { passive: false });
+    recallBtn.addEventListener('touchcancel', (e) => {
+      e.preventDefault();
+      endVeil();
+    }, { passive: false });
     recallBtn.addEventListener('mousedown', startVeil);
     recallBtn.addEventListener('mouseup', endVeil);
+    recallBtn.addEventListener('mouseleave', endVeil);
   }
 
   // Echo Trace button -> simulate F

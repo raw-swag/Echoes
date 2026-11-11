@@ -78,9 +78,9 @@ export function renderWebLedger(
 <button class="filter-tab px-space-md py-space-sm rounded font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" data-filter="secret">Secrets</button>
 </div>
 <div class="flex items-center gap-space-sm pr-space-sm">
-<button class="font-label-sm text-label-sm uppercase px-space-sm py-1 rounded bg-secondary text-on-secondary hover:bg-secondary/90 transition-colors shadow-sm flex items-center gap-1 cursor-pointer" id="btn-simulate-earn">
-<span class="material-symbols-outlined text-[14px]">add_circle</span>
-<span>Simulate Earn</span>
+<button class="font-label-sm text-label-sm uppercase px-space-sm py-1 rounded bg-secondary/80 hover:bg-secondary text-on-secondary transition-colors shadow-sm flex items-center gap-1 cursor-pointer" id="btn-simulate-earn" title="Developer Simulation Demo Tool: Generates sample ledger entry">
+<span class="material-symbols-outlined text-[14px]">science</span>
+<span>Demo: Simulate Earn</span>
 </button>
 <button class="font-label-sm text-label-sm uppercase px-space-sm py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant transition-colors cursor-pointer" id="btn-clear-ledger">
                 Clear View
@@ -232,9 +232,9 @@ export function renderWebLedger(
 <span class="material-symbols-outlined text-[14px]">play_arrow</span>
 <span>Run Harness Verification</span>
 </button>
-<button class="px-space-md py-space-xs rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface text-label-sm font-label-sm uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer" id="btn-export-telemetry" title="Download signed JSON archive">
+<button class="px-space-md py-space-xs rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface text-label-sm font-label-sm uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer" id="btn-export-telemetry" title="Download verifiable JSON telemetry archive">
 <span class="material-symbols-outlined text-[14px]">download</span>
-<span>Export Registry</span>
+<span>Export Telemetry</span>
 </button>
 <span class="font-label-sm text-[10px] text-tertiary" id="telemetry-live-row">200 OK • Live</span>
 </div>
